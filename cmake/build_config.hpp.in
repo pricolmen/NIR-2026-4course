@@ -1,0 +1,10 @@
+#pragma once
+
+#include <string_view>
+
+namespace telemetry::build {
+inline constexpr int implementation_stage = @TELEMETRY_IMPLEMENTATION_STAGE@;
+inline constexpr std::string_view version = "@PROJECT_VERSION@";
+inline constexpr std::string_view compiler_id = "@CMAKE_CXX_COMPILER_ID@";
+inline constexpr std::string_view compiler_version = "@CMAKE_CXX_COMPILER_VERSION@";
+}  // namespace telemetry::build

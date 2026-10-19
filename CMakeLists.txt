@@ -1,0 +1,126 @@
+cmake_minimum_required(VERSION 3.20)
+project(telemetry_sim VERSION 0.1.0 LANGUAGES CXX)
+set(TELEMETRY_IMPLEMENTATION_STAGE 3)
+
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+    message(FATAL_ERROR "Use an out-of-source build: cmake -S . -B build/debug")
+endif()
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+include(CTest)
+
+option(TELEMETRY_ENABLE_ASAN "Enable AddressSanitizer for project targets" OFF)
+option(TELEMETRY_ENABLE_UBSAN "Enable UndefinedBehaviorSanitizer for project targets" OFF)
+option(TELEMETRY_USE_SYSTEM_JSON "Require installed nlohmann_json 3.12.0" OFF)
+
+if(UNIX AND (CMAKE_SOURCE_DIR MATCHES ":" OR CMAKE_BINARY_DIR MATCHES ":"))
+    if(CMAKE_GENERATOR MATCHES "Makefiles")
+        message(FATAL_ERROR "Paths containing ':' require Ninja: configure a new build with -G Ninja")
+    endif()
+    if(CMAKE_VERSION VERSION_LESS 3.30 AND NOT TELEMETRY_USE_SYSTEM_JSON
+            AND NOT FETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON)
+        message(FATAL_ERROR "FetchContent with ':' in paths requires CMake >= 3.30, or an installed/offline JSON source")
+    endif()
+endif()
+
+include(cmake/ProjectOptions.cmake)
+include(cmake/Dependencies.cmake)
+
+configure_file(cmake/build_config.hpp.in
+    generated/telemetry/common/build_config.hpp @ONLY)
+
+# Common contains the numerical helpers; algorithmic targets below acquire
+# compiled sources at their own implementation stages.
+add_library(telemetry_common STATIC src/common/time.cpp)
+add_library(telemetry::common ALIAS telemetry_common)
+target_compile_features(telemetry_common PUBLIC cxx_std_20)
+telemetry_configure_target(telemetry_common)
+target_include_directories(telemetry_common PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_BINARY_DIR}/generated")
+
+add_library(telemetry_core STATIC src/core/task_store.cpp)
+add_library(telemetry::core ALIAS telemetry_core)
+target_link_libraries(telemetry_core PUBLIC telemetry_common)
+telemetry_configure_target(telemetry_core)
+
+add_library(telemetry_engine INTERFACE)
+add_library(telemetry::engine ALIAS telemetry_engine)
+target_link_libraries(telemetry_engine INTERFACE telemetry_common)
+
+add_library(telemetry_simulation INTERFACE)
+add_library(telemetry::simulation ALIAS telemetry_simulation)
+target_link_libraries(telemetry_simulation INTERFACE telemetry_core telemetry_engine)
+
+add_library(telemetry_io STATIC src/io/build_info.cpp)
+add_library(telemetry::io ALIAS telemetry_io)
+target_link_libraries(telemetry_io PUBLIC telemetry_common)
+telemetry_use_json(telemetry_io)
+telemetry_configure_target(telemetry_io)
+
+add_executable(telemetry_sim app/main.cpp)
+target_link_libraries(telemetry_sim PRIVATE telemetry_simulation telemetry_io)
+telemetry_configure_target(telemetry_sim)
+
+# Fail at configure time if JSON or engine accidentally leaks into the core,
+# or vice versa. Future module dependencies must preserve this boundary.
+get_target_property(common_dependencies telemetry_common INTERFACE_LINK_LIBRARIES)
+if(common_dependencies)
+    message(FATAL_ERROR "telemetry_common must not introduce module dependencies")
+endif()
+foreach(module IN ITEMS telemetry_core telemetry_engine)
+    get_target_property(dependencies ${module} INTERFACE_LINK_LIBRARIES)
+    if(NOT "${dependencies}" STREQUAL "telemetry_common")
+        message(FATAL_ERROR "${module} must depend only on telemetry_common")
+    endif()
+endforeach()
+
+if(BUILD_TESTING)
+    add_executable(telemetry_task_store_tests tests/task_store_tests.cpp)
+    target_link_libraries(telemetry_task_store_tests PRIVATE telemetry_core)
+    telemetry_configure_target(telemetry_task_store_tests)
+    foreach(group IN ITEMS queue results retries inputs audit)
+        add_test(NAME tasks_${group} COMMAND telemetry_task_store_tests ${group})
+        set_tests_properties(tasks_${group} PROPERTIES TIMEOUT 20)
+    endforeach()
+
+    add_executable(telemetry_common_tests tests/common_tests.cpp)
+    target_link_libraries(telemetry_common_tests PRIVATE telemetry_common)
+    telemetry_configure_target(telemetry_common_tests)
+    foreach(group IN ITEMS time numeric ids)
+        add_test(NAME common_${group} COMMAND telemetry_common_tests ${group})
+        set_tests_properties(common_${group} PROPERTIES TIMEOUT 20)
+    endforeach()
+
+    add_executable(telemetry_build_smoke tests/build_smoke.cpp)
+    target_link_libraries(telemetry_build_smoke PRIVATE telemetry_io)
+    telemetry_use_json(telemetry_build_smoke)
+    telemetry_configure_target(telemetry_build_smoke)
+    add_test(NAME build_smoke COMMAND telemetry_build_smoke)
+    set_tests_properties(build_smoke PROPERTIES TIMEOUT 20)
+
+    function(telemetry_cli_test name argument expected_exit expected_pattern)
+        add_test(NAME ${name} COMMAND "${CMAKE_COMMAND}"
+            "-DPROGRAM=$<TARGET_FILE:telemetry_sim>"
+            "-DARGUMENT=${argument}"
+            "-DEXPECTED_EXIT=${expected_exit}"
+            "-DEXPECTED_PATTERN=${expected_pattern}"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/check_cli.cmake")
+        set_tests_properties(${name} PROPERTIES TIMEOUT 15)
+    endfunction()
+    telemetry_cli_test(cli_help --help 0 "stage ${TELEMETRY_IMPLEMENTATION_STAGE}")
+    telemetry_cli_test(cli_version --version 0 "telemetry_sim ${PROJECT_VERSION}")
+    telemetry_cli_test(cli_build_info --build-info 0 "nlohmann_json")
+    telemetry_cli_test(cli_no_arguments "" 2 "Usage:")
+    telemetry_cli_test(cli_unknown_option --unknown 2 "Unknown or unsupported")
+    telemetry_cli_test(cli_unimplemented_run run 2 "Unknown or unsupported")
+    add_test(NAME cli_extra_argument COMMAND "${CMAKE_COMMAND}"
+        "-DPROGRAM=$<TARGET_FILE:telemetry_sim>"
+        "-DARGUMENT=--help;extra" "-DEXPECTED_EXIT=2"
+        "-DEXPECTED_PATTERN=Unknown or unsupported"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/tests/check_cli.cmake")
+    set_tests_properties(cli_extra_argument PROPERTIES TIMEOUT 15)
+endif()

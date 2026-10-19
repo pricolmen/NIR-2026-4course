@@ -1,2 +1,13 @@
 .DS_Store
 *.md
+!/docs/model_contract.md
+!/docs/stage_0_audit.md
+!/docs/stage_1_audit.md
+!/README.md
+/build/
+/results/
+/traces/
+!/docs/time.md
+!/docs/stage_2_audit.md
+!/docs/task_state.md
+!/docs/stage_3_audit.md
