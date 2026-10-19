@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "tick_ns": 1000,
+  "horizon_ticks": 40,
+  "heartbeat_period_ticks": 5,
+  "tau0_ticks": 10,
+  "kappa": 2,
+  "adaptive": {
+    "window": 3,
+    "min_intervals": 2,
+    "c": 2
+  },
+  "nodes": [
+    {
+      "id": 1,
+      "performance_work_per_second": 1000000
+    },
+    {
+      "id": 2,
+      "performance_work_per_second": 1000000
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "arrival_ticks": 0,
+      "work": 4
+    },
+    {
+      "id": 2,
+      "arrival_ticks": 0,
+      "work": 2
+    },
+    {
+      "id": 3,
+      "arrival_ticks": 0,
+      "work": 4
+    },
+    {
+      "id": 4,
+      "arrival_ticks": 0,
+      "work": 2
+    }
+  ],
+  "crashes": [
+    {
+      "node_id": 1,
+      "at_ticks": 3
+    }
+  ],
+  "blackouts": [],
+  "measurement_windows": [
+    {
+      "start_ticks": 0,
+      "end_ticks": 40
+    }
+  ],
+  "delivery_trace": "delivery.csv"
+}

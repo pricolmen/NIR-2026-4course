@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(telemetry_sim VERSION 0.1.0 LANGUAGES CXX)
-set(TELEMETRY_IMPLEMENTATION_STAGE 8)
+set(TELEMETRY_IMPLEMENTATION_STAGE 9)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Use an out-of-source build: cmake -S . -B build/debug")
@@ -52,19 +52,19 @@ add_library(telemetry::engine ALIAS telemetry_engine)
 target_link_libraries(telemetry_engine PUBLIC telemetry_common)
 telemetry_configure_target(telemetry_engine)
 
-add_library(telemetry_simulation STATIC src/simulation/physical_trace.cpp src/simulation/physical_environment.cpp)
+add_library(telemetry_simulation STATIC src/simulation/physical_trace.cpp src/simulation/physical_environment.cpp src/simulation/scenario.cpp)
 add_library(telemetry::simulation ALIAS telemetry_simulation)
 target_link_libraries(telemetry_simulation PUBLIC telemetry_core telemetry_engine)
 telemetry_configure_target(telemetry_simulation)
 
-add_library(telemetry_io STATIC src/io/build_info.cpp)
+add_library(telemetry_io STATIC src/io/build_info.cpp src/io/scenario_loader.cpp)
 add_library(telemetry::io ALIAS telemetry_io)
-target_link_libraries(telemetry_io PUBLIC telemetry_common)
+target_link_libraries(telemetry_io PUBLIC telemetry_common telemetry_simulation)
 telemetry_use_json(telemetry_io)
 telemetry_configure_target(telemetry_io)
 
 add_executable(telemetry_sim app/main.cpp)
-target_link_libraries(telemetry_sim PRIVATE telemetry_simulation telemetry_io)
+target_link_libraries(telemetry_sim PRIVATE telemetry_io telemetry_simulation)
 telemetry_configure_target(telemetry_sim)
 
 # Fail at configure time if JSON or engine accidentally leaks into the core,
@@ -81,6 +81,16 @@ foreach(module IN ITEMS telemetry_core telemetry_engine)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(telemetry_scenario_tests tests/scenario_tests.cpp)
+    target_link_libraries(telemetry_scenario_tests PRIVATE telemetry_io)
+    telemetry_use_json(telemetry_scenario_tests)
+    target_compile_definitions(telemetry_scenario_tests PRIVATE TELEMETRY_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+    telemetry_configure_target(telemetry_scenario_tests)
+    foreach(group IN ITEMS valid json csv ranges immutable examples)
+        add_test(NAME scenario_${group} COMMAND telemetry_scenario_tests ${group})
+        set_tests_properties(scenario_${group} PROPERTIES TIMEOUT 20)
+    endforeach()
+
     add_executable(telemetry_physical_tests tests/physical_tests.cpp)
     target_link_libraries(telemetry_physical_tests PRIVATE telemetry_simulation)
     telemetry_configure_target(telemetry_physical_tests)
