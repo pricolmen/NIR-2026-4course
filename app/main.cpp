@@ -8,7 +8,7 @@
 namespace {
 constexpr std::string_view usage =
     "Usage: telemetry_sim --help | --version | --build-info\n"
-    "Implementation stage 9: scheduling, logical tasks and build metadata.\n"
+    "Implementation stage 10: scheduling, logical tasks and build metadata.\n"
     "Simulation commands will be implemented in later stages.\n";
 }
 
