@@ -5,6 +5,7 @@
 #include <deque>
 #include <map>
 #include <optional>
+#include <span>
 #include <vector>
 
 namespace telemetry::core {
@@ -43,8 +44,9 @@ public:
     void arrive(SimTime at, TaskDescription task);
     [[nodiscard]] std::optional<AssignmentCommand> assign_next(SimTime at, NodeId node);
     [[nodiscard]] ResultDecision receive_result(SimTime at, ResultMessage result);
-    // Single-assignment primitive, appending to FIFO; no FAILED handling,
-    // batching, sorting, dispatch or physical cancellation (stage 6).
+    [[nodiscard]] ResultDecision inspect_result(ResultMessage result) const;
+    // Single-assignment primitive, appending to FIFO; use Dispatcher for
+    // joint FAILED handling. Neither operation cancels physical work.
     [[nodiscard]] bool revoke_assignment(SimTime at, TaskId task);
 
     [[nodiscard]] const std::map<TaskId, TaskRecord>& tasks() const noexcept { return tasks_; }
@@ -53,6 +55,16 @@ public:
     void validate_invariants() const;
 
 private:
+    // Dispatcher coordinates the prepared store change with availability/load.
+    // This plan is private, cannot outlive an intervening store mutation, and
+    // is committed immediately while Dispatcher rejects reentrant mutations.
+    friend class Dispatcher;
+    struct PreparedRevocations {
+        std::deque<TaskId> pending;
+        std::vector<TaskRecord*> tasks;
+    };
+    [[nodiscard]] PreparedRevocations prepare_revocations(SimTime at, std::span<const NodeId> sorted_nodes);
+    void commit_revocations(SimTime at, PreparedRevocations& prepared) noexcept;
     void check_time(SimTime at) const;
     void emit(const AuditEvent& event);
     std::map<TaskId, TaskRecord> tasks_;

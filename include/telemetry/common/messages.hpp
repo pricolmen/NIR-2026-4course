@@ -4,6 +4,12 @@
 #include "telemetry/common/time.hpp"
 
 namespace telemetry {
+struct NodeDefinition {
+    NodeId id;
+    long double performance;
+    bool operator==(const NodeDefinition&) const = default;
+};
+
 struct TaskDescription {
     TaskId id;
     SimTime arrival;
@@ -16,6 +22,12 @@ struct AssignmentCommand {
     NodeId node;
     AttemptNo attempt;
     bool operator==(const AssignmentCommand&) const = default;
+};
+
+struct HeartbeatMessage {
+    NodeId node;
+    HeartbeatSeq sequence;
+    bool operator==(const HeartbeatMessage&) const = default;
 };
 
 struct ResultMessage {

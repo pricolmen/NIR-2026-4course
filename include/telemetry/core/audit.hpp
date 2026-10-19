@@ -2,6 +2,7 @@
 
 #include "telemetry/common/messages.hpp"
 #include <variant>
+#include <vector>
 
 namespace telemetry::core {
 enum class ResultDecision {
@@ -17,7 +18,14 @@ struct TaskArrivedEvent { SimTime at; TaskDescription task; };
 struct TaskAssignedEvent { SimTime at; AssignmentCommand assignment; };
 struct AssignmentRevokedEvent { SimTime at; ResultMessage assignment; };
 struct ResultEvent { SimTime at; ResultMessage result; ResultDecision decision; };
-using AuditEvent = std::variant<TaskArrivedEvent, TaskAssignedEvent, AssignmentRevokedEvent, ResultEvent>;
+// One coherent availability/revocation batch; no physical cancellation command.
+struct ReconfigurationEvent {
+    SimTime at;
+    std::vector<NodeId> alive;
+    std::vector<NodeId> newly_failed;
+    std::vector<ResultMessage> revoked; // Original arrival, then task ID order.
+};
+using AuditEvent = std::variant<TaskArrivedEvent, TaskAssignedEvent, AssignmentRevokedEvent, ResultEvent, ReconfigurationEvent>;
 
 class AuditSink {
 public:

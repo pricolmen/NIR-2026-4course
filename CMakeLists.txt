@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(telemetry_sim VERSION 0.1.0 LANGUAGES CXX)
-set(TELEMETRY_IMPLEMENTATION_STAGE 3)
+set(TELEMETRY_IMPLEMENTATION_STAGE 6)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Use an out-of-source build: cmake -S . -B build/debug")
@@ -42,7 +42,7 @@ target_include_directories(telemetry_common PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
     "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
-add_library(telemetry_core STATIC src/core/task_store.cpp)
+add_library(telemetry_core STATIC src/core/task_store.cpp src/core/scheduling.cpp src/core/dispatcher.cpp src/core/detector.cpp)
 add_library(telemetry::core ALIAS telemetry_core)
 target_link_libraries(telemetry_core PUBLIC telemetry_common)
 telemetry_configure_target(telemetry_core)
@@ -79,6 +79,30 @@ foreach(module IN ITEMS telemetry_core telemetry_engine)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(telemetry_reconfiguration_tests tests/reconfiguration_tests.cpp)
+    target_link_libraries(telemetry_reconfiguration_tests PRIVATE telemetry_core)
+    telemetry_configure_target(telemetry_reconfiguration_tests)
+    foreach(group IN ITEMS batch results availability audit inputs)
+        add_test(NAME reconfiguration_${group} COMMAND telemetry_reconfiguration_tests ${group})
+        set_tests_properties(reconfiguration_${group} PROPERTIES TIMEOUT 20)
+    endforeach()
+
+    add_executable(telemetry_detector_tests tests/detector_tests.cpp)
+    target_link_libraries(telemetry_detector_tests PRIVATE telemetry_core)
+    telemetry_configure_target(telemetry_detector_tests)
+    foreach(group IN ITEMS fixed adaptive window generations boundaries inputs)
+        add_test(NAME detector_${group} COMMAND telemetry_detector_tests ${group})
+        set_tests_properties(detector_${group} PROPERTIES TIMEOUT 20)
+    endforeach()
+
+    add_executable(telemetry_scheduling_tests tests/scheduling_tests.cpp)
+    target_link_libraries(telemetry_scheduling_tests PRIVATE telemetry_core)
+    telemetry_configure_target(telemetry_scheduling_tests)
+    foreach(group IN ITEMS rr ll integration availability numeric)
+        add_test(NAME scheduling_${group} COMMAND telemetry_scheduling_tests ${group})
+        set_tests_properties(scheduling_${group} PROPERTIES TIMEOUT 20)
+    endforeach()
+
     add_executable(telemetry_task_store_tests tests/task_store_tests.cpp)
     target_link_libraries(telemetry_task_store_tests PRIVATE telemetry_core)
     telemetry_configure_target(telemetry_task_store_tests)

@@ -1,5 +1,6 @@
 #include "telemetry/core/task_store.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <set>
 #include <stdexcept>
@@ -48,23 +49,26 @@ std::optional<AssignmentCommand> TaskStore::assign_next(SimTime at, NodeId node)
     return command;
 }
 
+ResultDecision TaskStore::inspect_result(ResultMessage result) const {
+    const auto found = tasks_.find(result.task);
+    if (found == tasks_.end()) { return ResultDecision::unknown_task; }
+    const auto& task = found->second;
+    if (task.completed_at) { return ResultDecision::already_completed; }
+    if (!task.current_attempt) { return ResultDecision::no_current_assignment; }
+    if (result.attempt != *task.current_attempt) { return ResultDecision::attempt_mismatch; }
+    if (result.node != task.attempts.back().node) { return ResultDecision::node_mismatch; }
+    return ResultDecision::accepted;
+}
+
 ResultDecision TaskStore::receive_result(SimTime at, ResultMessage result) {
     check_time(at);
-    auto decision = ResultDecision::accepted;
-    const auto found = tasks_.find(result.task);
-    if (found == tasks_.end()) { decision = ResultDecision::unknown_task; }
-    else {
-        auto& task = found->second;
-        if (task.completed_at) { decision = ResultDecision::already_completed; }
-        else if (!task.current_attempt) { decision = ResultDecision::no_current_assignment; }
-        else if (result.attempt != *task.current_attempt) { decision = ResultDecision::attempt_mismatch; }
-        else if (result.node != task.attempts.back().node) { decision = ResultDecision::node_mismatch; }
-        else {
-            // No allocations or observer callbacks between these updates.
-            task.attempts.back().accepted_at = at;
-            task.completed_at = at;
-            task.current_attempt.reset();
-        }
+    const auto decision = inspect_result(result);
+    if (decision == ResultDecision::accepted) {
+        auto& task = tasks_.at(result.task);
+        // No allocations or observer callbacks between these updates.
+        task.attempts.back().accepted_at = at;
+        task.completed_at = at;
+        task.current_attempt.reset();
     }
     last_observation_ = at;
     emit(ResultEvent{at, result, decision});
@@ -84,6 +88,40 @@ bool TaskStore::revoke_assignment(SimTime at, TaskId id) {
     last_observation_ = at;
     emit(AssignmentRevokedEvent{at, assignment});
     return true;
+}
+
+TaskStore::PreparedRevocations TaskStore::prepare_revocations(
+    SimTime at, std::span<const NodeId> sorted_nodes) {
+    check_time(at);
+    PreparedRevocations prepared;
+    if (sorted_nodes.empty()) { return prepared; }
+    for (auto& [id, task] : tasks_) {
+        static_cast<void>(id);
+        if (task.current_attempt &&
+            std::binary_search(sorted_nodes.begin(), sorted_nodes.end(), task.attempts.back().node)) {
+            prepared.tasks.push_back(&task);
+        }
+    }
+    std::sort(prepared.tasks.begin(), prepared.tasks.end(), [](const auto* a, const auto* b) {
+        if (a->description.arrival != b->description.arrival) {
+            return a->description.arrival < b->description.arrival;
+        }
+        return a->description.id < b->description.id;
+    });
+    if (prepared.tasks.empty()) { return prepared; }
+    prepared.pending = pending_;
+    for (const auto* task : prepared.tasks) { prepared.pending.push_back(task->description.id); }
+    return prepared;
+}
+
+void TaskStore::commit_revocations(SimTime at, PreparedRevocations& prepared) noexcept {
+    for (auto* task : prepared.tasks) {
+        task->attempts.back().revoked_at = at;
+        task->current_attempt.reset();
+    }
+    if (!prepared.tasks.empty()) { pending_.swap(prepared.pending); }
+    last_observation_ = at;
+    // No callbacks until Dispatcher has committed all parts of the batch.
 }
 
 TaskCounts TaskStore::counts() const noexcept {
