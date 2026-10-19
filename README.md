@@ -1,8 +1,8 @@
 # Экспериментальный стенд НИР
 
-Текущий этап: 6 — совместная реконфигурация, однократный сортированный возврат задач и защита результатов отозванных попыток. Реализованы также fixed/adaptive, RR/LL, нагрузка и реестр задач. Движок, физическая среда и чтение сценариев относятся к следующим этапам.
+Текущий этап: 7 — универсальный движок событий с детерминированной очередью, фазовыми ограничениями, включённым горизонтом и остановкой при ошибке. Реализованы также логическое ядро, детекторы и реконфигурация. Физическая среда, сценарии и соединение модулей относятся к следующим этапам.
 
-Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
+Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md), [аудит этапа 7](docs/stage_7_audit.md). Движок: [event_loop.md](docs/event_loop.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
 
 ## Сборка из терминала VS Code
 
@@ -38,7 +38,7 @@ ctest --test-dir build/sanitize --output-on-failure
 
 Оба санитайзера по умолчанию выключены и включаются отдельно. Конфигурация проверяет компиляцию и линковку с выбранными флагами; неподдерживаемый запрос приводит к явной ошибке. UBSan завершает запуск при обнаружении ошибки. `BUILD_TESTING=OFF` исключает тестовый исполняемый файл из сборки.
 
-ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 32 тестов этапа 6 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
+ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 38 тестов этапа 7 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
 
 Проверенная отдельная сборка с LLVM:
 
@@ -74,13 +74,14 @@ cmake -G Ninja -S . -B build/system-json -DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_
 |---|---|
 | `telemetry_common` / `telemetry::common` | Компилируемая библиотека времени; общие типы, C++20, информация о сборке; без модульных зависимостей |
 | `telemetry_core` / `telemetry::core` | Компилируемые TaskStore, RR/LL, LoadLedger, Dispatcher с совместной реконфигурацией и Detector; только `telemetry_common`, без движка/JSON |
-| `telemetry_engine` / `telemetry::engine` | Только `telemetry_common`; пока INTERFACE, реализация на этапе 7 |
+| `telemetry_engine` / `telemetry::engine` | Компилируемый EventLoop; только `telemetry_common`, без core/JSON |
 | `telemetry_simulation` / `telemetry::simulation` | `telemetry_core`, `telemetry_engine`; пока INTERFACE, реализация среды позже |
 | `telemetry_io` / `telemetry::io` | `telemetry_common`, приватная JSON-зависимость; запись сведений о сборке |
 | `telemetry_sim` | Сборка CLI с `telemetry_simulation` и `telemetry_io` |
 | `telemetry_build_smoke` | Проверка метаданных и точности JSON, только при `BUILD_TESTING=ON` |
 | `telemetry_common_tests` | Три группы проверок времени, чисел и ID; зависит только от common |
 | `telemetry_task_store_tests` | Пять групп логических проверок; зависит только от core |
+| `telemetry_engine_tests` | Шесть групп очереди, фаз, горизонта, ошибок, лимитов и повторяемости; зависит только от engine |
 | `telemetry_reconfiguration_tests` | Пять групп совместного возврата, результатов, доступности, аудита и неверных входов; зависит только от core |
 | `telemetry_detector_tests` | Шесть групп fixed/adaptive, окна, поколений, границ и неверных входов; зависит только от core |
 | `telemetry_scheduling_tests` | Пять групп RR/LL, нагрузки и интеграции; зависит только от core |
@@ -100,3 +101,5 @@ cmake -G Ninja -S . -B build/system-json -DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_
 На этапе 5 добавлены `detector_fixed`, `detector_adaptive`, `detector_window`, `detector_generations`, `detector_boundaries`, `detector_inputs`: всего 27 тестов. Каталоги проверенных сборок: `build/stage5-debug`, `build/stage5-release`, `build/stage5-sanitize`; команды — в отчёте этапа 5. Детекторы пока проверяются ручными наблюдениями без очереди событий.
 
 На этапе 6 добавлены `reconfiguration_batch`, `reconfiguration_results`, `reconfiguration_availability`, `reconfiguration_audit`, `reconfiguration_inputs`: всего 32 теста. Каталоги: `build/stage6-debug`, `build/stage6-release`, `build/stage6-sanitize`; команды — в отчёте этапа 6. Изменения одной отметки пока объединяет вызывающий код: автоматические фазы и физическая среда ещё не реализованы.
+
+На этапе 7 добавлены `engine_ordering`, `engine_phases`, `engine_horizon`, `engine_failures`, `engine_limits`, `engine_determinism`: всего 38 тестов. Каталоги: `build/stage7-debug`, `build/stage7-release`, `build/stage7-sanitize`; команды — в отчёте этапа 7. В тестах движка используются нейтральные действия; физическая среда и адаптер восьми фаз ещё не реализованы.
