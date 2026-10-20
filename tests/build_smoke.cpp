@@ -26,7 +26,7 @@ int main() {
                 "Version differs from CMake configuration");
         require(info.at("compiler").at("id").is_string(), "Missing compiler metadata");
         require(info.at("implementation_stage") == telemetry::build::implementation_stage, "Unexpected implementation stage");
-        require(info.at("simulation_available") == false, "Must not claim simulation is ready");
+        require(info.at("simulation_available") == true, "CLI simulation must be available");
         require(info.at("nlohmann_json") == nlohmann::json{
                     {"major", 3}, {"minor", 12}, {"patch", 0}}, "Unexpected JSON release");
 

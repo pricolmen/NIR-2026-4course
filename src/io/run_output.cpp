@@ -1,7 +1,8 @@
 #include "telemetry/io/run_output.hpp"
 #include "telemetry/io/build_info.hpp"
 #include "telemetry/io/journal.hpp"
-#include "json_support.hpp"
+#include "file_support.hpp"
+#include "comparison_support.hpp"
 
 #include <fstream>
 #include <iomanip>
@@ -11,28 +12,6 @@ namespace telemetry::io {
 namespace {
 using namespace detail;
 namespace fs = std::filesystem;
-std::ofstream output(const fs::path& file) {
-    std::ofstream stream{file,std::ios::binary}; if (!stream) { throw std::runtime_error("Cannot write "+file.string()); }
-    stream.imbue(std::locale::classic()); stream << std::setprecision(std::numeric_limits<long double>::max_digits10); return stream;
-}
-void close(std::ofstream& stream) {
-    stream.flush(); require(static_cast<bool>(stream)); stream.close(); require(!stream.fail());
-}
-void save(const fs::path& file,const Json& value) { auto stream = output(file); stream << value.dump(2) << '\n'; close(stream); }
-Json load(const fs::path& file) {
-    std::ifstream stream{file,std::ios::binary}; if (!stream) { throw std::runtime_error("Cannot read "+file.string()); }
-    const std::string content{std::istreambuf_iterator<char>{stream},{}}; require(!stream.bad()); return parse(content);
-}
-// Stable FNV-1a-64 over file bytes. Integrity metadata, not a security primitive.
-std::string checksum(const fs::path& file) {
-    std::ifstream stream{file,std::ios::binary}; if (!stream) { throw std::runtime_error("Cannot checksum "+file.string()); }
-    std::uint64_t hash = 14695981039346656037ULL; std::array<char,8192> buffer{};
-    while (stream) {
-        stream.read(buffer.data(),static_cast<std::streamsize>(buffer.size()));
-        for (std::streamsize i = 0; i < stream.gcount(); ++i) { hash ^= static_cast<unsigned char>(buffer[static_cast<std::size_t>(i)]); hash *= 1099511628211ULL; }
-    }
-    require(stream.eof() && !stream.bad()); std::ostringstream text; text << std::hex << std::setfill('0') << std::setw(16) << hash; return text.str();
-}
 Json metric(const metrics::DurationMetric& value) { return {{"value_ticks",value.value ? Json(value.value->ticks()) : Json(nullptr)},{"reason",value.value ? Json(nullptr) : Json(value.reason)}}; }
 Json mean(std::optional<long double> value,const char* reason = "empty_sample") {
     return {{"value_ticks",value ? Json(static_cast<double>(*value)) : Json(nullptr)},{"reason",value ? Json(nullptr) : Json(reason)}};
@@ -103,28 +82,51 @@ struct Sink : simulation::SimulationAuditSink {
     void on_event(const engine::EventKey& key,const simulation::SimulationEvent& event) override { analyzer.on_event(key,event); writer.on_event(key,event); }
 };
 }
-metrics::Analysis write_run(const fs::path& scenario_file,simulation::Variant variant,const fs::path& dir) {
+static metrics::Analysis write_loaded_run(const LoadedScenario& loaded,simulation::Variant variant,const fs::path& dir,bool reuse,const LoadedScenario* provenance = nullptr) {
     // Validate all read-only prerequisites before creating output files.
-    const auto loaded = load_scenario(scenario_file); const auto variant_name = name(variant,variants);
+    const auto variant_name = name(variant,variants);
     const auto json_hash = checksum(loaded.scenario_file),trace_hash = checksum(loaded.delivery_file);
     if (fs::exists(dir)) {
         if (!fs::is_directory(dir) || !fs::is_empty(dir)) { throw std::runtime_error("Output directory must be empty: "+dir.string()); }
     } else { fs::create_directories(dir); }
     Json manifest{{"schema_version",1},{"status","incomplete"},{"variant",variant_name},{"environment",environment()},
         {"parameters",parameters(*loaded.scenario)},{"checksum_algorithm","fnv1a64"},
-        {"inputs",{{"scenario",{{"original_path",loaded.scenario_file.string()},{"snapshot","input/scenario.json"},{"checksum",json_hash}}},
-                    {"delivery",{{"original_path",loaded.delivery_file.string()},{"snapshot","input/delivery.csv"},{"checksum",trace_hash}}}}}};
+        {"inputs",{{"scenario",{{"original_path",(provenance ? provenance->scenario_file : loaded.scenario_file).string()},{"snapshot","input/scenario.json"},{"checksum",json_hash}}},
+                    {"delivery",{{"original_path",(provenance ? provenance->delivery_file : loaded.delivery_file).string()},{"snapshot","input/delivery.csv"},{"checksum",trace_hash}}}}}};
     save(dir/"manifest.json",manifest);
     fs::create_directory(dir/"input"); fs::copy_file(loaded.scenario_file,dir/"input/scenario.json"); fs::copy_file(loaded.delivery_file,dir/"input/delivery.csv");
     require(checksum(loaded.scenario_file) == json_hash && checksum(loaded.delivery_file) == trace_hash &&
         checksum(dir/"input/scenario.json") == json_hash && checksum(dir/"input/delivery.csv") == trace_hash);
-    const auto snapshot = load_scenario(dir/"input/scenario.json",dir/"input/delivery.csv");
+    const auto snapshot = reuse ? loaded : load_scenario(dir/"input/scenario.json",dir/"input/delivery.csv");
     manifest["parameters"] = parameters(*snapshot.scenario);
     auto journal = output(dir/"events.jsonl"); JournalWriter writer{journal}; metrics::Analyzer analyzer{snapshot.scenario}; Sink sink{writer,analyzer};
     simulation::Simulation run{snapshot.scenario,variant,&sink}; const auto result = run.run(); auto analysis = analyzer.finish(result);
     writer.complete(result); close(journal); reports(dir,analysis);
     manifest["journal_checksum"] = checksum(dir/"events.jsonl"); manifest["status"] = "complete"; manifest["executed_events"] = result.executed;
     save(dir/"manifest.json",manifest); return analysis;
+}
+metrics::Analysis write_run(const fs::path& scenario_file,simulation::Variant variant,const fs::path& dir) {
+    return write_loaded_run(load_scenario(scenario_file),variant,dir,false);
+}
+Comparison write_comparison(const fs::path& scenario_file,const fs::path& dir) {
+    const auto loaded = load_scenario(scenario_file);
+    if (fs::exists(dir)) { require(fs::is_directory(dir) && fs::is_empty(dir)); } else { fs::create_directories(dir); }
+    Json manifest{{"schema_version",1},{"status","incomplete"},{"scenario",loaded.scenario_file.string()},{"environment",environment()}};
+    save(dir/"comparison_manifest.json",manifest);
+    fs::create_directory(dir/"input"); fs::copy_file(loaded.scenario_file,dir/"input/scenario.json"); fs::copy_file(loaded.delivery_file,dir/"input/delivery.csv");
+    const auto json_hash = checksum(dir/"input/scenario.json"),trace_hash = checksum(dir/"input/delivery.csv");
+    const auto frozen = load_scenario(dir/"input/scenario.json",dir/"input/delivery.csv");
+    Comparison summaries;
+    for (std::size_t i = 0; i < summaries.size(); ++i) {
+        summaries[i] = write_loaded_run(frozen,static_cast<simulation::Variant>(i),dir/variants[i],true,&loaded).summary;
+    }
+    require(checksum(frozen.scenario_file) == json_hash && checksum(frozen.delivery_file) == trace_hash);
+    auto table = output(dir/"comparison.csv"); comparison_header(table);
+    for (std::size_t i = 0; i < summaries.size(); ++i) { comparison_rows(table,summaries[i],variants[i]); }
+    close(table);
+    manifest["variants"] = variants;
+    manifest["inputs"] = {{"scenario_checksum",json_hash},{"delivery_checksum",trace_hash},{"checksum_algorithm","fnv1a64"}};
+    manifest["status"] = "complete"; save(dir/"comparison_manifest.json",manifest); return summaries;
 }
 metrics::Analysis analyze_run(const fs::path& dir) {
     const auto manifest = load(dir/"manifest.json");

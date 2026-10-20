@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(telemetry_sim VERSION 0.1.0 LANGUAGES CXX)
-set(TELEMETRY_IMPLEMENTATION_STAGE 11)
+set(TELEMETRY_IMPLEMENTATION_STAGE 12)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Use an out-of-source build: cmake -S . -B build/debug")
@@ -62,7 +62,7 @@ add_library(telemetry::metrics ALIAS telemetry_metrics)
 target_link_libraries(telemetry_metrics PUBLIC telemetry_simulation)
 telemetry_configure_target(telemetry_metrics)
 
-add_library(telemetry_io STATIC src/io/build_info.cpp src/io/scenario_loader.cpp src/io/journal.cpp src/io/run_output.cpp)
+add_library(telemetry_io STATIC src/io/build_info.cpp src/io/scenario_loader.cpp src/io/journal.cpp src/io/run_output.cpp src/io/generation.cpp src/io/batch.cpp src/io/output_directory.cpp)
 add_library(telemetry::io ALIAS telemetry_io)
 target_link_libraries(telemetry_io PUBLIC telemetry_common telemetry_metrics)
 telemetry_use_json(telemetry_io)
@@ -86,6 +86,13 @@ foreach(module IN ITEMS telemetry_core telemetry_engine)
 endforeach()
 
 if(BUILD_TESTING)
+    find_package(Python3 3.9 REQUIRED COMPONENTS Interpreter)
+    foreach(group IN ITEMS parsing validate run compare metrics generate batch overwrite failures determinism)
+        add_test(NAME commands_${group} COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/cli_tests.py"
+            "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" ${group})
+        set_tests_properties(commands_${group} PROPERTIES TIMEOUT 90)
+    endforeach()
+
     add_executable(telemetry_metrics_tests tests/metrics_tests.cpp)
     target_link_libraries(telemetry_metrics_tests PRIVATE telemetry_io)
     telemetry_configure_target(telemetry_metrics_tests)
@@ -191,7 +198,7 @@ if(BUILD_TESTING)
     telemetry_cli_test(cli_build_info --build-info 0 "nlohmann_json")
     telemetry_cli_test(cli_no_arguments "" 2 "Usage:")
     telemetry_cli_test(cli_unknown_option --unknown 2 "Unknown or unsupported")
-    telemetry_cli_test(cli_unimplemented_run run 2 "Unknown or unsupported")
+    telemetry_cli_test(cli_missing_run_options run 2 "Missing required option")
     add_test(NAME cli_extra_argument COMMAND "${CMAKE_COMMAND}"
         "-DPROGRAM=$<TARGET_FILE:telemetry_sim>"
         "-DARGUMENT=--help;extra" "-DEXPECTED_EXIT=2"

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "runs": [
+    {
+      "scenario_id": "baseline",
+      "repeat_id": "manual_1",
+      "scenario": "baseline/scenario.json"
+    },
+    {
+      "scenario_id": "crash",
+      "repeat_id": "manual_1",
+      "scenario": "crash/scenario.json"
+    },
+    {
+      "scenario_id": "blackout",
+      "repeat_id": "manual_1",
+      "scenario": "blackout/scenario.json"
+    }
+  ]
+}
