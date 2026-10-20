@@ -201,7 +201,7 @@ Heartbeat отправляется в `H, 2H, 3H, …`, `H > 0`; номера о
 
 Материализованный сценарий: `scenario.json` и `delivery.csv`, путь трассы относительно JSON. Поля JSON: `schema_version`, `tick_ns`, `horizon_ticks`, `heartbeat_period_ticks`, `tau0_ticks`, `kappa`, `adaptive.{window,min_intervals,c}`, `nodes[]`, `tasks[]`, `crashes[]`, `blackouts[]`, `measurement_windows[]`, `delivery_trace`. Первой версии формата соответствует `schema_version = 1`.
 
-Узел содержит `id, performance_work_per_second`; задача — `id, arrival_ticks, work`; crash — `node_id, at_ticks`; перерыв — `node_id, start_ticks, end_ticks`; окно — `start_ticks, end_ticks`.
+Исходный каталог nodes содержит минимум один узел, даже при пустом потоке задач. Это не ограничение на число ALIVE во время исполнения: оно может стать нулевым. Узел содержит `id, performance_work_per_second`; задача — `id, arrival_ticks, work`; crash — `node_id, at_ticks`; перерыв — `node_id, start_ticks, end_ticks`; окно — `start_ticks, end_ticks`.
 
 CSV имеет заголовок `node_id,heartbeat_seq,delay_ticks,lost` и ровно одну запись каждого потенциального heartbeat каждого исходного узла с номерами `1..floor(horizon/H)`, включая неиспользуемые отправки после crash. При `horizon < H` требуемых записей нет. Доставки за горизонтом могут оставаться неисполненными.
 

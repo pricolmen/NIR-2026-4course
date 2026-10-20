@@ -125,6 +125,7 @@ LoadedScenario load_scenario_impl(const fs::path& requested,const fs::path* trac
     PhysicalInput physical{period,{},{},{},{}};
     std::set<NodeId> nodes;
     const auto& node_array = array(json.at("nodes"),file,"$.nodes");
+    if (node_array.empty()) { fail(file,"$.nodes","must contain at least one node"); }
     for (std::size_t i = 0; i < node_array.size(); ++i) {
         const auto path = "$.nodes["+std::to_string(i)+"]";
         const auto& node = node_array[i]; object(node,file,path,{"id","performance_work_per_second"});
@@ -146,10 +147,8 @@ LoadedScenario load_scenario_impl(const fs::path& requested,const fs::path* trac
         const auto arrival = time(task.at("arrival_ticks"),file,path+".arrival_ticks");
         if (arrival > horizon) { fail(file,path+".arrival_ticks","beyond horizon"); }
         const auto work = real(task.at("work"),file,path+".work",true);
-        if (!physical.nodes.empty()) {
-            checked(file,path+".work",[&] { static_cast<void>(processing_duration(work,slow->performance));
-                static_cast<void>(processing_duration(work,fast->performance)); });
-        }
+        checked(file,path+".work",[&] { static_cast<void>(processing_duration(work,slow->performance));
+            static_cast<void>(processing_duration(work,fast->performance)); });
         tasks.push_back({id,arrival,work});
     }
     const auto known_node = [&](const Json& value,const std::string& path) {

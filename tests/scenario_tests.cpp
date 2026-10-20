@@ -71,9 +71,10 @@ void valid() {
             "Scenario parameters lost");
     value = document(); value["tasks"] = Doc::array(); value["horizon_ticks"] = 5; value["measurement_windows"][0]["end_ticks"] = 5;
     require(load_scenario(fixture(value,"node_id,heartbeat_seq,delay_ticks,lost\n")).scenario->tasks().empty(), "Empty tasks/horizon<H rejected");
-    value = document(); value["nodes"] = Doc::array(); value["horizon_ticks"] = UINT64_C(9007199254740993);
+    value = document(); value["horizon_ticks"] = UINT64_C(9007199254740993);
+    value["heartbeat_period_ticks"] = UINT64_C(9007199254740993); value["tau0_ticks"] = UINT64_C(9007199254740993);
     value["tasks"][0]["arrival_ticks"] = UINT64_C(9007199254740993);
-    require(load_scenario(fixture(value,"node_id,heartbeat_seq,delay_ticks,lost\n")).scenario->tasks().back().arrival.ticks() == INT64_C(9007199254740993),
+    require(load_scenario(fixture(value,"node_id,heartbeat_seq,delay_ticks,lost\n1,1,0,0\n2,1,0,0\n")).scenario->tasks().back().arrival.ticks() == INT64_C(9007199254740993),
             "Integer time went through floating point");
     value = document(); const auto maximum = std::numeric_limits<std::uint64_t>::max();
     value["nodes"] = Doc::array({{{"id",maximum},{"performance_work_per_second",1000000}}});
@@ -134,6 +135,10 @@ void csv_checks() {
     require(load_scenario(fixture(document(),crlf)).scenario->physical()->deliveries().size() == 4, "BOM/CRLF/spacing/no final newline");
 }
 void ranges() {
+    auto empty_nodes = document(); empty_nodes["nodes"] = Doc::array();
+    bad(fixture(empty_nodes,"node_id,heartbeat_seq,delay_ticks,lost\n"),"$.nodes");
+    empty_nodes["tasks"] = Doc::array();
+    bad(fixture(empty_nodes,"node_id,heartbeat_seq,delay_ticks,lost\n"),"$.nodes");
     auto value = document(); value["schema_version"] = 2; bad_doc(value,"$.schema_version");
     value = document(); value["tick_ns"] = 1; bad_doc(value,"$.tick_ns");
     for (const auto& bad_value : {Doc(0),Doc(-1),Doc(20.0),Doc(true),Doc(UINT64_C(9223372036854775808))}) {

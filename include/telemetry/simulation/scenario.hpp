@@ -12,6 +12,7 @@ struct MeasurementWindow {
 };
 class Scenario {
 public:
+    // A complete scenario requires at least one original node, even with no tasks.
     Scenario(std::shared_ptr<const PhysicalTrace> physical, core::TimeoutParameters timeout,
              core::AdaptiveTimeout adaptive, std::vector<TaskDescription> tasks,
              std::vector<MeasurementWindow> windows);

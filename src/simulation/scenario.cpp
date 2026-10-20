@@ -18,6 +18,7 @@ Scenario::Scenario(std::shared_ptr<const PhysicalTrace> physical, core::TimeoutP
     const core::Detector validation{NodeId{1},timeout_,adaptive_};
     std::set<TaskId> ids;
     const auto nodes = physical_->nodes();
+    if (nodes.empty()) { throw std::invalid_argument("Scenario requires at least one node"); }
     const auto [slow,fast] = std::minmax_element(nodes.begin(),nodes.end(),[](const auto& a,const auto& b) {
         return a.performance < b.performance;
     });
@@ -25,10 +26,8 @@ Scenario::Scenario(std::shared_ptr<const PhysicalTrace> physical, core::TimeoutP
         if (!ids.insert(task.id).second || task.arrival > physical_->horizon() || !std::isfinite(task.work) || task.work <= 0) {
             throw std::invalid_argument("Invalid or duplicate scenario task");
         }
-        if (!nodes.empty()) {
-            static_cast<void>(processing_duration(task.work,slow->performance));
-            static_cast<void>(processing_duration(task.work,fast->performance));
-        }
+        static_cast<void>(processing_duration(task.work,slow->performance));
+        static_cast<void>(processing_duration(task.work,fast->performance));
     }
     std::sort(tasks_.begin(),tasks_.end(),[](const auto& a,const auto& b) {
         return std::tie(a.arrival,a.id) < std::tie(b.arrival,b.id);

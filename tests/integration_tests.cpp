@@ -267,6 +267,11 @@ void isolation() {
     require(first.dispatcher().task_store().tasks() == second.dispatcher().task_store().tasks(),"Hidden state changed histories");
 }
 void errors() {
+    rejects<std::invalid_argument>([] { static_cast<void>(scenario(8,input(8,2,0),{task(1)})); });
+    rejects<std::invalid_argument>([] { static_cast<void>(scenario(8,input(8,2,0))); });
+    Simulation single{scenario(8,input(8,2,1),{task(1)}),Variant::fixed_rr};
+    static_cast<void>(single.run());
+    require(single.dispatcher().task_store().tasks().at(TaskId{1}).completed_at == SimTime{4},"One-node scenario must remain valid");
     const auto shared = example("baseline");
     rejects<std::invalid_argument>([&] { Simulation run{nullptr,Variant::fixed_rr}; });
     rejects<std::invalid_argument>([&] { Simulation run{shared,static_cast<Variant>(123)}; });

@@ -84,6 +84,23 @@ def validate():
     bad = fixture('bad', lambda value: value.update(horizon_ticks=1.5))
     require('horizon_ticks' in call('validate', '--scenario', bad, code=1).stderr, 'Missing input field context')
     call('validate', '--scenario', DATA/'missing.json', code=1)
+    for empty_tasks in [False, True]:
+        name = 'no-nodes-empty-tasks' if empty_tasks else 'no-nodes-with-tasks'
+        invalid = fixture(name, lambda value: value.update(nodes=[], **({'tasks': []} if empty_tasks else {})))
+        (invalid.parent/'delivery.csv').write_text('node_id,heartbeat_seq,delay_ticks,lost\n')
+        require('$.nodes' in call('validate', '--scenario', invalid, code=1).stderr, 'Empty node catalog needs field context')
+        out = DATA/(name+'-out')
+        require('$.nodes' in run(out, invalid, code=1).stderr, 'run accepted an empty node catalog')
+        require('$.nodes' in call('compare', '--scenario', invalid, '--out', out, code=1).stderr, 'compare accepted an empty node catalog')
+        manifest = DATA/(name+'-batch.json')
+        put(manifest, {'schema_version': 1, 'runs': [{'scenario_id': name, 'repeat_id': '1', 'scenario': str(invalid)}]})
+        require('$.nodes' in call('batch', '--manifest', manifest, '--out', out, code=1).stderr, 'batch accepted an empty node catalog')
+        require(not out.exists(), 'Invalid node catalog published results')
+    one = fixture('one-node', lambda value: value.update(nodes=value['nodes'][:1]))
+    (one.parent/'delivery.csv').write_text('node_id,heartbeat_seq,delay_ticks,lost\n1,1,0,0\n1,2,0,0\n')
+    require('nodes=1' in call('validate', '--scenario', one).stdout, 'Single node rejected')
+    call('compare', '--scenario', one, '--out', DATA/'one-node-out')
+    require(all(read(DATA/'one-node-out'/v/'metrics.json')['completed'] == 4 for v in VARIANTS), 'Single-node simulation failed')
 
 
 def single_run():
@@ -176,6 +193,7 @@ def generate():
                  lambda v: v['tasks'].update(period_ticks=0), lambda v: v['tasks'].update(work_min=0),
                  lambda v: v['scenario'].update(horizon_ticks=9223372036854775808),
                  lambda v: v['scenario']['nodes'].append(v['scenario']['nodes'][0]),
+                 lambda v: v['scenario'].update(nodes=[]),
                  lambda v: v['scenario'].update(crashes=[{'node_id': 999, 'at_ticks': 0}]),
                  lambda v: v['scenario'].update(measurement_windows=[{'start_ticks': 3, 'end_ticks': 3}]),
                  lambda v: v.update(unknown_field=1)]
