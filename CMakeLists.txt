@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(telemetry_sim VERSION 0.1.0 LANGUAGES CXX)
-set(TELEMETRY_IMPLEMENTATION_STAGE 10)
+set(TELEMETRY_IMPLEMENTATION_STAGE 11)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Use an out-of-source build: cmake -S . -B build/debug")
@@ -57,14 +57,19 @@ add_library(telemetry::simulation ALIAS telemetry_simulation)
 target_link_libraries(telemetry_simulation PUBLIC telemetry_core telemetry_engine)
 telemetry_configure_target(telemetry_simulation)
 
-add_library(telemetry_io STATIC src/io/build_info.cpp src/io/scenario_loader.cpp)
+add_library(telemetry_metrics STATIC src/metrics/analysis.cpp)
+add_library(telemetry::metrics ALIAS telemetry_metrics)
+target_link_libraries(telemetry_metrics PUBLIC telemetry_simulation)
+telemetry_configure_target(telemetry_metrics)
+
+add_library(telemetry_io STATIC src/io/build_info.cpp src/io/scenario_loader.cpp src/io/journal.cpp src/io/run_output.cpp)
 add_library(telemetry::io ALIAS telemetry_io)
-target_link_libraries(telemetry_io PUBLIC telemetry_common telemetry_simulation)
+target_link_libraries(telemetry_io PUBLIC telemetry_common telemetry_metrics)
 telemetry_use_json(telemetry_io)
 telemetry_configure_target(telemetry_io)
 
 add_executable(telemetry_sim app/main.cpp)
-target_link_libraries(telemetry_sim PRIVATE telemetry_io telemetry_simulation)
+target_link_libraries(telemetry_sim PRIVATE telemetry_io)
 telemetry_configure_target(telemetry_sim)
 
 # Fail at configure time if JSON or engine accidentally leaks into the core,
@@ -81,6 +86,15 @@ foreach(module IN ITEMS telemetry_core telemetry_engine)
 endforeach()
 
 if(BUILD_TESTING)
+    add_executable(telemetry_metrics_tests tests/metrics_tests.cpp)
+    target_link_libraries(telemetry_metrics_tests PRIVATE telemetry_io)
+    telemetry_configure_target(telemetry_metrics_tests)
+    target_compile_definitions(telemetry_metrics_tests PRIVATE TELEMETRY_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}" TELEMETRY_TEST_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
+    foreach(group IN ITEMS baseline recovery classification boundaries retries journal files errors reproducibility)
+        add_test(NAME metrics_${group} COMMAND telemetry_metrics_tests ${group})
+        set_tests_properties(metrics_${group} PROPERTIES TIMEOUT 30)
+    endforeach()
+
     add_executable(telemetry_integration_tests tests/integration_tests.cpp)
     target_link_libraries(telemetry_integration_tests PRIVATE telemetry_io)
     target_compile_definitions(telemetry_integration_tests PRIVATE TELEMETRY_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

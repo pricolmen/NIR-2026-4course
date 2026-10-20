@@ -183,7 +183,8 @@ std::vector<DeliveryRecord> read_delivery(const fs::path& file,const std::set<No
     return result;
 }
 }  // namespace
-LoadedScenario load_scenario(const fs::path& requested) {
+namespace {
+LoadedScenario load_scenario_impl(const fs::path& requested,const fs::path* trace_override) {
     if (requested.empty() || requested.native().find(fs::path::value_type{}) != fs::path::string_type::npos) {
         fail(requested,"$","invalid empty/NUL scenario path");
     }
@@ -290,11 +291,17 @@ LoadedScenario load_scenario(const fs::path& requested) {
     if (!trace_json.is_string()) { fail(file,"$.delivery_trace","expected nonempty path string"); }
     const auto trace_name = trace_json.get<std::string>();
     if (trace_name.empty() || trace_name.find('\0') != std::string::npos) { fail(file,"$.delivery_trace","invalid empty/NUL path"); }
-    const auto delivery_file = (file.parent_path()/fs::path{trace_name}).lexically_normal();
+    if (trace_override && (trace_override->empty() || trace_override->native().find(fs::path::value_type{}) != fs::path::string_type::npos)) {
+        fail(*trace_override,"delivery_trace","invalid empty/NUL override path");
+    }
+    const auto delivery_file = trace_override ? fs::absolute(*trace_override).lexically_normal() : (file.parent_path()/fs::path{trace_name}).lexically_normal();
     physical.deliveries = read_delivery(delivery_file,nodes,horizon,period);
     auto trace = checked(file,"$",[&] { return std::make_shared<const PhysicalTrace>(horizon,std::move(physical)); });
     auto scenario = checked(file,"$",[&] { return std::make_shared<const Scenario>(std::move(trace),
         core::TimeoutParameters{period,initial,kappa},adaptive,std::move(tasks),std::move(windows)); });
     return {std::move(scenario),file,delivery_file};
 }
+}  // namespace
+LoadedScenario load_scenario(const fs::path& requested) { return load_scenario_impl(requested,nullptr); }
+LoadedScenario load_scenario(const fs::path& requested,const fs::path& trace_override) { return load_scenario_impl(requested,&trace_override); }
 }  // namespace telemetry::io

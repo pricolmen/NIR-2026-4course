@@ -1,8 +1,8 @@
 # Экспериментальный стенд НИР
 
-Текущий этап: 10 — ядро, движок и физическая среда соединены адаптером восьми фаз. Реализованы четыре независимых варианта fixed/adaptive × RR/LL, объединение доступности и один dispatch после поступлений. Сквозные baseline, crash и blackout совпадают с ручными ожиданиями. Библиотечный API: [simulation.md](docs/simulation.md); файловый журнал/метрики и CLI моделирования относятся к следующим этапам.
+Текущий этап: 11 — потоковый канонический JSONL-журнал, независимый расчёт метрик и отчёты задач/попыток/узлов. Реализованы сохранение точных входов и manifest, проверка целостности и повторный анализ без запуска симулятора. Библиотечный API и форматы: [journal_metrics.md](docs/journal_metrics.md). Команды CLI моделирования и сравнения — следующий этап.
 
-Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md), [аудит этапа 7](docs/stage_7_audit.md), [аудит этапа 8](docs/stage_8_audit.md), [аудит этапа 9](docs/stage_9_audit.md), [независимый аудит этапа 10](docs/stage_10_audit.md). Формат и загрузка: [scenario_format.md](docs/scenario_format.md). Физическая среда: [physical_environment.md](docs/physical_environment.md). Движок: [event_loop.md](docs/event_loop.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
+Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md), [аудит этапа 7](docs/stage_7_audit.md), [аудит этапа 8](docs/stage_8_audit.md), [аудит этапа 9](docs/stage_9_audit.md), [независимый аудит этапа 10](docs/stage_10_audit.md), [самоаудит этапа 11](docs/stage_11_audit.md). Формат и загрузка: [scenario_format.md](docs/scenario_format.md). Физическая среда: [physical_environment.md](docs/physical_environment.md). Движок: [event_loop.md](docs/event_loop.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
 
 ## Сборка из терминала VS Code
 
@@ -38,7 +38,7 @@ ctest --test-dir build/sanitize --output-on-failure
 
 Оба санитайзера по умолчанию выключены и включаются отдельно. Конфигурация проверяет компиляцию и линковку с выбранными флагами; неподдерживаемый запрос приводит к явной ошибке. UBSan завершает запуск при обнаружении ошибки. `BUILD_TESTING=OFF` исключает тестовый исполняемый файл из сборки.
 
-ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 57 тестов этапа 10 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
+ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 66 тестов этапа 11 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
 
 Проверенная отдельная сборка с LLVM:
 
@@ -76,11 +76,13 @@ cmake -G Ninja -S . -B build/system-json -DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_
 | `telemetry_core` / `telemetry::core` | Компилируемые TaskStore, RR/LL, LoadLedger, Dispatcher с совместной реконфигурацией и Detector; только `telemetry_common`, без движка/JSON |
 | `telemetry_engine` / `telemetry::engine` | Компилируемый EventLoop; только `telemetry_common`, без core/JSON |
 | `telemetry_simulation` / `telemetry::simulation` | Компилируемые PhysicalTrace, PhysicalEnvironment, неизменяемый Scenario и Simulation; `telemetry_core`, `telemetry_engine`, без JSON |
-| `telemetry_io` / `telemetry::io` | `telemetry_common`, `telemetry_simulation`; приватный JSON; сведения о сборке и чтение/валидация JSON/CSV |
-| `telemetry_sim` | Сборка CLI с `telemetry_simulation` и `telemetry_io` |
+| `telemetry_metrics` / `telemetry::metrics` | Независимый Analyzer и отчёты в памяти; simulation, без JSON |
+| `telemetry_io` / `telemetry::io` | common и metrics (с simulation); приватный JSON; загрузка, журнал, manifest, отчёты и повторный анализ |
+| `telemetry_sim` | CLI-заглушка с telemetry_io и транзитивными зависимостями |
 | `telemetry_build_smoke` | Проверка метаданных и точности JSON, только при `BUILD_TESTING=ON` |
 | `telemetry_common_tests` | Три группы проверок времени, чисел и ID; зависит только от common |
 | `telemetry_task_store_tests` | Пять групп логических проверок; зависит только от core |
+| `telemetry_metrics_tests` | Девять групп метрик, журналов, файлов, ошибок и воспроизводимости; IO, без JSON include |
 | `telemetry_integration_tests` | Семь групп сквозного моделирования, границ, изоляции и ошибок; IO и simulation, без JSON |
 | `telemetry_scenario_tests` | Шесть групп входов/ошибок/неизменности/примеров; IO, приватный JSON |
 | `telemetry_physical_tests` | Шесть групп FIFO, crash, канала, ложного исключения, горизонта и неверных входов; зависит от simulation |
@@ -112,3 +114,5 @@ cmake -G Ninja -S . -B build/system-json -DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_
 На этапе 9 добавлены `scenario_valid`, `scenario_json`, `scenario_csv`, `scenario_ranges`, `scenario_immutable`, `scenario_examples`: всего 50 тестов. Каталоги: `build/stage9-debug`, `build/stage9-release`, `build/stage9-sanitize`; команды — в отчёте этапа 9. Библиотечный `load_scenario` читает [baseline](examples/baseline/README.md), [crash](examples/crash/README.md), [blackout](examples/blackout/README.md). Их загрузка проверена; интегрированное моделирование и команды validate/run/compare ещё не реализованы.
 
 На этапе 10 добавлены `integration_baseline`, `integration_crash`, `integration_blackout`, `integration_simultaneous`, `integration_boundaries`, `integration_isolation`, `integration_errors`: всего 57 тестов. Каталоги проверенных сборок: `build/stage10-debug`, `build/stage10-release`, `build/stage10-sanitize`. Библиотечный запуск: [simulation.md](docs/simulation.md). Отчёт включает предусмотренную планом независимую проверку: [stage_10_audit.md](docs/stage_10_audit.md).
+
+На этапе 11 добавлены `metrics_baseline`, `metrics_recovery`, `metrics_classification`, `metrics_boundaries`, `metrics_retries`, `metrics_journal`, `metrics_files`, `metrics_errors`, `metrics_reproducibility`: всего 66 тестов. Каталоги: `build/stage11-debug`, `build/stage11-release`, `build/stage11-sanitize`. Пример реально сформированных результатов после CTest: `build/stage11-debug/stage11-tests/files/baseline/`; recovery-пример: `build/stage11-debug/stage11-tests/files/run-moved/`. Эти файлы игнорируются Git и не являются исследовательским сравнением. Формулы, API и ограничения — в [journal_metrics.md](docs/journal_metrics.md), команды и результаты — в [stage_11_audit.md](docs/stage_11_audit.md).

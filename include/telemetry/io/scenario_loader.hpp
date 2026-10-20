@@ -27,4 +27,7 @@ struct LoadedScenario {
 // Paths in the returned metadata are absolute. Relative delivery_trace is
 // resolved against the JSON file's parent, independently of process cwd.
 [[nodiscard]] LoadedScenario load_scenario(const std::filesystem::path& file);
+// Explicit trace relocation for byte-preserving saved run snapshots. The JSON
+// delivery_trace field is still validated; all trace contents/ranges are checked.
+[[nodiscard]] LoadedScenario load_scenario(const std::filesystem::path& file,const std::filesystem::path& trace_override);
 }  // namespace telemetry::io
