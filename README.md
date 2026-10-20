@@ -1,8 +1,8 @@
 # Экспериментальный стенд НИР
 
-Текущий этап: 12 — рабочие команды validate, run, compare, metrics, generate и batch. Четыре варианта используют один неизменяемый сценарий; результаты содержат журнал, метрики, отчёты и общий CSV. Сводка повторов сохраняет размеры выборок. Форматы CLI и конфигураций: [cli.md](docs/cli.md).
+Текущий этап: 13 — полный набор из восьми предусмотренных демонстрационных случаев и сохранённый контрольный результат генератора. Для каждого случая описаны ручные ожидания, проверены четыре варианта, повторное чтение файлов и пересчёт журнала. Каталог и команды: [examples/README.md](examples/README.md).
 
-Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md), [аудит этапа 7](docs/stage_7_audit.md), [аудит этапа 8](docs/stage_8_audit.md), [аудит этапа 9](docs/stage_9_audit.md), [независимый аудит этапа 10](docs/stage_10_audit.md), [самоаудит этапа 11](docs/stage_11_audit.md), [самоаудит этапа 12](docs/stage_12_audit.md). Формат и загрузка: [scenario_format.md](docs/scenario_format.md). Физическая среда: [physical_environment.md](docs/physical_environment.md). Движок: [event_loop.md](docs/event_loop.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
+Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md), [аудит этапа 7](docs/stage_7_audit.md), [аудит этапа 8](docs/stage_8_audit.md), [аудит этапа 9](docs/stage_9_audit.md), [независимый аудит этапа 10](docs/stage_10_audit.md), [самоаудит этапа 11](docs/stage_11_audit.md), [самоаудит этапа 12](docs/stage_12_audit.md), [самоаудит этапа 13](docs/stage_13_audit.md). Формат и загрузка: [scenario_format.md](docs/scenario_format.md). Физическая среда: [physical_environment.md](docs/physical_environment.md). Движок: [event_loop.md](docs/event_loop.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
 
 ## Сборка из терминала VS Code
 
@@ -38,7 +38,7 @@ ctest --test-dir build/sanitize --output-on-failure
 
 Оба санитайзера по умолчанию выключены и включаются отдельно. Конфигурация проверяет компиляцию и линковку с выбранными флагами; неподдерживаемый запрос приводит к явной ошибке. UBSan завершает запуск при обнаружении ошибки. `BUILD_TESTING=OFF` исключает тестовый исполняемый файл из сборки.
 
-ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 76 тестов этапа 12 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
+ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 85 тестов этапа 13 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
 
 Проверенная отдельная сборка с LLVM:
 
@@ -52,23 +52,24 @@ LLVM установлен командой `brew install llvm` и выбирае
 
 ## Запуск CLI
 
-Команды из корня проекта для проверенной сборки этапа 12:
+Команды из корня проекта для проверенной сборки этапа 13:
 
 ```sh
-./build/stage12-release/telemetry_sim validate --scenario examples/baseline/scenario.json
-./build/stage12-release/telemetry_sim run --scenario examples/baseline/scenario.json --detector fixed --scheduler rr --out results/stage12-single
-./build/stage12-release/telemetry_sim compare --scenario examples/baseline/scenario.json --out results/stage12-baseline
-./build/stage12-release/telemetry_sim compare --scenario examples/crash/scenario.json --out results/stage12-crash
-./build/stage12-release/telemetry_sim metrics --run-dir results/stage12-crash/fixed_rr
-./build/stage12-release/telemetry_sim generate --config examples/generator.json --out traces/stage12-sample
-./build/stage12-release/telemetry_sim batch --manifest examples/experiments.json --out results/stage12-series
+./build/stage13-release/telemetry_sim validate --scenario examples/baseline/scenario.json
+./build/stage13-release/telemetry_sim run --scenario examples/baseline/scenario.json --detector fixed --scheduler rr --out results/stage13-single
+./build/stage13-release/telemetry_sim compare --scenario examples/long_blackout/scenario.json --out results/stage13-long-blackout
+./build/stage13-release/telemetry_sim compare --scenario examples/reordered/scenario.json --out results/stage13-reordered
+./build/stage13-release/telemetry_sim batch --manifest examples/experiments.json --out results/stage13-suite
+./build/stage13-release/telemetry_sim metrics --run-dir results/stage13-suite/runs/000001/fixed_rr
+./build/stage13-release/telemetry_sim generate --config examples/generator_recovery.json --out traces/stage13-recovery
+./build/stage13-release/telemetry_sim compare --scenario traces/stage13-recovery/scenario.json --out results/stage13-generated
 ```
 
-Один запуск сохраняет manifest.json, events.jsonl, tasks.csv, attempts.csv, nodes.csv, metrics.json и снимки input/*. В сравнении — подкаталоги fixed_rr, fixed_ll, adaptive_rr, adaptive_ll и comparison.csv. В серии — runs/000001/... и comparison.csv/summary.csv с ID сценария, повтора и числами наблюдений.
+Один запуск сохраняет manifest.json, events.jsonl, tasks.csv, attempts.csv, nodes.csv, metrics.json и снимки input/*. В сравнении — подкаталоги fixed_rr, fixed_ll, adaptive_rr, adaptive_ll и comparison.csv. В серии девяти примеров — runs/000001/... с 36 отдельными запусками и comparison.csv/summary.csv с ID сценария, повтора и числами наблюдений.
 
 Повтор команд в существующий непустой каталог завершается ошибкой. Явный --overwrite готовит результат рядом и после успеха сохраняет прежний каталог в .<name>.previous-N; путь печатается. Входы и рабочий каталог не заменяются. metrics отдельно регенерирует производные отчёты из сохранённого журнала. Подробнее: [cli.md](docs/cli.md).
 
-Небольшие generator.json и experiments.json — демонстрационные конфигурации без утверждения о превосходстве алгоритмов. Полный набор демонстрационных сценариев остаётся этапу 13.
+[Каталог примеров](examples/README.md) включает baseline, crash, blackout, long_blackout, reordered, simultaneous, no_alive, unfinished и generated_recovery. generator.json задаёт диапазоны/потери, generator_recovery.json — контроль с постоянными работой/доставкой и вручную рассчитанным Recovery. Это демонстрационные конфигурации без утверждения о превосходстве алгоритмов. Итоговый независимый аудит и нагрузочная проверка остаются этапу 14.
 
 ## JSON и автономная сборка
 
@@ -138,3 +139,5 @@ cmake -G Ninja -S . -B build/system-json -DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_
 На этапе 11 добавлены `metrics_baseline`, `metrics_recovery`, `metrics_classification`, `metrics_boundaries`, `metrics_retries`, `metrics_journal`, `metrics_files`, `metrics_errors`, `metrics_reproducibility`: всего 66 тестов. Каталоги: `build/stage11-debug`, `build/stage11-release`, `build/stage11-sanitize`. Пример реально сформированных результатов после CTest: `build/stage11-debug/stage11-tests/files/baseline/`; recovery-пример: `build/stage11-debug/stage11-tests/files/run-moved/`. Эти файлы игнорируются Git и не являются исследовательским сравнением. Формулы, API и ограничения — в [journal_metrics.md](docs/journal_metrics.md), команды и результаты — в [stage_11_audit.md](docs/stage_11_audit.md).
 
 На этапе 12 добавлены десять групп commands_* с реальным запуском CLI: всего 76 тестов. Проверенные каталоги: build/stage12-debug, build/stage12-release, build/stage12-sanitize. Python используется только тестовым драйвером без внешних пакетов; BUILD_TESTING=OFF исключает эту зависимость. Самоаудит и выполненные команды: [stage_12_audit.md](docs/stage_12_audit.md).
+
+На этапе 13 добавлены девять групп examples_*: всего 85 тестов. Каталоги: build/stage13-debug, build/stage13-release, build/stage13-sanitize. Они проверяют наблюдаемые последствия всех демонстраций, точные повторы файлов/журналов/метрик, регенерацию контроля и полный batch. Самоаудит: [stage_13_audit.md](docs/stage_13_audit.md).

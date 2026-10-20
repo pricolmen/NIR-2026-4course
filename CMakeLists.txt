@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(telemetry_sim VERSION 0.1.0 LANGUAGES CXX)
-set(TELEMETRY_IMPLEMENTATION_STAGE 12)
+set(TELEMETRY_IMPLEMENTATION_STAGE 13)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Use an out-of-source build: cmake -S . -B build/debug")
@@ -87,6 +87,12 @@ endforeach()
 
 if(BUILD_TESTING)
     find_package(Python3 3.9 REQUIRED COMPONENTS Interpreter)
+    foreach(group IN ITEMS catalog long_blackout reordered simultaneous no_alive unfinished reload generator batch)
+        add_test(NAME examples_${group} COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/example_tests.py"
+            "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" ${group})
+        set_tests_properties(examples_${group} PROPERTIES TIMEOUT 90)
+    endforeach()
+
     foreach(group IN ITEMS parsing validate run compare metrics generate batch overwrite failures determinism)
         add_test(NAME commands_${group} COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/cli_tests.py"
             "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" ${group})

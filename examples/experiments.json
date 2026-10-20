@@ -15,6 +15,36 @@
       "scenario_id": "blackout",
       "repeat_id": "manual_1",
       "scenario": "blackout/scenario.json"
+    },
+    {
+      "scenario_id": "long_blackout",
+      "repeat_id": "manual_1",
+      "scenario": "long_blackout/scenario.json"
+    },
+    {
+      "scenario_id": "reordered",
+      "repeat_id": "manual_1",
+      "scenario": "reordered/scenario.json"
+    },
+    {
+      "scenario_id": "simultaneous",
+      "repeat_id": "manual_1",
+      "scenario": "simultaneous/scenario.json"
+    },
+    {
+      "scenario_id": "no_alive",
+      "repeat_id": "manual_1",
+      "scenario": "no_alive/scenario.json"
+    },
+    {
+      "scenario_id": "unfinished",
+      "repeat_id": "manual_1",
+      "scenario": "unfinished/scenario.json"
+    },
+    {
+      "scenario_id": "generated_recovery",
+      "repeat_id": "seed_1304",
+      "scenario": "generated_recovery/scenario.json"
     }
   ]
 }
