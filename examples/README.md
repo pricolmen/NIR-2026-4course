@@ -16,14 +16,14 @@
 
 ## Запуск и повторное чтение
 
-Из корня проекта после сборки этапа 13:
+Из корня проекта после сборки по [README](../README.md):
 
 ```sh
-./build/stage13-release/telemetry_sim validate --scenario examples/long_blackout/scenario.json
-./build/stage13-release/telemetry_sim compare --scenario examples/long_blackout/scenario.json --out results/stage13-long-blackout
-./build/stage13-release/telemetry_sim compare --scenario examples/reordered/scenario.json --out results/stage13-reordered
-./build/stage13-release/telemetry_sim batch --manifest examples/experiments.json --out results/stage13-suite
-./build/stage13-release/telemetry_sim metrics --run-dir results/stage13-suite/runs/000001/fixed_rr
+./build/final-release/telemetry_sim validate --scenario examples/long_blackout/scenario.json
+./build/final-release/telemetry_sim compare --scenario examples/long_blackout/scenario.json --out results/final-long-blackout
+./build/final-release/telemetry_sim compare --scenario examples/reordered/scenario.json --out results/final-reordered
+./build/final-release/telemetry_sim batch --manifest examples/experiments.json --out results/final-suite
+./build/final-release/telemetry_sim metrics --run-dir results/final-suite/runs/000001/fixed_rr
 ```
 
 [experiments.json](experiments.json) перечисляет все девять сценариев: 36 запусков четырёх вариантов, общий comparison.csv и summary.csv. В серии один технический повтор каждого случая; это не статистическая выборка независимых экспериментов. Корректная незавершённость не останавливает серию. Метки не определяют путь: batch сортирует scenario_id/repeat_id и создаёт runs/000001, ...; соответствие сохраняется в batch_manifest.json.
@@ -33,10 +33,12 @@
 [generator.json](generator.json) задаёт работу/задержки из диапазонов и вероятность потерь. [generator_recovery.json](generator_recovery.json) — контроль с постоянной работой 6, нулевой задержкой и q=0, crash узла 1 в 3 и blackout [1,21), чтобы Detection/Recovery считались вручную.
 
 ```sh
-./build/stage13-release/telemetry_sim generate --config examples/generator_recovery.json --out traces/stage13-recovery
-./build/stage13-release/telemetry_sim compare --scenario traces/stage13-recovery/scenario.json --out results/stage13-generated
+./build/final-release/telemetry_sim generate --config examples/generator_recovery.json --out traces/final-recovery
+./build/final-release/telemetry_sim compare --scenario traces/final-recovery/scenario.json --out results/final-generated
 ```
 
 Сначала записываются JSON/CSV, точная конфигурация и generation_manifest.json, затем run/compare заново читают сохранённые входы. В generated_recovery лежит небольшой готовый снимок этого контроля; его JSON/CSV должны совпадать с повторной генерацией. Константные распределения делают ручные ожидания независимыми от случайных выборов; для произвольных диапазонов один seed не гарантирует побитовой одинаковости стандартных распределений на разных платформах. Метаданные сохраняют фактическую среду.
 
 Девять групп examples_* проверяют каталог, сценарные последствия во всех вариантах, повторное чтение с идентичным журналом/метриками/CSV, независимый пересчёт и регенерацию сохранённого контроля. Команды не перезаписывают непустой результат без --overwrite. Форматы: [CLI](../docs/cli.md), [входы](../docs/scenario_format.md). Проверки: [самоаудит этапа 13](../docs/stage_13_audit.md).
+
+Порядок подготовки независимых повторов и интерпретация сводки: [experiments.md](../docs/experiments.md). Итоговая передача: [этап 15](../docs/stage_15_audit.md).

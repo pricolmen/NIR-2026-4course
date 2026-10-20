@@ -14,7 +14,7 @@ using namespace telemetry;
 namespace fs = std::filesystem;
 constexpr std::string_view usage =
     "Usage: telemetry_sim <command> [options]\n"
-    "Implementation stage 13: CLI, saved runs and four-variant comparisons.\n"
+    "Implementation stage 15: CLI, saved runs and four-variant comparisons.\n"
     "  validate --scenario FILE\n"
     "  run --scenario FILE --detector fixed|adaptive --scheduler rr|ll --out DIR [--overwrite]\n"
     "  compare --scenario FILE --out DIR [--overwrite]\n"

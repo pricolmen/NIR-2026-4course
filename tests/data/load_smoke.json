@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "seed": 140014,
+  "scenario": {
+    "tick_ns": 1000,
+    "horizon_ticks": 8000,
+    "heartbeat_period_ticks": 25,
+    "tau0_ticks": 75,
+    "kappa": 2,
+    "adaptive": {
+      "window": 16,
+      "min_intervals": 4,
+      "c": 3
+    },
+    "nodes": [
+      {
+        "id": 1,
+        "performance_work_per_second": 800000
+      },
+      {
+        "id": 2,
+        "performance_work_per_second": 1000000
+      },
+      {
+        "id": 3,
+        "performance_work_per_second": 1200000
+      },
+      {
+        "id": 4,
+        "performance_work_per_second": 1400000
+      },
+      {
+        "id": 5,
+        "performance_work_per_second": 900000
+      },
+      {
+        "id": 6,
+        "performance_work_per_second": 1100000
+      }
+    ],
+    "crashes": [
+      {
+        "node_id": 1,
+        "at_ticks": 3000
+      }
+    ],
+    "blackouts": [
+      {
+        "node_id": 2,
+        "start_ticks": 2400,
+        "end_ticks": 2700
+      }
+    ],
+    "measurement_windows": [
+      {
+        "start_ticks": 0,
+        "end_ticks": 8000
+      },
+      {
+        "start_ticks": 2000,
+        "end_ticks": 5000
+      }
+    ]
+  },
+  "tasks": {
+    "count": 2000,
+    "first_arrival_ticks": 0,
+    "period_ticks": 2,
+    "work_min": 4,
+    "work_max": 18
+  },
+  "delivery": {
+    "min_delay_ticks": 0,
+    "max_delay_ticks": 6,
+    "loss_probability": 0.01
+  }
+}

@@ -1,143 +1,112 @@
 # Экспериментальный стенд НИР
 
-Текущий этап: 13 — полный набор из восьми предусмотренных демонстрационных случаев и сохранённый контрольный результат генератора. Для каждого случая описаны ручные ожидания, проверены четыре варианта, повторное чтение файлов и пересчёт журнала. Каталог и команды: [examples/README.md](examples/README.md).
+Однопоточный дискретно-событийный симулятор на C++20 для сравнения реконфигурации распределённой обработки задач. Читает сохранённый сценарий и трассу heartbeat, выполняет четыре сочетания `fixed_rr`, `fixed_ll`, `adaptive_rr`, `adaptive_ll`, сохраняет журнал и рассчитывает метрики. Этапы 0–15 завершены; версия программы — 0.1.0, `implementation_stage` — 15.
 
-Правила модели: [контракт](docs/model_contract.md). Численные правила и API: [time.md](docs/time.md). Проверки: [аудит этапа 1](docs/stage_1_audit.md), [аудит этапа 2](docs/stage_2_audit.md), [аудит этапа 3](docs/stage_3_audit.md), [аудит этапа 4](docs/stage_4_audit.md), [аудит этапа 5](docs/stage_5_audit.md), [аудит этапа 6](docs/stage_6_audit.md), [аудит этапа 7](docs/stage_7_audit.md), [аудит этапа 8](docs/stage_8_audit.md), [аудит этапа 9](docs/stage_9_audit.md), [независимый аудит этапа 10](docs/stage_10_audit.md), [самоаудит этапа 11](docs/stage_11_audit.md), [самоаудит этапа 12](docs/stage_12_audit.md), [самоаудит этапа 13](docs/stage_13_audit.md). Формат и загрузка: [scenario_format.md](docs/scenario_format.md). Физическая среда: [physical_environment.md](docs/physical_environment.md). Движок: [event_loop.md](docs/event_loop.md). Реконфигурация: [reconfiguration.md](docs/reconfiguration.md). Детекторы: [detectors.md](docs/detectors.md). Распределение: [scheduling.md](docs/scheduling.md). Логическое состояние: [task_state.md](docs/task_state.md).
+## Сборка на macOS из терминала VS Code
 
-## Сборка из терминала VS Code
+Откройте папку проекта в VS Code и выберите **Terminal → New Terminal**. Все команды ниже выполняются из корня, где находится `CMakeLists.txt`; путь проекта в командах не зашит. Нужны Xcode Command Line Tools с C++20-компилятором, CMake ≥ 3.20, Ninja и Python ≥ 3.9 для тестов. Используются только стандартные модули Python.
 
-Нужны C++20-компилятор, CMake >= 3.20 и средство сборки; для BUILD_TESTING=ON также Python >= 3.9 со стандартной библиотекой; ниже используется Ninja. Текущий путь проекта содержит `NIR-KR`. При пути с двоеточием загрузка через FetchContent требует CMake >= 3.30 и генератора Ninja. Конкретная проверенная среда указана в отчёте аудита. На macOS компилятор предоставляет Xcode Command Line Tools; `cmake` и `ninja` должны быть доступны в `PATH`.
+Проверенная среда: macOS 26.6.2 arm64, Apple Clang 17.0.0, CMake 3.31.6, Ninja 1.11.1, Python 3.14.5. Для ASan+UBSan проверен Homebrew LLVM 23.1.3. Linux/GCC и Windows не проверялись.
 
-После переезда старые каталоги сборки сохраняют прежние абсолютные пути в CMakeCache.txt. Используйте новые каталоги либо повторите конфигурацию с `cmake --fresh` (CMake >= 3.24). Для смены компилятора также используйте отдельный каталог.
-
-Из корня проекта:
+Если инструменты ещё не установлены, Xcode Command Line Tools устанавливаются через `xcode-select --install`; при наличии Homebrew CMake и Ninja — через `brew install cmake ninja`. Проверьте доступность инструментов:
 
 ```sh
-cmake -G Ninja -S . -B build/debug -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
-cmake --build build/debug --parallel
-ctest --test-dir build/debug --output-on-failure
-
-cmake -G Ninja -S . -B build/release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
-cmake --build build/release --parallel
-ctest --test-dir build/release --output-on-failure
-
-./build/release/telemetry_sim --help
-./build/release/telemetry_sim --version
-./build/release/telemetry_sim --build-info
+clang++ --version
+cmake --version
+ninja --version
+python3 --version
 ```
 
-`--build-info` возвращает JSON с версией программы, компилятора, JSON-библиотеки и текущим этапом. Неподдерживаемые команды, лишние аргументы и вызов без аргументов завершаются кодом 2. Ошибка исполнения — кодом 1. Команды моделирования реализованы. --build-info содержит simulation_available=true, платформу и версию стандартной библиотеки.
-
-Для компилятора, поддерживающего запрошенные санитайзеры:
+Первая настройка по умолчанию загружает nlohmann/json 3.12.0 с GitHub. Способ сборки без сети указан ниже. Новые имена каталогов обходят устаревшие CMakeCache после переноса проекта:
 
 ```sh
-cmake -G Ninja -S . -B build/sanitize -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DTELEMETRY_ENABLE_ASAN=ON -DTELEMETRY_ENABLE_UBSAN=ON
-cmake --build build/sanitize --parallel
-ctest --test-dir build/sanitize --output-on-failure
+cmake -G Ninja -S . -B build/final-debug -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
+cmake --build build/final-debug --parallel 4
+ctest --test-dir build/final-debug --output-on-failure
+
+cmake -G Ninja -S . -B build/final-release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+cmake --build build/final-release --parallel 4
+ctest --test-dir build/final-release --output-on-failure
+
+./build/final-release/telemetry_sim --help
+./build/final-release/telemetry_sim --version
+./build/final-release/telemetry_sim --build-info
 ```
 
-Оба санитайзера по умолчанию выключены и включаются отдельно. Конфигурация проверяет компиляцию и линковку с выбранными флагами; неподдерживаемый запрос приводит к явной ошибке. UBSan завершает запуск при обнаружении ошибки. `BUILD_TESTING=OFF` исключает тестовый исполняемый файл из сборки.
+В каждой конфигурации — 86 тестов, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
 
-ASan/UBSan проверены совместно на Homebrew LLVM 23.1.3: весь набор из 85 тестов этапа 13 прошёл, намеренный выход за границу выделенной памяти обнаружен ASan. Установленный Apple Clang из Command Line Tools 26.2 зависает до входа в `main()` даже на минимальной программе. Это согласуется с [известной проблемой старых инструментов на macOS 26](https://developer.apple.com/documentation/xcode-release-notes/xcode-26_4-release-notes). Runtime присутствует; смена пути проекта сама по себе проблему не исправляет.
+После перемещения проекта или смены компилятора выбирайте новый каталог сборки. Для пути с `:` используйте Ninja; загрузка через FetchContent в таком пути требует CMake ≥ 3.30 либо офлайн-подстановки/установленной зависимости.
 
-Проверенная отдельная сборка с LLVM:
+## Первый запуск и сравнение
+
+Используется Release из предыдущего блока. Baseline — два узла, четыре задачи, без нарушений; все времена в файлах — целые микросекундные тики.
 
 ```sh
-cmake -G Ninja -S . -B build/asan-llvm -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DTELEMETRY_ENABLE_ASAN=ON -DTELEMETRY_ENABLE_UBSAN=ON
-cmake --build build/asan-llvm --parallel
-ctest --test-dir build/asan-llvm --output-on-failure
+./build/final-release/telemetry_sim validate --scenario examples/baseline/scenario.json
+./build/final-release/telemetry_sim run --scenario examples/baseline/scenario.json --detector fixed --scheduler rr --out results/final-single
+./build/final-release/telemetry_sim compare --scenario examples/baseline/scenario.json --out results/final-compare
+./build/final-release/telemetry_sim metrics --run-dir results/final-single
 ```
 
-LLVM установлен командой `brew install llvm` и выбирается для этой сборки через `CMAKE_CXX_COMPILER`. Во время проверки CMake 3.31.6 и Ninja 1.11.1 использовались из временных каталогов; команду настройки PATH см. в отчёте аудита. Не подменяйте отдельно dylib старого Apple Clang: проверена согласованная пара нового компилятора и его runtime.
+В `results/final-single/metrics.json` ожидаются `completed=4`, `unfinished=0`, mean latency 4.5 тика, P95 8 тиков и throughput 200000 задач/с в `(0,20]`. Это ручной контроль корректности. В сравнении RR завершает задачи по ID в `[4,2,8,4]`, LL — в `[4,2,6,6]`.
 
-## Запуск CLI
+| Путь внутри каталога запуска | Содержание |
+|---|---|
+| `manifest.json` | Вариант, параметры, среда, статус и контрольные суммы |
+| `input/scenario.json`, `input/delivery.csv` | Точные снимки входов |
+| `events.jsonl` | Канонический журнал с временем, фазой, попыткой и решением |
+| `metrics.json` | Показатели, единицы, размеры выборок и инварианты |
+| `tasks.csv`, `attempts.csv`, `nodes.csv` | Задачи, попытки и классификация узлов |
 
-Команды из корня проекта для проверенной сборки этапа 13:
+В `results/final-compare` находятся четыре каталога вариантов, `comparison.csv` и `comparison_manifest.json`. Каждый вариант получает одни сохранённые входы и отдельное изменяемое состояние. `metrics` читает снимки и журнал, проверяет их и заново пишет производные отчёты без моделирования.
+
+Повторная запись в непустой выходной каталог отклоняется. Для следующего опыта задайте новый `--out` либо явно добавьте `--overwrite`: прежний результат сохраняется в соседнем `.<name>.previous-N`. Код 0 означает успешную команду, 2 — ошибку синтаксиса CLI, 1 — ошибку входа/исполнения/записи. Успешно достигнутый горизонт с незавершёнными задачами допустим; смотрите `unfinished` и причины отсутствующих метрик.
+
+## Генератор и серия примеров
 
 ```sh
-./build/stage13-release/telemetry_sim validate --scenario examples/baseline/scenario.json
-./build/stage13-release/telemetry_sim run --scenario examples/baseline/scenario.json --detector fixed --scheduler rr --out results/stage13-single
-./build/stage13-release/telemetry_sim compare --scenario examples/long_blackout/scenario.json --out results/stage13-long-blackout
-./build/stage13-release/telemetry_sim compare --scenario examples/reordered/scenario.json --out results/stage13-reordered
-./build/stage13-release/telemetry_sim batch --manifest examples/experiments.json --out results/stage13-suite
-./build/stage13-release/telemetry_sim metrics --run-dir results/stage13-suite/runs/000001/fixed_rr
-./build/stage13-release/telemetry_sim generate --config examples/generator_recovery.json --out traces/stage13-recovery
-./build/stage13-release/telemetry_sim compare --scenario traces/stage13-recovery/scenario.json --out results/stage13-generated
+./build/final-release/telemetry_sim generate --config examples/generator_recovery.json --out traces/final-recovery
+./build/final-release/telemetry_sim compare --scenario traces/final-recovery/scenario.json --out results/final-generated
+./build/final-release/telemetry_sim batch --manifest examples/experiments.json --out results/final-suite
+./build/final-release/telemetry_sim metrics --run-dir results/final-suite/runs/000001/fixed_rr
 ```
 
-Один запуск сохраняет manifest.json, events.jsonl, tasks.csv, attempts.csv, nodes.csv, metrics.json и снимки input/*. В сравнении — подкаталоги fixed_rr, fixed_ll, adaptive_rr, adaptive_ll и comparison.csv. В серии девяти примеров — runs/000001/... с 36 отдельными запусками и comparison.csv/summary.csv с ID сценария, повтора и числами наблюдений.
+`generate` сначала материализует JSON/CSV, конфигурацию и `generation_manifest.json`. `compare`/`run` генератор не вызывают. Девять случаев из [каталога примеров](examples/README.md) дают 36 запусков в `results/final-suite/runs/`; `batch_manifest.json` связывает номера каталогов с ID сценариев/повторов. `comparison.csv` хранит отдельные результаты, `summary.csv` — средние по определённым значениям запусков и размеры выборок. Один технический повтор не является статистическим исследованием.
 
-Повтор команд в существующий непустой каталог завершается ошибкой. Явный --overwrite готовит результат рядом и после успеха сохраняет прежний каталог в .<name>.previous-N; путь печатается. Входы и рабочий каталог не заменяются. metrics отдельно регенерирует производные отчёты из сохранённого журнала. Подробнее: [cli.md](docs/cli.md).
+Сценарий — JSON версии 1 с `tick_ns=1000`, параметрами детектора, узлами, задачами, crash/blackout, окнами измерения и путём `delivery_trace`. Путь CSV разрешается относительно JSON. Трасса содержит все потенциальные отправки, включая будущие отправки после crash; пропуски/дубликаты отклоняются. Точная схема: [scenario_format.md](docs/scenario_format.md); готовый минимальный JSON/CSV: [baseline](examples/baseline/README.md). Конфигурация генератора и manifest серии: [cli.md](docs/cli.md).
 
-[Каталог примеров](examples/README.md) включает baseline, crash, blackout, long_blackout, reordered, simultaneous, no_alive, unfinished и generated_recovery. generator.json задаёт диапазоны/потери, generator_recovery.json — контроль с постоянными работой/доставкой и вручную рассчитанным Recovery. Это демонстрационные конфигурации без утверждения о превосходстве алгоритмов. Итоговый независимый аудит и нагрузочная проверка остаются этапу 14.
+## Санитайзеры
 
-## JSON и автономная сборка
+Проверенная для этой macOS пара — Homebrew LLVM и его runtime (`brew install llvm`, если LLVM отсутствует):
 
-По умолчанию FetchContent получает **nlohmann/json 3.12.0** из фиксированного релизного архива, проверяя SHA-256:
+```sh
+cmake -G Ninja -S . -B build/final-sanitize -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++ -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DTELEMETRY_ENABLE_ASAN=ON -DTELEMETRY_ENABLE_UBSAN=ON
+cmake --build build/final-sanitize --parallel 4
+ctest --test-dir build/final-sanitize --output-on-failure
+```
+
+Путь `/opt/homebrew` соответствует проверенному arm64 Homebrew; при другой установке укажите свой `clang++`. Обе опции по умолчанию выключены. Старый Apple Clang из установленных Command Line Tools 26.2 зависал до `main()`; переход на LLVM проверен в [отчёте этапа 1](docs/stage_1_audit.md). Санитайзеры этапа 14 и итоговой передачи: [этап 14](docs/stage_14_audit.md), [этап 15](docs/stage_15_audit.md).
+
+## JSON и сборка без сети
+
+Зависимость закреплена на nlohmann/json **3.12.0**, SHA-256 релизного архива:
 
 ```text
 42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa
 ```
 
-Первая конфигурация требует доступа к GitHub. После загрузки дерево зависимости хранится в каталоге сборки. Сторонние заголовки подключены как системные; предупреждения включены для собственного кода. Собственные алгоритмические цели не получают JSON-зависимость.
+Для уже установленного CMake-пакета ровно этой версии добавьте к настройке `-DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_PREFIX_PATH=/path/to/json/install`. Для распакованных исходников добавьте `-DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/absolute/path/to/extracted/json`. Эти пути заменяются фактическими; офлайн-подстановка обходит загрузку и её проверку SHA-256, поэтому архив нужно проверить до распаковки. Код библиотеки не копируется в исходники проекта.
 
-Для уже установленного CMake-пакета ровно этой версии:
+Например, если проверенная зависимость уже загружена предыдущей сборкой в `build/debug/_deps/nlohmann_json-src`, автономная настройка Debug выглядит так (такую же подстановку добавьте для Release и санитайзеров):
 
 ```sh
-cmake -G Ninja -S . -B build/system-json -DTELEMETRY_USE_SYSTEM_JSON=ON -DCMAKE_PREFIX_PATH=/path/to/json/install
+cmake -G Ninja -S . -B build/final-debug -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON="$PWD/build/debug/_deps/nlohmann_json-src"
 ```
 
-Допускается стандартная офлайн-подстановка FetchContent: `-DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/absolute/path/to/extracted/json`. В этом случае архив должен быть проверен отдельно: подстановка исходников обходит загрузку и её проверку хеша. Обе возможности не требуют копировать библиотеку в исходники проекта.
+## Документация и границы результата
 
-## Сборочные границы
+[Архитектура и таблица «правило → модуль → проверка»](docs/architecture.md), [время и округление](docs/time.md), [порядок воспроизведения экспериментов](docs/experiments.md), [контракт модели](docs/model_contract.md), [CLI](docs/cli.md), [журнал и метрики](docs/journal_metrics.md).
 
-| Цель | Зависимости и текущий статус |
-|---|---|
-| `telemetry_common` / `telemetry::common` | Компилируемая библиотека времени; общие типы, C++20, информация о сборке; без модульных зависимостей |
-| `telemetry_core` / `telemetry::core` | Компилируемые TaskStore, RR/LL, LoadLedger, Dispatcher с совместной реконфигурацией и Detector; только `telemetry_common`, без движка/JSON |
-| `telemetry_engine` / `telemetry::engine` | Компилируемый EventLoop; только `telemetry_common`, без core/JSON |
-| `telemetry_simulation` / `telemetry::simulation` | Компилируемые PhysicalTrace, PhysicalEnvironment, неизменяемый Scenario и Simulation; `telemetry_core`, `telemetry_engine`, без JSON |
-| `telemetry_metrics` / `telemetry::metrics` | Независимый Analyzer и отчёты в памяти; simulation, без JSON |
-| `telemetry_io` / `telemetry::io` | common и metrics (с simulation); приватный JSON; загрузка, журнал, manifest, отчёты, пересчёт, сравнение, генерация и batch |
-| `telemetry_sim` | CLI validate/run/compare/metrics/generate/batch; IO, без JSON include |
-| `telemetry_build_smoke` | Проверка метаданных и точности JSON, только при `BUILD_TESTING=ON` |
-| `telemetry_common_tests` | Три группы проверок времени, чисел и ID; зависит только от common |
-| `telemetry_task_store_tests` | Пять групп логических проверок; зависит только от core |
-| `telemetry_metrics_tests` | Девять групп метрик, журналов, файлов, ошибок и воспроизводимости; IO, без JSON include |
-| `telemetry_integration_tests` | Семь групп сквозного моделирования, границ, изоляции и ошибок; IO и simulation, без JSON |
-| `telemetry_scenario_tests` | Шесть групп входов/ошибок/неизменности/примеров; IO, приватный JSON |
-| `telemetry_physical_tests` | Шесть групп FIFO, crash, канала, ложного исключения, горизонта и неверных входов; зависит от simulation |
-| `telemetry_engine_tests` | Шесть групп очереди, фаз, горизонта, ошибок, лимитов и повторяемости; зависит только от engine |
-| `telemetry_reconfiguration_tests` | Пять групп совместного возврата, результатов, доступности, аудита и неверных входов; зависит только от core |
-| `telemetry_detector_tests` | Шесть групп fixed/adaptive, окна, поколений, границ и неверных входов; зависит только от core |
-| `telemetry_scheduling_tests` | Пять групп RR/LL, нагрузки и интеграции; зависит только от core |
+Все исходные данные малых демонстраций находятся в `examples/`. Каталоги `build/`, `results/`, `traces/` игнорируются Git. Сохраняйте весь каталог запуска вместе с `input/` и журналом, если нужен последующий пересчёт. Метод подсчёта собственного кода и границы поставки указаны в [отчёте передачи](docs/stage_15_audit.md).
 
-Все модульные библиотеки теперь компилируемые; фиктивных `.cpp` и пустых архивов нет. Текущая конфигурация проверяет, что core и engine зависят только от common. Проверки включают явные условия и остаются активны в Release.
-
-`build/`, `results/`, `traces/` игнорируются Git. Исходный план и DOCX не меняются. Сборка и моделирование не должны создавать файлы в каталоге исходников вне выделенных каталогов результатов/сборки.
-
-Справочные первоисточники: [CMake: стандарт и расширения](https://cmake.org/cmake/help/v3.20/manual/cmake-compile-features.7.html), [nlohmann/json: интеграция CMake](https://json.nlohmann.me/integration/cmake/). Семантику модели задаёт контракт и исходный план.
-
-На этапе 2 добавлены группы `common_time`, `common_numeric`, `common_ids`: всего 11 тестов. Проверенные новые каталоги после переезда — `build/stage2-debug`, `build/stage2-release`, `build/stage2-sanitize`; последний использует LLVM и обе опции санитайзеров. Точные команды приведены в отчёте этапа 2.
-
-На этапе 3 добавлены `tasks_queue`, `tasks_results`, `tasks_retries`, `tasks_inputs`, `tasks_audit`: всего 16 тестов. Новые каталоги: `build/stage3-debug`, `build/stage3-release`, `build/stage3-sanitize`. Сборочные команды — в отчёте этапа 3.
-
-На этапе 4 добавлены `scheduling_rr`, `scheduling_ll`, `scheduling_integration`, `scheduling_availability`, `scheduling_numeric`: всего 21 тест. Каталоги проверенных сборок: `build/stage4-debug`, `build/stage4-release`, `build/stage4-sanitize`; команды — в отчёте этапа 4.
-
-На этапе 5 добавлены `detector_fixed`, `detector_adaptive`, `detector_window`, `detector_generations`, `detector_boundaries`, `detector_inputs`: всего 27 тестов. Каталоги проверенных сборок: `build/stage5-debug`, `build/stage5-release`, `build/stage5-sanitize`; команды — в отчёте этапа 5. Детекторы пока проверяются ручными наблюдениями без очереди событий.
-
-На этапе 6 добавлены `reconfiguration_batch`, `reconfiguration_results`, `reconfiguration_availability`, `reconfiguration_audit`, `reconfiguration_inputs`: всего 32 теста. Каталоги: `build/stage6-debug`, `build/stage6-release`, `build/stage6-sanitize`; команды — в отчёте этапа 6. Изменения одной отметки пока объединяет вызывающий код: автоматические фазы и физическая среда ещё не реализованы.
-
-На этапе 7 добавлены `engine_ordering`, `engine_phases`, `engine_horizon`, `engine_failures`, `engine_limits`, `engine_determinism`: всего 38 тестов. Каталоги: `build/stage7-debug`, `build/stage7-release`, `build/stage7-sanitize`; команды — в отчёте этапа 7. В тестах движка используются нейтральные действия; физическая среда и адаптер восьми фаз ещё не реализованы.
-
-На этапе 8 добавлены `physical_fifo`, `physical_crash`, `physical_channel`, `physical_exclusion`, `physical_horizon`, `physical_inputs`: всего 44 теста. Каталоги: `build/stage8-debug`, `build/stage8-release`, `build/stage8-sanitize`; команды — в отчёте этапа 8. Тесты используют трассы в памяти и ручную связку с Dispatcher; полноценный адаптер восьми фаз ещё не реализован.
-
-На этапе 9 добавлены `scenario_valid`, `scenario_json`, `scenario_csv`, `scenario_ranges`, `scenario_immutable`, `scenario_examples`: всего 50 тестов. Каталоги: `build/stage9-debug`, `build/stage9-release`, `build/stage9-sanitize`; команды — в отчёте этапа 9. Библиотечный `load_scenario` читает [baseline](examples/baseline/README.md), [crash](examples/crash/README.md), [blackout](examples/blackout/README.md). Их загрузка проверена; интегрированное моделирование и команды validate/run/compare ещё не реализованы.
-
-На этапе 10 добавлены `integration_baseline`, `integration_crash`, `integration_blackout`, `integration_simultaneous`, `integration_boundaries`, `integration_isolation`, `integration_errors`: всего 57 тестов. Каталоги проверенных сборок: `build/stage10-debug`, `build/stage10-release`, `build/stage10-sanitize`. Библиотечный запуск: [simulation.md](docs/simulation.md). Отчёт включает предусмотренную планом независимую проверку: [stage_10_audit.md](docs/stage_10_audit.md).
-
-На этапе 11 добавлены `metrics_baseline`, `metrics_recovery`, `metrics_classification`, `metrics_boundaries`, `metrics_retries`, `metrics_journal`, `metrics_files`, `metrics_errors`, `metrics_reproducibility`: всего 66 тестов. Каталоги: `build/stage11-debug`, `build/stage11-release`, `build/stage11-sanitize`. Пример реально сформированных результатов после CTest: `build/stage11-debug/stage11-tests/files/baseline/`; recovery-пример: `build/stage11-debug/stage11-tests/files/run-moved/`. Эти файлы игнорируются Git и не являются исследовательским сравнением. Формулы, API и ограничения — в [journal_metrics.md](docs/journal_metrics.md), команды и результаты — в [stage_11_audit.md](docs/stage_11_audit.md).
-
-На этапе 12 добавлены десять групп commands_* с реальным запуском CLI: всего 76 тестов. Проверенные каталоги: build/stage12-debug, build/stage12-release, build/stage12-sanitize. Python используется только тестовым драйвером без внешних пакетов; BUILD_TESTING=OFF исключает эту зависимость. Самоаудит и выполненные команды: [stage_12_audit.md](docs/stage_12_audit.md).
-
-На этапе 13 добавлены девять групп examples_*: всего 85 тестов. Каталоги: build/stage13-debug, build/stage13-release, build/stage13-sanitize. Они проверяют наблюдаемые последствия всех демонстраций, точные повторы файлов/журналов/метрик, регенерацию контроля и полный batch. Самоаудит: [stage_13_audit.md](docs/stage_13_audit.md).
+Полный набор раздела 12 плана, повторы и конечная нагрузка проверены на этапе 14; независимый проверяющий GPT-6.1 Sol / High подтверждённых дефектов не обнаружил. Итоговая передача проверена отдельно на этапе 15. Побитовая одинаковость вещественных вычислений и случайных распределений между платформами не обещается. Демонстрационные результаты и нагрузочный smoke не доказывают научного превосходства алгоритмов. Разработка GUI, настоящей сети/кластера и написание главы 3 НИР в выполненный объём не входят.
