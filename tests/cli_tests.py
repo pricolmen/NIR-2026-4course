@@ -105,22 +105,29 @@ def validate():
 
 def single_run():
     unusual = DATA / "результат с пробелом ' $ `"
-    run(unusual)
+    console = run(unusual).stdout
+    require('Узлов: 2; задач: 4; горизонт: 20 мкс' in console, 'Missing scenario configuration')
+    require('H (период heartbeat): 10' in console and 'M (размер окна)=3' in console, 'Missing detector parameters')
+    require('Результаты: fixed_rr' in console and 'среднее=4.5, P95=8; выборка=4' in console, 'Console metrics differ from baseline')
+    require('Настоящих отказов не было' in console and 'нет данных; наблюдений=0' in console, 'Missing absent detection explanation')
     require(read(unusual/'manifest.json')['status'] == 'complete', 'Run incomplete')
     metrics = read(unusual/'metrics.json')
     require(metrics['completed'] == 4 and metrics['mean_latency']['value_ticks'] == 4.5, 'Manual baseline')
     require(metrics['p95_latency']['value_ticks'] == 8 and metrics['throughput_windows'][0]['tasks_per_second'] == 200000, 'Manual P95/throughput')
     old = snapshot(unusual)
-    run(unusual, code=1)
+    require('Результаты:' not in run(unusual, code=1).stdout, 'Failed run printed successful results')
     require(snapshot(unusual) == old, 'Refused run changed output')
     unfinished = fixture('unfinished', lambda value: value.update(tasks=[{'id': 1, 'arrival_ticks': 20, 'work': 100}]))
-    run(DATA/'unfinished-run', unfinished)
+    console = run(DATA/'unfinished-run', unfinished).stdout
+    require('на горизонте остались задачи' in console, 'Incomplete run needs explanation')
     require(read(DATA/'unfinished-run/metrics.json')['unfinished'] == 1, 'Incomplete task is a valid run')
 
 
 def compare():
     out = DATA/'comparison'
-    call('compare', '--scenario', source(), '--out', out)
+    console = call('compare', '--scenario', source(), '--out', out).stdout
+    require(all('Результаты: '+v in console for v in VARIANTS), 'Missing comparison variants')
+    require('Минимальный P95 на этом входе: 6 мкс; варианты: fixed_ll adaptive_ll.' in console, 'P95 ties not reported correctly')
     rows = table(out/'comparison.csv')
     require([r['variant'] for r in rows] == VARIANTS, 'Variant order')
     require([r['p95_latency_ticks'] for r in rows] == ['8', '6', '8', '6'], 'Manual RR/LL differences')
@@ -136,7 +143,8 @@ def compare():
     call('compare', '--scenario', multi, '--out', DATA/'multi-out')
     require(len(table(DATA/'multi-out/comparison.csv')) == 8, 'Lost throughput windows')
     empty = fixture('empty', lambda v: v.update(tasks=[], measurement_windows=[]))
-    call('compare', '--scenario', empty, '--out', DATA/'empty-out')
+    console = call('compare', '--scenario', empty, '--out', DATA/'empty-out').stdout
+    require('задач не поступало' in console and 'Общий минимум задержки не выделяется' in console, 'Empty sample must not have a winner')
     for row in table(DATA/'empty-out/comparison.csv'):
         require(row['mean_latency_ticks'] == '' and row['latency_reason'] == 'empty_sample' and row['throughput_reason'] == 'no_measurement_window', 'Null reasons')
 
@@ -217,7 +225,9 @@ def batch():
         {'scenario_id': label, 'repeat_id': 'b', 'scenario': str(second.relative_to(DATA))},
         {'scenario_id': label, 'repeat_id': 'a', 'scenario': str(first.relative_to(DATA))}]})
     out = DATA/'batch'
-    call('batch', '--manifest', manifest, '--out', out, cwd=SOURCE)
+    console = call('batch', '--manifest', manifest, '--out', out, cwd=SOURCE).stdout
+    require('Серия экспериментов: 2 опытов' in console and console.count('Конфигурация эксперимента') == 2, 'Batch lost per-experiment configuration')
+    require(console.count('Результаты: fixed_rr') == 2, 'Batch lost per-run results')
     rows = table(out/'comparison.csv')
     require(len(rows) == 8 and all(r['scenario_id'] == label for r in rows), 'Labels/CSV quoting')
     for row in table(out/'summary.csv'):

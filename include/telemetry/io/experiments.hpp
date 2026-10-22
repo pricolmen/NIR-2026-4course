@@ -25,5 +25,10 @@ struct BatchEntry {
 // Validates all referenced inputs before a batch starts; relative paths use
 // the manifest directory. IDs are labels, never filesystem path components.
 [[nodiscard]] std::vector<BatchEntry> load_batch(const std::filesystem::path& manifest);
-void write_batch(const std::vector<BatchEntry>& entries,const std::filesystem::path& output_directory);
+struct BatchReport {
+    BatchEntry entry;
+    std::filesystem::path output;  // Relative to the batch directory.
+    Comparison summaries;
+};
+[[nodiscard]] std::vector<BatchReport> write_batch(const std::vector<BatchEntry>& entries,const std::filesystem::path& output_directory);
 }  // namespace telemetry::io

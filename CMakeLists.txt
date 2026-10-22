@@ -68,7 +68,7 @@ target_link_libraries(telemetry_io PUBLIC telemetry_common telemetry_metrics)
 telemetry_use_json(telemetry_io)
 telemetry_configure_target(telemetry_io)
 
-add_executable(telemetry_sim app/main.cpp)
+add_executable(telemetry_sim app/main.cpp app/console_report.cpp)
 target_link_libraries(telemetry_sim PRIVATE telemetry_io)
 telemetry_configure_target(telemetry_sim)
 

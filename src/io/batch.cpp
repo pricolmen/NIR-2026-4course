@@ -46,14 +46,16 @@ std::vector<BatchEntry> load_batch(const fs::path& requested) {
     } catch (const InputError&) { throw; }
     catch (const std::exception& error) { throw InputError(file,"$",error.what()); }
 }
-void write_batch(const std::vector<BatchEntry>& entries,const fs::path& dir) {
+std::vector<BatchReport> write_batch(const std::vector<BatchEntry>& entries,const fs::path& dir) {
     require(!entries.empty() && (!fs::exists(dir) || (fs::is_directory(dir) && fs::is_empty(dir)))); fs::create_directories(dir);
     Json manifest{{"schema_version",1},{"status","incomplete"},{"runs",Json::array()}}; save(dir/"batch_manifest.json",manifest);
     auto comparison = output(dir/"comparison.csv"); comparison_header(comparison); std::map<Key,Aggregate> aggregates;
+    std::vector<BatchReport> completed;
     std::uint64_t ordinal = 0;
     for (const auto& entry : entries) {
         ordinal = checked_increment(ordinal); std::ostringstream number; number << std::setfill('0') << std::setw(6) << ordinal;
         const auto relative = fs::path{"runs"}/number.str(); const auto reports = write_comparison(entry.scenario_file,dir/relative);
+        completed.push_back({entry,relative,reports});
         manifest["runs"].push_back({{"scenario_id",entry.scenario_id},{"repeat_id",entry.repeat_id},{"scenario",entry.scenario_file.string()},{"output",relative.generic_string()}});
         for (std::size_t i = 0; i < reports.size(); ++i) {
             const auto& s = reports[i]; comparison_rows(comparison,s,variants[i],entry.scenario_id,entry.repeat_id);
@@ -84,5 +86,6 @@ void write_batch(const std::vector<BatchEntry>& entries,const fs::path& dir) {
         csv(summary,row);
     }
     close(summary); manifest["status"] = "complete"; save(dir/"batch_manifest.json",manifest);
+    return completed;
 }
 }  // namespace telemetry::io

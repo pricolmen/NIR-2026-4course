@@ -1,3 +1,4 @@
+#include "console_report.hpp"
 #include "telemetry/common/build_config.hpp"
 #include "telemetry/io/build_info.hpp"
 #include "telemetry/io/experiments.hpp"
@@ -5,8 +6,10 @@
 
 #include <exception>
 #include <iostream>
+#include <iomanip>
 #include <map>
 #include <set>
+#include <sstream>
 #include <string_view>
 
 namespace {
@@ -75,9 +78,18 @@ void command(int argc,char** argv) {
         const auto selected = name == "run" ? variant(options) : simulation::Variant::fixed_rr;
         const auto loaded = io::load_scenario(options.at("--scenario"));
         io::OutputDirectory output{options.at("--out"),options.overwrite,{loaded.scenario_file,loaded.delivery_file}};
-        if (name == "run") { static_cast<void>(io::write_run(loaded.scenario_file,selected,output.workspace())); }
-        else { static_cast<void>(io::write_comparison(loaded.scenario_file,output.workspace())); }
-        publish(output,options.at("--out"));
+        std::ostringstream report;
+        if (name == "run") {
+            const auto analysis = io::write_run(loaded.scenario_file,selected,output.workspace());
+            const auto snapshot = io::load_scenario(output.workspace()/"input/scenario.json",output.workspace()/"input/delivery.csv");
+            console::configuration(report,*snapshot.scenario);
+            console::result(report,console::variant_name(selected),analysis.summary);
+        } else {
+            const auto summaries = io::write_comparison(loaded.scenario_file,output.workspace());
+            const auto snapshot = io::load_scenario(output.workspace()/"input/scenario.json",output.workspace()/"input/delivery.csv");
+            console::configuration(report,*snapshot.scenario); console::comparison(report,summaries);
+        }
+        publish(output,options.at("--out")); std::cout << report.str();
     } else if (name == "generate") {
         const auto options = parse(argc,argv,{"--config","--out"},true); const auto plan = io::load_generation_plan(options.at("--config"));
         io::OutputDirectory output{options.at("--out"),options.overwrite,{plan.source}};
@@ -87,7 +99,15 @@ void command(int argc,char** argv) {
         std::vector<fs::path> inputs{options.at("--manifest")};
         for (const auto& entry : entries) { inputs.push_back(entry.scenario_file); inputs.push_back(entry.delivery_file); }
         io::OutputDirectory output{options.at("--out"),options.overwrite,inputs};
-        io::write_batch(entries,output.workspace()); publish(output,options.at("--out"));
+        const auto reports = io::write_batch(entries,output.workspace());
+        std::ostringstream text; text << "\nСерия экспериментов: " << reports.size() << " опытов, по 4 варианта на опыт.\n";
+        for (const auto& report : reports) {
+            text << "\nСценарий: " << std::quoted(report.entry.scenario_id) << "; повтор: " << std::quoted(report.entry.repeat_id)
+                << "; каталог: " << report.output.generic_string() << '\n';
+            const auto snapshot = io::load_scenario(output.workspace()/report.output/"input/scenario.json",output.workspace()/report.output/"input/delivery.csv");
+            console::configuration(text,*snapshot.scenario); console::comparison(text,report.summaries);
+        }
+        publish(output,options.at("--out")); std::cout << text.str();
     }
 }
 }
