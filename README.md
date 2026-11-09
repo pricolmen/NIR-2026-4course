@@ -33,7 +33,7 @@ ctest --test-dir build/final-release --output-on-failure
 ./build/final-release/telemetry_sim --build-info
 ```
 
-В каждой конфигурации — 91 тест, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
+В каждой конфигурации — 92 теста, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
 
 После перемещения проекта или смены компилятора выбирайте новый каталог сборки. Для пути с `:` используйте Ninja; загрузка через FetchContent в таком пути требует CMake ≥ 3.30 либо офлайн-подстановки/установленной зависимости.
 
@@ -127,6 +127,16 @@ python3 tools/run_coefficient_series.py --plan experiments/coefficient_stage5/pl
 ```
 
 Сначала соберите программу в build/experiment-stage5-release либо укажите свою через --program. Выходной каталог должен быть новым. Коэффициент c умножает выборочное стандартное отклонение при расчёте адаптивных порогов после прогрева. Формулы и прежние серии сохраняются.
+
+## Исследование размера окна M
+
+Этап 6 меняет только adaptive.window на сохранённых задачах и трассах этапа 2. Минимум для прогрева min_intervals=2, T₀=20 мс, κ=2 и c=2 сохраняются. [План и инструкция](experiments/window_stage6/README.md), [аудит](docs/experiment_stage_6_audit.md).
+
+```sh
+python3 tools/run_window_series.py --plan experiments/window_stage6/plan.json --source-network results/experiment-stage2-network --program ./build/experiment-stage6-release/telemetry_sim --out results/experiment-stage6-window
+```
+
+Сначала соберите программу в build/experiment-stage6-release либо укажите свою через --program. Выход должен быть новым. M ограничивает число последних интервалов в истории, а не число интервалов до прогрева; fixed остаётся неизменным контролем. Формулы и прежние серии сохраняются.
 
 ## Санитайзеры
 
