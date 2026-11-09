@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "seeds": [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010],
+  "kappa": [1.25, 1.5, 2, 3, 4],
+  "source_cases": [
+    "healthy_j0_q0", "healthy_j5000_q1", "healthy_j10000_q2",
+    "crash_j0_q0", "crash_j5000_q1", "crash_j10000_q2"
+  ]
+}

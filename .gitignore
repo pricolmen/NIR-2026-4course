@@ -53,3 +53,12 @@
 
 !experiments/network_stage2/README.md
 !docs/experiment_stage_2_audit.md
+
+!experiments/timeout_stage3/README.md
+!docs/experiment_stage_3_audit.md
+
+!experiments/kappa_stage4/README.md
+!docs/experiment_stage_4_audit.md
+
+!experiments/coefficient_stage5/README.md
+!docs/experiment_stage_5_audit.md

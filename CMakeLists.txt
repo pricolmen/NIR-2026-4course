@@ -87,6 +87,18 @@ endforeach()
 
 if(BUILD_TESTING)
     find_package(Python3 3.9 REQUIRED COMPONENTS Interpreter)
+    add_test(NAME coefficient_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/coefficient_series_tests.py"
+        "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    set_tests_properties(coefficient_series PROPERTIES TIMEOUT 120)
+
+    add_test(NAME kappa_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/kappa_series_tests.py"
+        "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    set_tests_properties(kappa_series PROPERTIES TIMEOUT 120)
+
+    add_test(NAME timeout_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/timeout_series_tests.py"
+        "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    set_tests_properties(timeout_series PROPERTIES TIMEOUT 120)
+
     add_test(NAME network_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/network_series_tests.py"
         "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
     set_tests_properties(network_series PROPERTIES TIMEOUT 120)

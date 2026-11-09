@@ -33,7 +33,7 @@ ctest --test-dir build/final-release --output-on-failure
 ./build/final-release/telemetry_sim --build-info
 ```
 
-В каждой конфигурации — 88 тестов, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
+В каждой конфигурации — 91 тест, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
 
 После перемещения проекта или смены компилятора выбирайте новый каталог сборки. Для пути с `:` используйте Ninja; загрузка через FetchContent в таком пути требует CMake ≥ 3.30 либо офлайн-подстановки/установленной зависимости.
 
@@ -97,6 +97,36 @@ python3 tools/run_network_series.py --plan experiments/network_stage2/plan.json 
 ```
 
 Программа предварительно собирается в build/experiment-stage2-release обычными командами CMake (см. инструкцию серии); --program можно заменить путём своей сборки. Фиксированы узлы, поток и параметры детекторов. Изменяются симметричный разброс задержки при заданном среднем 10 мс и вероятность потери. Сохранены все реализации; native summary объединяется без нового расчёта метрик. Старые серии не перезаписываются.
+
+## Исследование начального тайм-аута fixed
+
+Этап 3 использует сохранённые входы этапа 2 без generate. [План и ограничения](experiments/timeout_stage3/README.md), [отчёт](docs/experiment_stage_3_audit.md).
+
+```sh
+python3 tools/run_timeout_series.py --plan experiments/timeout_stage3/plan.json --source-network results/experiment-stage2-network --program ./build/experiment-stage3-release/telemetry_sim --out results/experiment-stage3-timeout
+```
+
+Перед запуском соберите программу в build/experiment-stage3-release обычными командами CMake, либо укажите свою сборку через --program. Меняется только tau0; задачи и delivery.csv сохраняются. Основные выводы — по fixed RR/LL. В существующем формате tau0 задаёт также стартовые пороги adaptive, поэтому сопровождающие adaptive-запуски не считаются неизменным контролем. Исходная сетевая серия должна быть доступна; новый выходной каталог не перезаписывается.
+
+## Исследование коэффициента κ
+
+Этап 4 меняет только kappa на сохранённых задачах и трассах этапа 2. Исследуются fixed/adaptive и RR/LL при исходном T₀=20 мс. [План и инструкция](experiments/kappa_stage4/README.md), [аудит](docs/experiment_stage_4_audit.md).
+
+```sh
+python3 tools/run_kappa_series.py --plan experiments/kappa_stage4/plan.json --source-network results/experiment-stage2-network --program ./build/experiment-stage4-release/telemetry_sim --out results/experiment-stage4-kappa
+```
+
+Предварительно соберите программу в build/experiment-stage4-release либо укажите свою через --program. Выходной каталог должен быть новым. Формула SUSPECT не меняется; κ масштабирует raw-порог FAILED у обоих детекторов, включая прогрев adaptive. Прежние серии не перезаписываются.
+
+## Исследование коэффициента c адаптивного детектора
+
+Этап 5 меняет только adaptive.c на сохранённых задачах и трассах этапа 2. T₀=20 мс, κ=2 и M=3 сохраняются. Fixed служит неизменным контролем, c=2 — контролем исходных результатов. [План и инструкция](experiments/coefficient_stage5/README.md), [аудит](docs/experiment_stage_5_audit.md).
+
+```sh
+python3 tools/run_coefficient_series.py --plan experiments/coefficient_stage5/plan.json --source-network results/experiment-stage2-network --program ./build/experiment-stage5-release/telemetry_sim --out results/experiment-stage5-coefficient
+```
+
+Сначала соберите программу в build/experiment-stage5-release либо укажите свою через --program. Выходной каталог должен быть новым. Коэффициент c умножает выборочное стандартное отклонение при расчёте адаптивных порогов после прогрева. Формулы и прежние серии сохраняются.
 
 ## Санитайзеры
 
