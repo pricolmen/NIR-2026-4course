@@ -87,6 +87,14 @@ endforeach()
 
 if(BUILD_TESTING)
     find_package(Python3 3.9 REQUIRED COMPONENTS Interpreter)
+    add_test(NAME network_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/network_series_tests.py"
+        "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    set_tests_properties(network_series PROPERTIES TIMEOUT 120)
+
+    add_test(NAME seed_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/seed_series_tests.py"
+        "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    set_tests_properties(seed_series PROPERTIES TIMEOUT 90)
+
     add_test(NAME final_load_smoke COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/final_verification.py"
         "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
     set_tests_properties(final_load_smoke PROPERTIES TIMEOUT 180)

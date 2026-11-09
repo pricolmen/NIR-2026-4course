@@ -33,7 +33,7 @@ ctest --test-dir build/final-release --output-on-failure
 ./build/final-release/telemetry_sim --build-info
 ```
 
-В каждой конфигурации — 86 тестов, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
+В каждой конфигурации — 88 тестов, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
 
 После перемещения проекта или смены компилятора выбирайте новый каталог сборки. Для пути с `:` используйте Ninja; загрузка через FetchContent в таком пути требует CMake ≥ 3.30 либо офлайн-подстановки/установленной зависимости.
 
@@ -76,6 +76,27 @@ ctest --test-dir build/final-release --output-on-failure
 `generate` сначала материализует JSON/CSV, конфигурацию и `generation_manifest.json`. `compare`/`run` генератор не вызывают. Девять случаев из [каталога примеров](examples/README.md) дают 36 запусков в `results/final-suite/runs/`; `batch_manifest.json` связывает номера каталогов с ID сценариев/повторов. `comparison.csv` хранит отдельные результаты, `summary.csv` — средние по определённым значениям запусков и размеры выборок. Один технический повтор не является статистическим исследованием.
 
 Исходный сценарий должен содержать минимум один узел; поток задач может быть пустым. Сценарий — JSON версии 1 с `tick_ns=1000`, параметрами детектора, узлами, задачами, crash/blackout, окнами измерения и путём `delivery_trace`. Путь CSV разрешается относительно JSON. Трасса содержит все потенциальные отправки, включая будущие отправки после crash; пропуски/дубликаты отклоняются. Точная схема: [scenario_format.md](docs/scenario_format.md); готовый минимальный JSON/CSV: [baseline](examples/baseline/README.md). Конфигурация генератора и manifest серии: [cli.md](docs/cli.md).
+
+## Серии на нескольких seed
+
+Для новой очереди экспериментальных этапов подготовлена обёртка над существующими generate и batch. Пробный запуск использует два seed и уже имеющийся случайный шаблон:
+
+```sh
+python3 tools/run_seed_series.py --template examples/generator.json --seeds 101 202 --program ./build/experiment-stage1-release/telemetry_sim --out results/experiment-stage1-seeds
+python3 tools/run_seed_series.py --reuse-series results/experiment-stage1-seeds --program ./build/experiment-stage1-release/telemetry_sim --out results/experiment-stage1-replay
+```
+
+Перед этими командами соберите программу в build/experiment-stage1-release по инструкции в [seed_series.md](docs/seed_series.md), либо укажите свой собранный telemetry_sim через --program. Первый вызов генерирует отдельные сохранённые реализации; второй заново исполняет те же входы без генерации и не добавляет независимых наблюдений. series_manifest.json связывает seed, хеши входов, команды и реальные каталоги batch. Скрипт отказывается перезаписывать существующий --out. [Отчёт этапа 1](docs/experiment_stage_1_audit.md) относится к организации серии; исследования сети/параметров и статистическая обработка выполняются отдельными этапами.
+
+## Исследование jitter и потерь heartbeat
+
+Этап 2 новой экспериментальной очереди: [план и условия](experiments/network_stage2/README.md), [проверка и результаты](docs/experiment_stage_2_audit.md). Запуск использует обёртку этапа 1 и существующие generate/batch:
+
+```sh
+python3 tools/run_network_series.py --plan experiments/network_stage2/plan.json --program ./build/experiment-stage2-release/telemetry_sim --out results/experiment-stage2-network
+```
+
+Программа предварительно собирается в build/experiment-stage2-release обычными командами CMake (см. инструкцию серии); --program можно заменить путём своей сборки. Фиксированы узлы, поток и параметры детекторов. Изменяются симметричный разброс задержки при заданном среднем 10 мс и вероятность потери. Сохранены все реализации; native summary объединяется без нового расчёта метрик. Старые серии не перезаписываются.
 
 ## Санитайзеры
 
