@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "variant_runs": 7448,
+  "studies": [
+    {"id":"seeds", "kind":"seeds", "directory":"experiment-stage1-seeds", "cases":1, "variant_runs":8},
+    {"id":"network", "kind":"network", "directory":"experiment-stage2-network", "plan":"experiments/network_stage2/plan.json", "cases":18, "variant_runs":720},
+    {"id":"timeout", "kind":"timeout", "directory":"experiment-stage3-timeout", "plan":"experiments/timeout_stage3/plan.json", "cases":30, "variant_runs":1200},
+    {"id":"kappa", "kind":"kappa", "directory":"experiment-stage4-kappa", "plan":"experiments/kappa_stage4/plan.json", "cases":30, "variant_runs":1200},
+    {"id":"coefficient", "kind":"coefficient", "directory":"experiment-stage5-coefficient", "plan":"experiments/coefficient_stage5/plan.json", "cases":36, "variant_runs":1440},
+    {"id":"window", "kind":"window", "directory":"experiment-stage6-window", "plan":"experiments/window_stage6/plan.json", "cases":30, "variant_runs":1200},
+    {"id":"load", "kind":"load", "directory":"experiment-stage7-load", "plan":"experiments/load_stage7/plan.json", "cases":36, "variant_runs":1440},
+    {"id":"statistics", "kind":"statistics", "directory":"experiment-stage8-statistics", "plan":"experiments/statistics_stage8/plan.json", "cases":180, "variant_runs":0, "figures":34},
+    {"id":"boundary", "kind":"boundary", "directory":"experiment-stage9-boundary", "plan":"experiments/boundary_stage9/plan.json", "cases":60, "variant_runs":240}
+  ]
+}

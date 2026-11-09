@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "heartbeat_period_ticks": 10000,
+  "offsets_ticks": [
+    -1,
+    0,
+    1
+  ],
+  "sigma_coefficients": [
+    0,
+    2,
+    4
+  ],
+  "sigma_windows": [
+    2,
+    3,
+    10
+  ],
+  "families": [
+    "initial_boundaries",
+    "warmed_boundaries",
+    "reordered_boundary",
+    "regular_sigma_zero",
+    "zero_intervals",
+    "sigma_zero_gap",
+    "horizon_boundary",
+    "rounded_boundary"
+  ]
+}

@@ -12,6 +12,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CTest)
 
+option(TELEMETRY_ENABLE_STATISTICS_TESTS "Enable optional NumPy/Matplotlib statistics tests" OFF)
+
 option(TELEMETRY_ENABLE_ASAN "Enable AddressSanitizer for project targets" OFF)
 option(TELEMETRY_ENABLE_UBSAN "Enable UndefinedBehaviorSanitizer for project targets" OFF)
 option(TELEMETRY_USE_SYSTEM_JSON "Require installed nlohmann_json 3.12.0" OFF)
@@ -87,6 +89,23 @@ endforeach()
 
 if(BUILD_TESTING)
     find_package(Python3 3.9 REQUIRED COMPONENTS Interpreter)
+    add_test(NAME experiment_verification COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/experiment_verification_tests.py")
+    set_tests_properties(experiment_verification PROPERTIES TIMEOUT 30)
+    if(TELEMETRY_ENABLE_STATISTICS_TESTS)
+        execute_process(COMMAND "${Python3_EXECUTABLE}" -c "import numpy, matplotlib, PIL"
+            RESULT_VARIABLE statistics_import_status OUTPUT_QUIET ERROR_QUIET)
+        if(NOT statistics_import_status EQUAL 0)
+            message(FATAL_ERROR "Statistics tests require tools/requirements-statistics.txt; select its venv with Python3_EXECUTABLE")
+        endif()
+        add_test(NAME statistics_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/statistics_tests.py"
+            "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+        set_tests_properties(statistics_series PROPERTIES TIMEOUT 180)
+    endif()
+
+    add_test(NAME boundary_study COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/boundary_study_tests.py"
+        "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
+    set_tests_properties(boundary_study PROPERTIES TIMEOUT 120)
+
     add_test(NAME load_series COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/load_series_tests.py"
         "$<TARGET_FILE:telemetry_sim>" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}")
     set_tests_properties(load_series PROPERTIES TIMEOUT 120)

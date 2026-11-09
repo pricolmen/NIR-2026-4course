@@ -1,12 +1,12 @@
 # Экспериментальный стенд НИР
 
-Однопоточный дискретно-событийный симулятор на C++20 для сравнения реконфигурации распределённой обработки задач. Читает сохранённый сценарий и трассу heartbeat, выполняет четыре сочетания `fixed_rr`, `fixed_ll`, `adaptive_rr`, `adaptive_ll`, сохраняет журнал и рассчитывает метрики. Этапы 0–15 завершены; версия программы — 0.1.0, `implementation_stage` — 15.
+Однопоточный дискретно-событийный симулятор на C++20 для сравнения реконфигурации распределённой обработки задач. Читает сохранённый сценарий и трассу heartbeat, выполняет четыре сочетания `fixed_rr`, `fixed_ll`, `adaptive_rr`, `adaptive_ll`, сохраняет журнал и рассчитывает метрики. Этапы реализации 0–15 и новая очередь экспериментов 1–10 завершены; версия программы — 0.1.0, `implementation_stage` — 15.
 
 ## Сборка на macOS из терминала VS Code
 
-Откройте папку проекта в VS Code и выберите **Terminal → New Terminal**. Все команды ниже выполняются из корня, где находится `CMakeLists.txt`; путь проекта в командах не зашит. Нужны Xcode Command Line Tools с C++20-компилятором, CMake ≥ 3.20, Ninja и Python ≥ 3.9 для тестов. Используются только стандартные модули Python.
+Откройте папку проекта в VS Code и выберите **Terminal → New Terminal**. Все команды ниже выполняются из корня, где находится `CMakeLists.txt`; путь проекта в командах не зашит. Нужны Xcode Command Line Tools с C++20-компилятором, CMake ≥ 3.20, Ninja и Python ≥ 3.9 для тестов. Основные тесты используют стандартные модули Python. Для статистической обработки и её дополнительных тестов нужны зависимости tools/requirements-statistics.txt.
 
-Проверенная среда: macOS 26.6.2 arm64, Apple Clang 17.0.0, CMake 3.31.6, Ninja 1.11.1, Python 3.14.5. Для ASan+UBSan проверен Homebrew LLVM 23.1.3. Linux/GCC и Windows не проверялись.
+Проверенная среда: macOS 26.6.2 arm64, Apple Clang 17.0.0, CMake 4.4.4, Ninja 1.13.2, Python 3.14.5. Для ASan+UBSan проверен Homebrew LLVM 23.1.3. Linux/GCC и Windows не проверялись.
 
 Если инструменты ещё не установлены, Xcode Command Line Tools устанавливаются через `xcode-select --install`; при наличии Homebrew CMake и Ninja — через `brew install cmake ninja`. Проверьте доступность инструментов:
 
@@ -33,7 +33,7 @@ ctest --test-dir build/final-release --output-on-failure
 ./build/final-release/telemetry_sim --build-info
 ```
 
-В каждой конфигурации — 93 теста, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
+В каждой обычной конфигурации — 95 тестов, включая конечную нагрузочную проверку. Проверки действуют и с `NDEBUG`. `--build-info` выводит версию, текущий этап, платформу, компилятор, стандартную библиотеку и версию JSON. `BUILD_TESTING=OFF` исключает все тестовые цели и зависимость от Python.
 
 После перемещения проекта или смены компилятора выбирайте новый каталог сборки. Для пути с `:` используйте Ninja; загрузка через FetchContent в таком пути требует CMake ≥ 3.30 либо офлайн-подстановки/установленной зависимости.
 
@@ -147,6 +147,38 @@ python3 tools/run_load_series.py --plan experiments/load_stage7/plan.json --prog
 ```
 
 Сначала соберите программу в build/experiment-stage7-release либо укажите свою через --program. Генерация новых входов четырёх узлов выполняется существующим CLI. Проверяются одинаковые работы задач и трассы при смене интенсивности, производительности и режима отказа. Выход должен быть новым; прежние серии сохраняются.
+
+## Статистическая сводка и графики
+
+Этап 8 читает основные результаты этапов 2–7 без новых моделирований: сводки по seed, парные различия и 95%-ные bootstrap-интервалы, графики PNG/SVG. [Методика](docs/statistics.md), [запуск](experiments/statistics_stage8/README.md), [аудит](docs/experiment_stage_8_audit.md).
+
+```sh
+python3 -m venv build/statistics-venv
+./build/statistics-venv/bin/python -m pip install -r tools/requirements-statistics.txt
+./build/statistics-venv/bin/python tools/run_statistics.py --plan experiments/statistics_stage8/plan.json --results-root results --out results/experiment-stage8-statistics
+```
+
+Технические повторы и демонстрации исключены; условия не объединяются в искусственно большую независимую выборку. Пропуски Detection/Recovery не заменяются нулём. Зависимости NumPy/Matplotlib относятся только к анализу. Обычный набор содержит 95 CTest; `-DTELEMETRY_ENABLE_STATISTICS_TESTS=ON` и `-DPython3_EXECUTABLE="$PWD/build/statistics-venv/bin/python"` добавляют группу статистических тестов (всего 96).
+
+## Границы heartbeat и σ = 0
+
+Этап 9 проверяет S/F±1 микросекундный тик, равенство доставки/таймера, устаревшие сообщения, прогрев, σ=0, округление F и включённый горизонт. [План и запуск](experiments/boundary_stage9/README.md), [аудит](docs/experiment_stage_9_audit.md).
+
+```sh
+python3 tools/run_boundary_study.py --plan experiments/boundary_stage9/plan.json --program ./build/experiment-stage9-release/telemetry_sim --out results/experiment-stage9-boundary
+```
+
+Используются явные детерминированные scenario.json/delivery.csv и прежние validate/batch. Это семантические проверки, не новые независимые seed-повторы. Бинарник предварительно собирается либо указывается через --program; выход должен быть новым. Формулы и прежние серии сохраняются.
+
+## Итоговая проверка экспериментальной очереди
+
+Конфигурации, входы и содержательные результаты этапов 1–9 закреплены SHA-256 в experiments/final_stage10/lock.json. [Полная инструкция](experiments/final_stage10/README.md), [итоговый аудит](docs/experiment_stage_10_audit.md). Все 7448 выполнений заново воспроизведены свежим Release; обычные и дополнительные тесты проверены в Debug, Release и ASan+UBSan.
+
+```sh
+./build/statistics-venv/bin/python tools/verify_experiments.py --results-root results --program ./build/experiment-stage10-release/telemetry_sim --reproduce --replay-metrics --out results/my-final-check
+```
+
+Предварительно соберите бинарник и установите статистическое окружение по инструкции. Нужны исходные основные серии этапов 1–9; старые результаты читаются, повтор создаётся внутри нового --out. Для проверки сохранённых данных без моделирования достаточно `python3 tools/verify_experiments.py --results-root results --out results/my-frozen-check`. Удалённые основные серии требуется восстановить из архива. Это техническое повторение тех же seed, а не увеличение научной выборки.
 
 ## Санитайзеры
 
