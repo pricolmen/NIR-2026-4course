@@ -1,0 +1,17 @@
+scenario,variant,mean_latency_ms,p95_ms,completed,unfinished,FAILED_ms,Detection_ms,Recovery_ms,FP,FN,retries,throughput_tasks_per_second
+A_reference,fixed_rr,17.00,22,12,0,,,,0,0,0,100.0
+A_reference,fixed_ll,18.58,29,12,0,,,,0,0,0,100.0
+A_reference,adaptive_rr,17.00,22,12,0,,,,0,0,0,100.0
+A_reference,adaptive_ll,18.58,29,12,0,,,,0,0,0,100.0
+B_crash,fixed_rr,30.09,83,11,1,70,35.0,,0,0,3,91.66666666666667
+B_crash,fixed_ll,32.27,91,11,1,70,35.0,,0,0,3,91.66666666666667
+B_crash,adaptive_rr,31.45,71,11,1,50,15.0,66.0,0,0,2,91.66666666666667
+B_crash,adaptive_ll,33.64,79,11,1,50,15.0,69.0,0,0,2,91.66666666666667
+C_heartbeat_gap,fixed_rr,18.42,34,12,0,,,,0,0,0,100.0
+C_heartbeat_gap,fixed_ll,19.92,37,12,0,,,,0,0,0,100.0
+C_heartbeat_gap,adaptive_rr,21.83,46,12,0,50,,,1,0,0,100.0
+C_heartbeat_gap,adaptive_ll,23.58,49,12,0,50,,,1,0,0,100.0
+D_heterogeneous,fixed_rr,18.92,56,12,0,70,35.0,53.0,0,0,3,100.0
+D_heterogeneous,fixed_ll,11.33,46,12,0,70,35.0,41.0,0,0,1,100.0
+D_heterogeneous,adaptive_rr,15.17,39,12,0,50,15.0,30.0,0,0,2,100.0
+D_heterogeneous,adaptive_ll,10.92,29,12,0,50,15.0,24.0,0,0,1,100.0

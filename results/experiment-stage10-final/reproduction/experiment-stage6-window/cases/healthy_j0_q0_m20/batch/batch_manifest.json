@@ -1,0 +1,66 @@
+{
+  "runs": [
+    {
+      "output": "runs/000001",
+      "repeat_id": "seed_00000000000000002001",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2001/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000002",
+      "repeat_id": "seed_00000000000000002002",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2002/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000003",
+      "repeat_id": "seed_00000000000000002003",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2003/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000004",
+      "repeat_id": "seed_00000000000000002004",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2004/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000005",
+      "repeat_id": "seed_00000000000000002005",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2005/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000006",
+      "repeat_id": "seed_00000000000000002006",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2006/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000007",
+      "repeat_id": "seed_00000000000000002007",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2007/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000008",
+      "repeat_id": "seed_00000000000000002008",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2008/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000009",
+      "repeat_id": "seed_00000000000000002009",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2009/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    },
+    {
+      "output": "runs/000010",
+      "repeat_id": "seed_00000000000000002010",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m20/inputs/seed_2010/scenario.json",
+      "scenario_id": "healthy_j0_q0"
+    }
+  ],
+  "schema_version": 1,
+  "status": "complete"
+}

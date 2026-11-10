@@ -1,0 +1,103 @@
+{
+  "arrived": 120,
+  "assigned": 6,
+  "completed": 114,
+  "crashes": 1,
+  "crashes_after_false_exclusion": 0,
+  "detection_samples": 1,
+  "false_negatives": 0,
+  "false_positives": 0,
+  "incomplete_recoveries": 0,
+  "invariants": {
+    "balance": true,
+    "logical_physical_attempts": true,
+    "unique_acceptance": true,
+    "unique_tasks": true
+  },
+  "latency_samples": 114,
+  "mean_detection": {
+    "reason": null,
+    "value_ticks": 20000.0
+  },
+  "mean_latency": {
+    "reason": null,
+    "value_ticks": 35385.552631578954
+  },
+  "mean_recovery": {
+    "reason": null,
+    "value_ticks": 101431.0
+  },
+  "nodes": [
+    {
+      "classification": "no_failure",
+      "detection": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      },
+      "node_id": 1,
+      "recovery": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      }
+    },
+    {
+      "classification": "no_failure",
+      "detection": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      },
+      "node_id": 2,
+      "recovery": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      }
+    },
+    {
+      "classification": "true_positive",
+      "detection": {
+        "reason": null,
+        "value_ticks": 20000
+      },
+      "node_id": 3,
+      "recovery": {
+        "reason": null,
+        "value_ticks": 101431
+      }
+    },
+    {
+      "classification": "no_failure",
+      "detection": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      },
+      "node_id": 4,
+      "recovery": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      }
+    }
+  ],
+  "p95_latency": {
+    "reason": null,
+    "value_ticks": 146231
+  },
+  "queued": 0,
+  "recovery_samples": 1,
+  "rejected_revoked_results": 0,
+  "retries": 1,
+  "schema_version": 1,
+  "throughput_windows": [
+    {
+      "completed": 114,
+      "end_ticks": 600000,
+      "start_ticks": 0,
+      "tasks_per_second": 190.0
+    }
+  ],
+  "unfinished": 6,
+  "units": {
+    "durations": "ticks",
+    "throughput": "tasks/second",
+    "tick_ns": 1000
+  }
+}

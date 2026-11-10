@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "A_reference",
+    "code": 0,
+    "stdout": "Saved: /workspace/scratch/f044fb51442d/chapter4_experiments/results/A_reference\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "B_crash",
+    "code": 0,
+    "stdout": "Saved: /workspace/scratch/f044fb51442d/chapter4_experiments/results/B_crash\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "C_heartbeat_gap",
+    "code": 0,
+    "stdout": "Saved: /workspace/scratch/f044fb51442d/chapter4_experiments/results/C_heartbeat_gap\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "D_heterogeneous",
+    "code": 0,
+    "stdout": "Saved: /workspace/scratch/f044fb51442d/chapter4_experiments/results/D_heterogeneous\n",
+    "stderr": ""
+  }
+]

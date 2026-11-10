@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "bootstrap_seed": 20261109,
+  "resamples": 20000,
+  "confidence_level": 0.95,
+  "window_index": 0,
+  "studies": [
+    {"id":"network", "kind":"network", "directory":"experiment-stage2-network"},
+    {"id":"timeout", "kind":"timeout", "directory":"experiment-stage3-timeout"},
+    {"id":"kappa", "kind":"kappa", "directory":"experiment-stage4-kappa"},
+    {"id":"coefficient", "kind":"coefficient", "directory":"experiment-stage5-coefficient"},
+    {"id":"window", "kind":"window", "directory":"experiment-stage6-window"},
+    {"id":"load", "kind":"load", "directory":"experiment-stage7-load"}
+  ]
+}

@@ -1,0 +1,39 @@
+COMMAND ['cmake', '-G', 'Ninja', '-S', '/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code', '-B', '/private/tmp/nir-chapter4-verification/build-release', '-DCMAKE_BUILD_TYPE=Release', '-DBUILD_TESTING=OFF', '-DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON:PATH=/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/debug/_deps/nlohmann_json-src']
+-- The CXX compiler identification is AppleClang 17.0.0.17000603
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using the multi-header code from /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/debug/_deps/nlohmann_json-src/include/
+-- Configuring done (0.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: /private/tmp/nir-chapter4-verification/build-release
+COMMAND ['cmake', '--build', '/private/tmp/nir-chapter4-verification/build-release', '--parallel', '4']
+[1/27] Building CXX object CMakeFiles/telemetry_common.dir/src/common/time.cpp.o
+[2/27] Linking CXX static library libtelemetry_common.a
+[3/27] Building CXX object CMakeFiles/telemetry_core.dir/src/core/scheduling.cpp.o
+[4/27] Building CXX object CMakeFiles/telemetry_core.dir/src/core/dispatcher.cpp.o
+[5/27] Building CXX object CMakeFiles/telemetry_core.dir/src/core/task_store.cpp.o
+[6/27] Building CXX object CMakeFiles/telemetry_core.dir/src/core/detector.cpp.o
+[7/27] Linking CXX static library libtelemetry_core.a
+[8/27] Building CXX object CMakeFiles/telemetry_engine.dir/src/engine/event_loop.cpp.o
+[9/27] Linking CXX static library libtelemetry_engine.a
+[10/27] Building CXX object CMakeFiles/telemetry_simulation.dir/src/simulation/scenario.cpp.o
+[11/27] Building CXX object CMakeFiles/telemetry_simulation.dir/src/simulation/physical_trace.cpp.o
+[12/27] Building CXX object CMakeFiles/telemetry_simulation.dir/src/simulation/physical_environment.cpp.o
+[13/27] Building CXX object CMakeFiles/telemetry_simulation.dir/src/simulation/simulation.cpp.o
+[14/27] Linking CXX static library libtelemetry_simulation.a
+[15/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/build_info.cpp.o
+[16/27] Building CXX object CMakeFiles/telemetry_metrics.dir/src/metrics/analysis.cpp.o
+[17/27] Linking CXX static library libtelemetry_metrics.a
+[18/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/scenario_loader.cpp.o
+[19/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/journal.cpp.o
+[20/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/run_output.cpp.o
+[21/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/output_directory.cpp.o
+[22/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/generation.cpp.o
+[23/27] Building CXX object CMakeFiles/telemetry_sim.dir/app/console_report.cpp.o
+[24/27] Building CXX object CMakeFiles/telemetry_sim.dir/app/main.cpp.o
+[25/27] Building CXX object CMakeFiles/telemetry_io.dir/src/io/batch.cpp.o
+[26/27] Linking CXX static library libtelemetry_io.a
+[27/27] Linking CXX executable telemetry_sim

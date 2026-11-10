@@ -1,0 +1,22 @@
+{
+  "checked_runs": [
+    "A_reference/adaptive_ll",
+    "A_reference/adaptive_rr",
+    "A_reference/fixed_ll",
+    "A_reference/fixed_rr",
+    "B_crash/adaptive_ll",
+    "B_crash/adaptive_rr",
+    "B_crash/fixed_ll",
+    "B_crash/fixed_rr",
+    "C_heartbeat_gap/adaptive_ll",
+    "C_heartbeat_gap/adaptive_rr",
+    "C_heartbeat_gap/fixed_ll",
+    "C_heartbeat_gap/fixed_rr",
+    "D_heterogeneous/adaptive_ll",
+    "D_heterogeneous/adaptive_rr",
+    "D_heterogeneous/fixed_ll",
+    "D_heterogeneous/fixed_rr"
+  ],
+  "source_unchanged": true,
+  "checks": "inputs, CSV, JSON, unique accepted events, latency, P95, detection, recovery, throughput, retries"
+}

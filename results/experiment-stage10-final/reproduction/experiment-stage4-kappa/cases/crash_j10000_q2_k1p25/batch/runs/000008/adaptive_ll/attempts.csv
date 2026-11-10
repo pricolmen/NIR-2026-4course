@@ -1,0 +1,13 @@
+task_id,attempt_no,node_id,assigned_ticks,started_ticks,finished_ticks,interrupted_ticks,revoked_ticks,accepted_ticks,result_decision
+1,1,1,0,0,10775,,,10775,accepted
+2,1,2,10000,10000,20752,,,20752,accepted
+3,1,1,20000,20000,28169,,,28169,accepted
+4,1,1,30000,30000,41355,,,41355,accepted
+5,1,1,40000,41355,51670,,,51670,accepted
+6,1,1,50000,51670,62409,,,62409,accepted
+7,1,1,60000,62409,70913,,,70913,accepted
+8,1,1,70000,70913,79831,,,79831,accepted
+9,1,1,80000,80000,90759,,,90759,accepted
+10,1,1,90000,90759,100869,,,100869,accepted
+11,1,1,100000,100869,109430,,,109430,accepted
+12,1,1,110000,110000,121397,,118849,,no_current_assignment

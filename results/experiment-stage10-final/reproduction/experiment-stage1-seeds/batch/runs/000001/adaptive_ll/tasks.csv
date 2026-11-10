@@ -1,0 +1,5 @@
+task_id,arrival_ticks,work,accepted_ticks,latency_ticks,attempts,unfinished,latency_reason
+1,0,1.1831597328329628,2,2,1,0,
+2,1,1.0987605092455617,3,2,1,0,
+3,2,2.9018838005881542,5,3,1,0,
+4,3,2.5829486790837217,6,3,1,0,

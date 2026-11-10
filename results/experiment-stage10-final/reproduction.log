@@ -1,0 +1,450 @@
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_seed_series.py", "--template", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/examples/generator.json", "--seeds", "101", "202", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage1-seeds"]
+Saved seed series: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage1-seeds
+Mode: generated ; seeds: 101, 202 ; input sets: 2
+Verified: 4 variants per seed, exact saved input hashes. Mapping: series_manifest.json
+This infrastructure smoke run does not establish algorithm superiority.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_network_series.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/network_stage2/plan.json", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage2-network"]
+[1/18] healthy_j0_q0 complete
+[2/18] healthy_j0_q1 complete
+[3/18] healthy_j0_q2 complete
+[4/18] healthy_j5000_q0 complete
+[5/18] healthy_j5000_q1 complete
+[6/18] healthy_j5000_q2 complete
+[7/18] healthy_j10000_q0 complete
+[8/18] healthy_j10000_q1 complete
+[9/18] healthy_j10000_q2 complete
+[10/18] crash_j0_q0 complete
+[11/18] crash_j0_q1 complete
+[12/18] crash_j0_q2 complete
+[13/18] crash_j5000_q0 complete
+[14/18] crash_j5000_q1 complete
+[15/18] crash_j5000_q2 complete
+[16/18] crash_j10000_q0 complete
+[17/18] crash_j10000_q1 complete
+[18/18] crash_j10000_q2 complete
+Saved: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage2-network
+Cases: 18 ; seeds per case: 10 ; variant runs: 720
+Native summaries retained. No confidence intervals or general superiority claim calculated.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_timeout_series.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/timeout_stage3/plan.json", "--source-network", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage2-network", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage3-timeout"]
+[1/30] healthy_j0_q0_t10000 complete
+[2/30] healthy_j0_q0_t15000 complete
+[3/30] healthy_j0_q0_t20000 complete
+[4/30] healthy_j0_q0_t30000 complete
+[5/30] healthy_j0_q0_t40000 complete
+[6/30] healthy_j5000_q1_t10000 complete
+[7/30] healthy_j5000_q1_t15000 complete
+[8/30] healthy_j5000_q1_t20000 complete
+[9/30] healthy_j5000_q1_t30000 complete
+[10/30] healthy_j5000_q1_t40000 complete
+[11/30] healthy_j10000_q2_t10000 complete
+[12/30] healthy_j10000_q2_t15000 complete
+[13/30] healthy_j10000_q2_t20000 complete
+[14/30] healthy_j10000_q2_t30000 complete
+[15/30] healthy_j10000_q2_t40000 complete
+[16/30] crash_j0_q0_t10000 complete
+[17/30] crash_j0_q0_t15000 complete
+[18/30] crash_j0_q0_t20000 complete
+[19/30] crash_j0_q0_t30000 complete
+[20/30] crash_j0_q0_t40000 complete
+[21/30] crash_j5000_q1_t10000 complete
+[22/30] crash_j5000_q1_t15000 complete
+[23/30] crash_j5000_q1_t20000 complete
+[24/30] crash_j5000_q1_t30000 complete
+[25/30] crash_j5000_q1_t40000 complete
+[26/30] crash_j10000_q2_t10000 complete
+[27/30] crash_j10000_q2_t15000 complete
+[28/30] crash_j10000_q2_t20000 complete
+[29/30] crash_j10000_q2_t30000 complete
+[30/30] crash_j10000_q2_t40000 complete
+Saved: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage3-timeout ; runs: 1200 ; generate calls: 0
+Primary fixed results; adaptive rows include tau0 warmup effects. No optimal-timeout/significance claim.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_kappa_series.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/kappa_stage4/plan.json", "--source-network", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage2-network", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage4-kappa"]
+[1/30] healthy_j0_q0_k1p25 complete
+[2/30] healthy_j0_q0_k1p5 complete
+[3/30] healthy_j0_q0_k2 complete
+[4/30] healthy_j0_q0_k3 complete
+[5/30] healthy_j0_q0_k4 complete
+[6/30] healthy_j5000_q1_k1p25 complete
+[7/30] healthy_j5000_q1_k1p5 complete
+[8/30] healthy_j5000_q1_k2 complete
+[9/30] healthy_j5000_q1_k3 complete
+[10/30] healthy_j5000_q1_k4 complete
+[11/30] healthy_j10000_q2_k1p25 complete
+[12/30] healthy_j10000_q2_k1p5 complete
+[13/30] healthy_j10000_q2_k2 complete
+[14/30] healthy_j10000_q2_k3 complete
+[15/30] healthy_j10000_q2_k4 complete
+[16/30] crash_j0_q0_k1p25 complete
+[17/30] crash_j0_q0_k1p5 complete
+[18/30] crash_j0_q0_k2 complete
+[19/30] crash_j0_q0_k3 complete
+[20/30] crash_j0_q0_k4 complete
+[21/30] crash_j5000_q1_k1p25 complete
+[22/30] crash_j5000_q1_k1p5 complete
+[23/30] crash_j5000_q1_k2 complete
+[24/30] crash_j5000_q1_k3 complete
+[25/30] crash_j5000_q1_k4 complete
+[26/30] crash_j10000_q2_k1p25 complete
+[27/30] crash_j10000_q2_k1p5 complete
+[28/30] crash_j10000_q2_k2 complete
+[29/30] crash_j10000_q2_k3 complete
+[30/30] crash_j10000_q2_k4 complete
+Saved: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage4-kappa ; runs: 1200 ; generate calls: 0
+Both detectors studied. No universal optimum or significance claim; retained SUSPECT threshold does not imply identical observed histories.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_coefficient_series.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/coefficient_stage5/plan.json", "--source-network", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage2-network", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage5-coefficient"]
+[1/36] healthy_j0_q0_c0 complete
+[2/36] healthy_j0_q0_c0p5 complete
+[3/36] healthy_j0_q0_c1 complete
+[4/36] healthy_j0_q0_c2 complete
+[5/36] healthy_j0_q0_c3 complete
+[6/36] healthy_j0_q0_c4 complete
+[7/36] healthy_j5000_q1_c0 complete
+[8/36] healthy_j5000_q1_c0p5 complete
+[9/36] healthy_j5000_q1_c1 complete
+[10/36] healthy_j5000_q1_c2 complete
+[11/36] healthy_j5000_q1_c3 complete
+[12/36] healthy_j5000_q1_c4 complete
+[13/36] healthy_j10000_q2_c0 complete
+[14/36] healthy_j10000_q2_c0p5 complete
+[15/36] healthy_j10000_q2_c1 complete
+[16/36] healthy_j10000_q2_c2 complete
+[17/36] healthy_j10000_q2_c3 complete
+[18/36] healthy_j10000_q2_c4 complete
+[19/36] crash_j0_q0_c0 complete
+[20/36] crash_j0_q0_c0p5 complete
+[21/36] crash_j0_q0_c1 complete
+[22/36] crash_j0_q0_c2 complete
+[23/36] crash_j0_q0_c3 complete
+[24/36] crash_j0_q0_c4 complete
+[25/36] crash_j5000_q1_c0 complete
+[26/36] crash_j5000_q1_c0p5 complete
+[27/36] crash_j5000_q1_c1 complete
+[28/36] crash_j5000_q1_c2 complete
+[29/36] crash_j5000_q1_c3 complete
+[30/36] crash_j5000_q1_c4 complete
+[31/36] crash_j10000_q2_c0 complete
+[32/36] crash_j10000_q2_c0p5 complete
+[33/36] crash_j10000_q2_c1 complete
+[34/36] crash_j10000_q2_c2 complete
+[35/36] crash_j10000_q2_c3 complete
+[36/36] crash_j10000_q2_c4 complete
+Saved: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage5-coefficient ; runs: 1440 ; generate calls: 0
+Primary adaptive results; fixed content is invariant across c. No universal optimum or significance claim.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_window_series.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/window_stage6/plan.json", "--source-network", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage2-network", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window"]
+[1/30] healthy_j0_q0_m2 complete
+[2/30] healthy_j0_q0_m3 complete
+[3/30] healthy_j0_q0_m5 complete
+[4/30] healthy_j0_q0_m10 complete
+[5/30] healthy_j0_q0_m20 complete
+[6/30] healthy_j5000_q1_m2 complete
+[7/30] healthy_j5000_q1_m3 complete
+[8/30] healthy_j5000_q1_m5 complete
+[9/30] healthy_j5000_q1_m10 complete
+[10/30] healthy_j5000_q1_m20 complete
+[11/30] healthy_j10000_q2_m2 complete
+[12/30] healthy_j10000_q2_m3 complete
+[13/30] healthy_j10000_q2_m5 complete
+[14/30] healthy_j10000_q2_m10 complete
+[15/30] healthy_j10000_q2_m20 complete
+[16/30] crash_j0_q0_m2 complete
+[17/30] crash_j0_q0_m3 complete
+[18/30] crash_j0_q0_m5 complete
+[19/30] crash_j0_q0_m10 complete
+[20/30] crash_j0_q0_m20 complete
+[21/30] crash_j5000_q1_m2 complete
+[22/30] crash_j5000_q1_m3 complete
+[23/30] crash_j5000_q1_m5 complete
+[24/30] crash_j5000_q1_m10 complete
+[25/30] crash_j5000_q1_m20 complete
+[26/30] crash_j10000_q2_m2 complete
+[27/30] crash_j10000_q2_m3 complete
+[28/30] crash_j10000_q2_m5 complete
+[29/30] crash_j10000_q2_m10 complete
+[30/30] crash_j10000_q2_m20 complete
+Saved: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window ; runs: 1200 ; generate calls: 0
+Primary adaptive results; fixed content is invariant across M. No universal optimum or significance claim.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_load_series.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/load_stage7/plan.json", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage7-load"]
+[1/36] equal_moderate_clean_healthy complete
+[2/36] equal_moderate_clean_crash complete
+[3/36] equal_moderate_medium_healthy complete
+[4/36] equal_moderate_medium_crash complete
+[5/36] equal_moderate_stressed_healthy complete
+[6/36] equal_moderate_stressed_crash complete
+[7/36] equal_near_capacity_clean_healthy complete
+[8/36] equal_near_capacity_clean_crash complete
+[9/36] equal_near_capacity_medium_healthy complete
+[10/36] equal_near_capacity_medium_crash complete
+[11/36] equal_near_capacity_stressed_healthy complete
+[12/36] equal_near_capacity_stressed_crash complete
+[13/36] equal_overload_clean_healthy complete
+[14/36] equal_overload_clean_crash complete
+[15/36] equal_overload_medium_healthy complete
+[16/36] equal_overload_medium_crash complete
+[17/36] equal_overload_stressed_healthy complete
+[18/36] equal_overload_stressed_crash complete
+[19/36] heterogeneous_moderate_clean_healthy complete
+[20/36] heterogeneous_moderate_clean_crash complete
+[21/36] heterogeneous_moderate_medium_healthy complete
+[22/36] heterogeneous_moderate_medium_crash complete
+[23/36] heterogeneous_moderate_stressed_healthy complete
+[24/36] heterogeneous_moderate_stressed_crash complete
+[25/36] heterogeneous_near_capacity_clean_healthy complete
+[26/36] heterogeneous_near_capacity_clean_crash complete
+[27/36] heterogeneous_near_capacity_medium_healthy complete
+[28/36] heterogeneous_near_capacity_medium_crash complete
+[29/36] heterogeneous_near_capacity_stressed_healthy complete
+[30/36] heterogeneous_near_capacity_stressed_crash complete
+[31/36] heterogeneous_overload_clean_healthy complete
+[32/36] heterogeneous_overload_clean_crash complete
+[33/36] heterogeneous_overload_medium_healthy complete
+[34/36] heterogeneous_overload_medium_crash complete
+[35/36] heterogeneous_overload_stressed_healthy complete
+[36/36] heterogeneous_overload_stressed_crash complete
+Saved: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage7-load ; runs: 1440 ; generate calls: 360
+Native summaries retained. Finite burst load is not steady utilization or proof of superiority.
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_statistics.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/statistics_stage8/plan.json", "--results-root", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage8-statistics"]
+Imported network healthy_j0_q0
+Imported network healthy_j0_q1
+Imported network healthy_j0_q2
+Imported network healthy_j5000_q0
+Imported network healthy_j5000_q1
+Imported network healthy_j5000_q2
+Imported network healthy_j10000_q0
+Imported network healthy_j10000_q1
+Imported network healthy_j10000_q2
+Imported network crash_j0_q0
+Imported network crash_j0_q1
+Imported network crash_j0_q2
+Imported network crash_j5000_q0
+Imported network crash_j5000_q1
+Imported network crash_j5000_q2
+Imported network crash_j10000_q0
+Imported network crash_j10000_q1
+Imported network crash_j10000_q2
+Imported timeout healthy_j0_q0_t10000
+Imported timeout healthy_j0_q0_t15000
+Imported timeout healthy_j0_q0_t20000
+Imported timeout healthy_j0_q0_t30000
+Imported timeout healthy_j0_q0_t40000
+Imported timeout healthy_j5000_q1_t10000
+Imported timeout healthy_j5000_q1_t15000
+Imported timeout healthy_j5000_q1_t20000
+Imported timeout healthy_j5000_q1_t30000
+Imported timeout healthy_j5000_q1_t40000
+Imported timeout healthy_j10000_q2_t10000
+Imported timeout healthy_j10000_q2_t15000
+Imported timeout healthy_j10000_q2_t20000
+Imported timeout healthy_j10000_q2_t30000
+Imported timeout healthy_j10000_q2_t40000
+Imported timeout crash_j0_q0_t10000
+Imported timeout crash_j0_q0_t15000
+Imported timeout crash_j0_q0_t20000
+Imported timeout crash_j0_q0_t30000
+Imported timeout crash_j0_q0_t40000
+Imported timeout crash_j5000_q1_t10000
+Imported timeout crash_j5000_q1_t15000
+Imported timeout crash_j5000_q1_t20000
+Imported timeout crash_j5000_q1_t30000
+Imported timeout crash_j5000_q1_t40000
+Imported timeout crash_j10000_q2_t10000
+Imported timeout crash_j10000_q2_t15000
+Imported timeout crash_j10000_q2_t20000
+Imported timeout crash_j10000_q2_t30000
+Imported timeout crash_j10000_q2_t40000
+Imported kappa healthy_j0_q0_k1p25
+Imported kappa healthy_j0_q0_k1p5
+Imported kappa healthy_j0_q0_k2
+Imported kappa healthy_j0_q0_k3
+Imported kappa healthy_j0_q0_k4
+Imported kappa healthy_j5000_q1_k1p25
+Imported kappa healthy_j5000_q1_k1p5
+Imported kappa healthy_j5000_q1_k2
+Imported kappa healthy_j5000_q1_k3
+Imported kappa healthy_j5000_q1_k4
+Imported kappa healthy_j10000_q2_k1p25
+Imported kappa healthy_j10000_q2_k1p5
+Imported kappa healthy_j10000_q2_k2
+Imported kappa healthy_j10000_q2_k3
+Imported kappa healthy_j10000_q2_k4
+Imported kappa crash_j0_q0_k1p25
+Imported kappa crash_j0_q0_k1p5
+Imported kappa crash_j0_q0_k2
+Imported kappa crash_j0_q0_k3
+Imported kappa crash_j0_q0_k4
+Imported kappa crash_j5000_q1_k1p25
+Imported kappa crash_j5000_q1_k1p5
+Imported kappa crash_j5000_q1_k2
+Imported kappa crash_j5000_q1_k3
+Imported kappa crash_j5000_q1_k4
+Imported kappa crash_j10000_q2_k1p25
+Imported kappa crash_j10000_q2_k1p5
+Imported kappa crash_j10000_q2_k2
+Imported kappa crash_j10000_q2_k3
+Imported kappa crash_j10000_q2_k4
+Imported coefficient healthy_j0_q0_c0
+Imported coefficient healthy_j0_q0_c0p5
+Imported coefficient healthy_j0_q0_c1
+Imported coefficient healthy_j0_q0_c2
+Imported coefficient healthy_j0_q0_c3
+Imported coefficient healthy_j0_q0_c4
+Imported coefficient healthy_j5000_q1_c0
+Imported coefficient healthy_j5000_q1_c0p5
+Imported coefficient healthy_j5000_q1_c1
+Imported coefficient healthy_j5000_q1_c2
+Imported coefficient healthy_j5000_q1_c3
+Imported coefficient healthy_j5000_q1_c4
+Imported coefficient healthy_j10000_q2_c0
+Imported coefficient healthy_j10000_q2_c0p5
+Imported coefficient healthy_j10000_q2_c1
+Imported coefficient healthy_j10000_q2_c2
+Imported coefficient healthy_j10000_q2_c3
+Imported coefficient healthy_j10000_q2_c4
+Imported coefficient crash_j0_q0_c0
+Imported coefficient crash_j0_q0_c0p5
+Imported coefficient crash_j0_q0_c1
+Imported coefficient crash_j0_q0_c2
+Imported coefficient crash_j0_q0_c3
+Imported coefficient crash_j0_q0_c4
+Imported coefficient crash_j5000_q1_c0
+Imported coefficient crash_j5000_q1_c0p5
+Imported coefficient crash_j5000_q1_c1
+Imported coefficient crash_j5000_q1_c2
+Imported coefficient crash_j5000_q1_c3
+Imported coefficient crash_j5000_q1_c4
+Imported coefficient crash_j10000_q2_c0
+Imported coefficient crash_j10000_q2_c0p5
+Imported coefficient crash_j10000_q2_c1
+Imported coefficient crash_j10000_q2_c2
+Imported coefficient crash_j10000_q2_c3
+Imported coefficient crash_j10000_q2_c4
+Imported window healthy_j0_q0_m2
+Imported window healthy_j0_q0_m3
+Imported window healthy_j0_q0_m5
+Imported window healthy_j0_q0_m10
+Imported window healthy_j0_q0_m20
+Imported window healthy_j5000_q1_m2
+Imported window healthy_j5000_q1_m3
+Imported window healthy_j5000_q1_m5
+Imported window healthy_j5000_q1_m10
+Imported window healthy_j5000_q1_m20
+Imported window healthy_j10000_q2_m2
+Imported window healthy_j10000_q2_m3
+Imported window healthy_j10000_q2_m5
+Imported window healthy_j10000_q2_m10
+Imported window healthy_j10000_q2_m20
+Imported window crash_j0_q0_m2
+Imported window crash_j0_q0_m3
+Imported window crash_j0_q0_m5
+Imported window crash_j0_q0_m10
+Imported window crash_j0_q0_m20
+Imported window crash_j5000_q1_m2
+Imported window crash_j5000_q1_m3
+Imported window crash_j5000_q1_m5
+Imported window crash_j5000_q1_m10
+Imported window crash_j5000_q1_m20
+Imported window crash_j10000_q2_m2
+Imported window crash_j10000_q2_m3
+Imported window crash_j10000_q2_m5
+Imported window crash_j10000_q2_m10
+Imported window crash_j10000_q2_m20
+Imported load equal_moderate_clean_healthy
+Imported load equal_moderate_clean_crash
+Imported load equal_moderate_medium_healthy
+Imported load equal_moderate_medium_crash
+Imported load equal_moderate_stressed_healthy
+Imported load equal_moderate_stressed_crash
+Imported load equal_near_capacity_clean_healthy
+Imported load equal_near_capacity_clean_crash
+Imported load equal_near_capacity_medium_healthy
+Imported load equal_near_capacity_medium_crash
+Imported load equal_near_capacity_stressed_healthy
+Imported load equal_near_capacity_stressed_crash
+Imported load equal_overload_clean_healthy
+Imported load equal_overload_clean_crash
+Imported load equal_overload_medium_healthy
+Imported load equal_overload_medium_crash
+Imported load equal_overload_stressed_healthy
+Imported load equal_overload_stressed_crash
+Imported load heterogeneous_moderate_clean_healthy
+Imported load heterogeneous_moderate_clean_crash
+Imported load heterogeneous_moderate_medium_healthy
+Imported load heterogeneous_moderate_medium_crash
+Imported load heterogeneous_moderate_stressed_healthy
+Imported load heterogeneous_moderate_stressed_crash
+Imported load heterogeneous_near_capacity_clean_healthy
+Imported load heterogeneous_near_capacity_clean_crash
+Imported load heterogeneous_near_capacity_medium_healthy
+Imported load heterogeneous_near_capacity_medium_crash
+Imported load heterogeneous_near_capacity_stressed_healthy
+Imported load heterogeneous_near_capacity_stressed_crash
+Imported load heterogeneous_overload_clean_healthy
+Imported load heterogeneous_overload_clean_crash
+Imported load heterogeneous_overload_medium_healthy
+Imported load heterogeneous_overload_medium_crash
+Imported load heterogeneous_overload_stressed_healthy
+Imported load heterogeneous_overload_stressed_crash
+Matplotlib is building the font cache; this may take a moment.
+Saved statistics: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage8-statistics
+{'studies': 6, 'cases': 180, 'variant_runs': 7200, 'native_metric_checks': 7200, 'summary_rows': 8640, 'contrast_rows': 15552, 'pair_observation_rows': 155520, 'figures': 34, 'source_files_verified': 61566, 'undefined_summary_groups': 734, 'partly_defined_summary_groups': 238}
+COMMAND ["/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/statistics-venv/bin/python", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/tools/run_boundary_study.py", "--plan", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/experiments/boundary_stage9/plan.json", "--program", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/build/experiment-stage10-release/telemetry_sim", "--out", "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage9-boundary"]
+Verified initial_suspect_minus1
+Verified initial_suspect_exact
+Verified initial_suspect_plus1
+Verified initial_failed_minus1
+Verified initial_failed_exact
+Verified initial_failed_plus1
+Verified warmed_fixed_suspect_minus1
+Verified warmed_fixed_suspect_exact
+Verified warmed_fixed_suspect_plus1
+Verified warmed_fixed_failed_minus1
+Verified warmed_fixed_failed_exact
+Verified warmed_fixed_failed_plus1
+Verified warmed_adaptive_suspect_minus1
+Verified warmed_adaptive_suspect_exact
+Verified warmed_adaptive_suspect_plus1
+Verified warmed_adaptive_failed_minus1
+Verified warmed_adaptive_failed_exact
+Verified warmed_adaptive_failed_plus1
+Verified reordered_fresh_minus1
+Verified reordered_fresh_exact
+Verified reordered_fresh_plus1
+Verified reordered_stale_minus1
+Verified reordered_stale_exact
+Verified reordered_stale_plus1
+Verified regular_c0_m2_healthy
+Verified regular_c0_m2_crash
+Verified regular_c0_m3_healthy
+Verified regular_c0_m3_crash
+Verified regular_c0_m10_healthy
+Verified regular_c0_m10_crash
+Verified regular_c2_m2_healthy
+Verified regular_c2_m2_crash
+Verified regular_c2_m3_healthy
+Verified regular_c2_m3_crash
+Verified regular_c2_m10_healthy
+Verified regular_c2_m10_crash
+Verified regular_c4_m2_healthy
+Verified regular_c4_m2_crash
+Verified regular_c4_m3_healthy
+Verified regular_c4_m3_crash
+Verified regular_c4_m10_healthy
+Verified regular_c4_m10_crash
+Verified zero_intervals_c0
+Verified zero_intervals_c2
+Verified zero_intervals_c4
+Verified zero_gap_c0_minus1
+Verified zero_gap_c0_exact
+Verified zero_gap_c0_plus1
+Verified zero_gap_c2_minus1
+Verified zero_gap_c2_exact
+Verified zero_gap_c2_plus1
+Verified zero_gap_c4_minus1
+Verified zero_gap_c4_exact
+Verified zero_gap_c4_plus1
+Verified horizon_minus1
+Verified horizon_exact
+Verified horizon_plus1
+Verified rounded_minus1
+Verified rounded_exact
+Verified rounded_plus1
+Saved boundary study: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage9-boundary {'case_count': 60, 'variant_runs': 240, 'equal_time_phase_checks': 28, 'sigma_zero_c_content_invariant': True, 'sigma_zero_m_outcomes_invariant': True, 'sigma_c_comparisons': 48, 'sigma_outcome_comparisons': 64, 'all_oracles_passed': True}

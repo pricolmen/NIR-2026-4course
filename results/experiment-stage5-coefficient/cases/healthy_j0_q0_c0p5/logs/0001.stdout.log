@@ -1,0 +1,1 @@
+{"compiler":{"id":"AppleClang","version":"17.0.0.17000603"},"cplusplus":202002,"implementation_stage":15,"nlohmann_json":{"major":3,"minor":12,"patch":0},"platform":"macOS","program":"telemetry_sim","simulation_available":true,"standard_library":{"name":"libc++","version":200100},"version":"0.1.0"}

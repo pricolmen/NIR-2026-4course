@@ -1,0 +1,66 @@
+{
+  "checksum_algorithm": "fnv1a64",
+  "environment": {
+    "compiler": {
+      "id": "AppleClang",
+      "version": "17.0.0.17000603"
+    },
+    "cplusplus": 202002,
+    "implementation_stage": 15,
+    "long_double_digits": 53,
+    "nlohmann_json": {
+      "major": 3,
+      "minor": 12,
+      "patch": 0
+    },
+    "numerical_rules": "tick=1us;processing=max(1,ceil(w/p*1e6));S=ceil(rawS);F=max(S+1,ceil(rawF));p95=n-n/20",
+    "platform": "macOS",
+    "pointer_bits": 64,
+    "program": "telemetry_sim",
+    "simulation_available": true,
+    "standard_library": {
+      "name": "libc++",
+      "version": 200100
+    },
+    "version": "0.1.0"
+  },
+  "executed_events": 632,
+  "inputs": {
+    "delivery": {
+      "checksum": "942c2b50cbd0fcf7",
+      "original_path": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage4-kappa/cases/healthy_j0_q0_k2/inputs/seed_2005/delivery.csv",
+      "snapshot": "input/delivery.csv"
+    },
+    "scenario": {
+      "checksum": "4e4c3e2e8dcfac97",
+      "original_path": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage4-kappa/cases/healthy_j0_q0_k2/inputs/seed_2005/scenario.json",
+      "snapshot": "input/scenario.json"
+    }
+  },
+  "journal_checksum": "0b7f8807300f9541",
+  "parameters": {
+    "adaptive": {
+      "c_decimal": "2",
+      "min_intervals": 2,
+      "window": 3
+    },
+    "heartbeat_period_ticks": 10000,
+    "horizon_ticks": 600000,
+    "kappa_decimal": "2",
+    "nodes": [
+      {
+        "id": 1,
+        "performance_decimal": "1000000"
+      },
+      {
+        "id": 2,
+        "performance_decimal": "1000000"
+      }
+    ],
+    "tau0_ticks": 20000,
+    "tick_ns": 1000
+  },
+  "schema_version": 1,
+  "status": "complete",
+  "variant": "adaptive_rr"
+}

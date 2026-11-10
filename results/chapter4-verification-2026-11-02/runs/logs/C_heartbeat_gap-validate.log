@@ -1,0 +1,3 @@
+Valid scenario: nodes=2 tasks=12 horizon_ticks=120000
+
+STDERR:

@@ -1,0 +1,38 @@
+{
+  "all_passed": true,
+  "checks_total": 487,
+  "checks_failed": [],
+  "seconds": 0.7468333340075333,
+  "metrics_representation_differences": [
+    {
+      "run": "B_crash/fixed_ll",
+      "field": "mean_latency",
+      "archive_ticks": "32272.727272727272",
+      "reproduced_ticks": "32272.72727272728",
+      "absolute_delta_ticks": "8E-12"
+    },
+    {
+      "run": "D_heterogeneous/fixed_rr",
+      "field": "mean_latency",
+      "archive_ticks": "18916.666666666668",
+      "reproduced_ticks": "18916.666666666664",
+      "absolute_delta_ticks": "4E-12"
+    },
+    {
+      "run": "D_heterogeneous/fixed_ll",
+      "field": "mean_latency",
+      "archive_ticks": "11333.333333333334",
+      "reproduced_ticks": "11333.333333333332",
+      "absolute_delta_ticks": "2E-12"
+    },
+    {
+      "run": "D_heterogeneous/adaptive_rr",
+      "field": "mean_latency",
+      "archive_ticks": "15166.666666666666",
+      "reproduced_ticks": "15166.666666666668",
+      "absolute_delta_ticks": "2E-12"
+    }
+  ]
+}
+
+STDERR:

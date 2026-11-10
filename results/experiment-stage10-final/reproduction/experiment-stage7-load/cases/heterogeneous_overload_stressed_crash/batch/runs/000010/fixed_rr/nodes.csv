@@ -1,0 +1,5 @@
+node_id,crash_ticks,failed_ticks,final_status,classification,returned_tasks,detection_ticks,detection_reason,recovery_ticks,recovery_reason
+1,,484233,failed,false_positive,62;70;76;77;81;86;89;94;96;97;100;102;103;106;108;110;111;113;115;117;119,,not_applicable,,not_applicable
+2,,240288,failed,false_positive,62;66;70;73;76;79;81;85;89;93;97;99;103;107;111,,not_applicable,,not_applicable
+3,200000,236389,failed,true_positive,74;77;82;86;90;94;98;100;104;108,36389,,371506,
+4,,,alive,no_failure,,,not_applicable,,not_applicable

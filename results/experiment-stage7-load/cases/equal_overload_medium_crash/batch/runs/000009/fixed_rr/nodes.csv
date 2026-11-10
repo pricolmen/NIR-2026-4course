@@ -1,0 +1,5 @@
+node_id,crash_ticks,failed_ticks,final_status,classification,returned_tasks,detection_ticks,detection_reason,recovery_ticks,recovery_reason
+1,,,alive,no_failure,,,not_applicable,,not_applicable
+2,,,alive,no_failure,,,not_applicable,,not_applicable
+3,200000,237856,failed,true_positive,86;90;94;98;102;106,37856,,133951,
+4,,,alive,no_failure,,,not_applicable,,not_applicable

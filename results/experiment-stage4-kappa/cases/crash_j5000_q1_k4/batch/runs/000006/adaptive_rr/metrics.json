@@ -1,0 +1,79 @@
+{
+  "arrived": 40,
+  "assigned": 0,
+  "completed": 40,
+  "crashes": 1,
+  "crashes_after_false_exclusion": 0,
+  "detection_samples": 1,
+  "false_negatives": 0,
+  "false_positives": 0,
+  "incomplete_recoveries": 0,
+  "invariants": {
+    "balance": true,
+    "logical_physical_attempts": true,
+    "unique_acceptance": true,
+    "unique_tasks": true
+  },
+  "latency_samples": 40,
+  "mean_detection": {
+    "reason": null,
+    "value_ticks": 114962.0
+  },
+  "mean_latency": {
+    "reason": null,
+    "value_ticks": 13294.900000000001
+  },
+  "mean_recovery": {
+    "reason": null,
+    "value_ticks": 126889.0
+  },
+  "nodes": [
+    {
+      "classification": "true_positive",
+      "detection": {
+        "reason": null,
+        "value_ticks": 114962
+      },
+      "node_id": 1,
+      "recovery": {
+        "reason": null,
+        "value_ticks": 126889
+      }
+    },
+    {
+      "classification": "no_failure",
+      "detection": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      },
+      "node_id": 2,
+      "recovery": {
+        "reason": "not_applicable",
+        "value_ticks": null
+      }
+    }
+  ],
+  "p95_latency": {
+    "reason": null,
+    "value_ticks": 15692
+  },
+  "queued": 0,
+  "recovery_samples": 1,
+  "rejected_revoked_results": 0,
+  "retries": 1,
+  "schema_version": 1,
+  "throughput_windows": [
+    {
+      "completed": 40,
+      "end_ticks": 600000,
+      "start_ticks": 0,
+      "tasks_per_second": 66.66666666666667
+    }
+  ],
+  "unfinished": 0,
+  "units": {
+    "durations": "ticks",
+    "throughput": "tasks/second",
+    "tick_ns": 1000
+  }
+}

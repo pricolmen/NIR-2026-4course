@@ -1,0 +1,4 @@
+task_id,attempt_no,node_id,assigned_ticks,started_ticks,finished_ticks,interrupted_ticks,revoked_ticks,accepted_ticks,result_decision
+1,1,1,0,0,30,,13,,attempt_mismatch
+1,2,2,13,13,,,,,
+2,1,2,0,0,1,,,1,accepted

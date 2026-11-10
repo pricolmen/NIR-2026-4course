@@ -1,0 +1,40 @@
+{
+  "environment": {
+    "compiler": {
+      "id": "AppleClang",
+      "version": "17.0.0.17000603"
+    },
+    "cplusplus": 202002,
+    "implementation_stage": 15,
+    "long_double_digits": 53,
+    "nlohmann_json": {
+      "major": 3,
+      "minor": 12,
+      "patch": 0
+    },
+    "numerical_rules": "tick=1us;processing=max(1,ceil(w/p*1e6));S=ceil(rawS);F=max(S+1,ceil(rawF));p95=n-n/20",
+    "platform": "macOS",
+    "pointer_bits": 64,
+    "program": "telemetry_sim",
+    "simulation_available": true,
+    "standard_library": {
+      "name": "libc++",
+      "version": 200100
+    },
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "checksum_algorithm": "fnv1a64",
+    "delivery_checksum": "86535ea01669f59e",
+    "scenario_checksum": "70edb80be039757d"
+  },
+  "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage4-kappa/cases/crash_j10000_q2_k1p5/inputs/seed_2002/scenario.json",
+  "schema_version": 1,
+  "status": "complete",
+  "variants": [
+    "fixed_rr",
+    "fixed_ll",
+    "adaptive_rr",
+    "adaptive_ll"
+  ]
+}

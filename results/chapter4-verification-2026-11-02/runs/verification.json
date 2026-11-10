@@ -1,0 +1,3083 @@
+{
+  "all_passed": true,
+  "checks_total": 487,
+  "checks_failed": [],
+  "cases": 4,
+  "variants_per_case": 4,
+  "fresh_comparison_runs": 16,
+  "reverse_repeat_runs": 16,
+  "native_metrics_replays": 16,
+  "archived_metrics_replays": 16,
+  "build_info": {
+    "compiler": {
+      "id": "AppleClang",
+      "version": "17.0.0.17000603"
+    },
+    "cplusplus": 202002,
+    "implementation_stage": 15,
+    "nlohmann_json": {
+      "major": 3,
+      "minor": 12,
+      "patch": 0
+    },
+    "platform": "macOS",
+    "program": "telemetry_sim",
+    "simulation_available": true,
+    "standard_library": {
+      "name": "libc++",
+      "version": 200100
+    },
+    "version": "0.1.0"
+  },
+  "binary_sha256": "0ea9d1b58e04927e2eb15bd92abbaf1395950e845a709ad69b49cdaf1c8a8bcd",
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.14.5",
+  "seconds": 0.7468333340075333,
+  "metrics_representation_differences": [
+    {
+      "run": "B_crash/fixed_ll",
+      "field": "mean_latency",
+      "archive_ticks": "32272.727272727272",
+      "reproduced_ticks": "32272.72727272728",
+      "absolute_delta_ticks": "8E-12"
+    },
+    {
+      "run": "D_heterogeneous/fixed_rr",
+      "field": "mean_latency",
+      "archive_ticks": "18916.666666666668",
+      "reproduced_ticks": "18916.666666666664",
+      "absolute_delta_ticks": "4E-12"
+    },
+    {
+      "run": "D_heterogeneous/fixed_ll",
+      "field": "mean_latency",
+      "archive_ticks": "11333.333333333334",
+      "reproduced_ticks": "11333.333333333332",
+      "absolute_delta_ticks": "2E-12"
+    },
+    {
+      "run": "D_heterogeneous/adaptive_rr",
+      "field": "mean_latency",
+      "archive_ticks": "15166.666666666666",
+      "reproduced_ticks": "15166.666666666668",
+      "absolute_delta_ticks": "2E-12"
+    }
+  ],
+  "rows": [
+    {
+      "scenario": "A_reference",
+      "variant": "fixed_rr",
+      "mean_latency_ms": "17.00",
+      "p95_ms": "22",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": null,
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "A_reference",
+      "variant": "fixed_ll",
+      "mean_latency_ms": "18.58",
+      "p95_ms": "29",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": null,
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "A_reference",
+      "variant": "adaptive_rr",
+      "mean_latency_ms": "17.00",
+      "p95_ms": "22",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": null,
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "A_reference",
+      "variant": "adaptive_ll",
+      "mean_latency_ms": "18.58",
+      "p95_ms": "29",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": null,
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "B_crash",
+      "variant": "fixed_rr",
+      "mean_latency_ms": "30.09",
+      "p95_ms": "83",
+      "completed": 11,
+      "unfinished": 1,
+      "FAILED_ms": "70",
+      "Detection_ms": "35.0",
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 3,
+      "throughput_tasks_per_second": 91.66666666666667
+    },
+    {
+      "scenario": "B_crash",
+      "variant": "fixed_ll",
+      "mean_latency_ms": "32.27",
+      "p95_ms": "91",
+      "completed": 11,
+      "unfinished": 1,
+      "FAILED_ms": "70",
+      "Detection_ms": "35.0",
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 3,
+      "throughput_tasks_per_second": 91.66666666666667
+    },
+    {
+      "scenario": "B_crash",
+      "variant": "adaptive_rr",
+      "mean_latency_ms": "31.45",
+      "p95_ms": "71",
+      "completed": 11,
+      "unfinished": 1,
+      "FAILED_ms": "50",
+      "Detection_ms": "15.0",
+      "Recovery_ms": "66.0",
+      "FP": 0,
+      "FN": 0,
+      "retries": 2,
+      "throughput_tasks_per_second": 91.66666666666667
+    },
+    {
+      "scenario": "B_crash",
+      "variant": "adaptive_ll",
+      "mean_latency_ms": "33.64",
+      "p95_ms": "79",
+      "completed": 11,
+      "unfinished": 1,
+      "FAILED_ms": "50",
+      "Detection_ms": "15.0",
+      "Recovery_ms": "69.0",
+      "FP": 0,
+      "FN": 0,
+      "retries": 2,
+      "throughput_tasks_per_second": 91.66666666666667
+    },
+    {
+      "scenario": "C_heartbeat_gap",
+      "variant": "fixed_rr",
+      "mean_latency_ms": "18.42",
+      "p95_ms": "34",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": null,
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "C_heartbeat_gap",
+      "variant": "fixed_ll",
+      "mean_latency_ms": "19.92",
+      "p95_ms": "37",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": null,
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 0,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "C_heartbeat_gap",
+      "variant": "adaptive_rr",
+      "mean_latency_ms": "21.83",
+      "p95_ms": "46",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": "50",
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 1,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "C_heartbeat_gap",
+      "variant": "adaptive_ll",
+      "mean_latency_ms": "23.58",
+      "p95_ms": "49",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": "50",
+      "Detection_ms": null,
+      "Recovery_ms": null,
+      "FP": 1,
+      "FN": 0,
+      "retries": 0,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "D_heterogeneous",
+      "variant": "fixed_rr",
+      "mean_latency_ms": "18.92",
+      "p95_ms": "56",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": "70",
+      "Detection_ms": "35.0",
+      "Recovery_ms": "53.0",
+      "FP": 0,
+      "FN": 0,
+      "retries": 3,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "D_heterogeneous",
+      "variant": "fixed_ll",
+      "mean_latency_ms": "11.33",
+      "p95_ms": "46",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": "70",
+      "Detection_ms": "35.0",
+      "Recovery_ms": "41.0",
+      "FP": 0,
+      "FN": 0,
+      "retries": 1,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "D_heterogeneous",
+      "variant": "adaptive_rr",
+      "mean_latency_ms": "15.17",
+      "p95_ms": "39",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": "50",
+      "Detection_ms": "15.0",
+      "Recovery_ms": "30.0",
+      "FP": 0,
+      "FN": 0,
+      "retries": 2,
+      "throughput_tasks_per_second": 100.0
+    },
+    {
+      "scenario": "D_heterogeneous",
+      "variant": "adaptive_ll",
+      "mean_latency_ms": "10.92",
+      "p95_ms": "29",
+      "completed": 12,
+      "unfinished": 0,
+      "FAILED_ms": "50",
+      "Detection_ms": "15.0",
+      "Recovery_ms": "24.0",
+      "FP": 0,
+      "FN": 0,
+      "retries": 1,
+      "throughput_tasks_per_second": 100.0
+    }
+  ],
+  "checks": [
+    {
+      "check": "A_reference: chapter common parameters",
+      "passed": true
+    },
+    {
+      "check": "A_reference: chapter nodes/performance",
+      "passed": true
+    },
+    {
+      "check": "A_reference: chapter tasks",
+      "passed": true
+    },
+    {
+      "check": "A_reference: chapter violations/windows",
+      "passed": true
+    },
+    {
+      "check": "A_reference: chapter zero-delay full trace",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: 4.4 task 4 assignment and finish",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: 4.4 task 4 assignment and finish",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: 4.4 equal full-work Load before tie",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: 4.4 task 4 assignment and finish",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: 4.4 task 4 assignment and finish",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: 4.4 equal full-work Load before tie",
+      "passed": true
+    },
+    {
+      "check": "A_reference: archive comparison row count",
+      "passed": true
+    },
+    {
+      "check": "A_reference: archive comparison row 1 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "A_reference: archive comparison row 3 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "B_crash: chapter common parameters",
+      "passed": true
+    },
+    {
+      "check": "B_crash: chapter nodes/performance",
+      "passed": true
+    },
+    {
+      "check": "B_crash: chapter tasks",
+      "passed": true
+    },
+    {
+      "check": "B_crash: chapter violations/windows",
+      "passed": true
+    },
+    {
+      "check": "B_crash: chapter zero-delay full trace",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: 4.2 returned IDs and completions",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: 4.2/4.3 distinct unfinished tasks",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: assignment after real crash",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: only floating representation differs mean_latency",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: 4.2 returned IDs and completions",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: 4.2/4.3 distinct unfinished tasks",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row count",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 0 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 0 field throughput_tasks_per_second",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 1 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 1 field throughput_tasks_per_second",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 2 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 2 field throughput_tasks_per_second",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 3 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "B_crash: archive comparison row 3 field throughput_tasks_per_second",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: chapter common parameters",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: chapter nodes/performance",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: chapter tasks",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: chapter violations/windows",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: chapter zero-delay full trace",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: 4.3 heartbeat at deadline restores ALIVE",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: 4.3 heartbeat at deadline restores ALIVE",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: 4.3 false exclusion, no returned work, only node 2 thereafter",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: 4.3 false exclusion, no returned work, only node 2 thereafter",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: archive comparison row count",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: archive comparison row 0 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: archive comparison row 1 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: archive comparison row 2 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap: archive comparison row 3 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: chapter common parameters",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: chapter nodes/performance",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: chapter tasks",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: chapter violations/windows",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: chapter zero-delay full trace",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: only floating representation differs mean_latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: only floating representation differs mean_latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent retries",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: balances",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: only floating representation differs mean_latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: table 5 latency/P95",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: table 5 completion",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: retries/FP/FN",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: table 4 FAILED",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: table 4 Detection/Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: Recovery null reason",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: unique task rows",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent exact mean",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent P95/latency",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent retries",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent throughput",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: balances",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: unique journal acceptance and CSV agreement",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: successful horizon",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: returned set size (chapter scenarios)",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent Detection",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent fixed-set Recovery",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: archive byte equality events.jsonl",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: archive byte equality tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: archive byte equality attempts.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: archive byte equality nodes.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: identical input scenario.json",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: identical input delivery.csv",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: 4.3 thresholds after stable contacts",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: archive comparison row count",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: archive comparison row 0 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: archive comparison row 1 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: archive comparison row 2 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous: archive comparison row 3 field mean_latency_ticks",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_ll: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: reverse-order canonical repeat",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: independent metrics replay unchanged",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed_rr: archived journal replay equals fresh native result",
+      "passed": true
+    },
+    {
+      "check": "A_reference/fixed: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "A_reference/adaptive: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "B_crash/fixed: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "B_crash/adaptive: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/fixed: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "C_heartbeat_gap/adaptive: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/fixed: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "D_heterogeneous/adaptive: 4.4 direction of LL/RR mean comparison",
+      "passed": true
+    },
+    {
+      "check": "4.3 faster detection does not reduce RR mean, but reduces P95",
+      "passed": true
+    },
+    {
+      "check": "Original materials unchanged",
+      "passed": true
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "validate",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/A_reference/scenario.json"
+      ],
+      "returncode": 0,
+      "seconds": 0.009175334009341896
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "compare",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/A_reference/scenario.json",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/A_reference"
+      ],
+      "returncode": 0,
+      "seconds": 0.015201208007056266
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "validate",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/B_crash/scenario.json"
+      ],
+      "returncode": 0,
+      "seconds": 0.003564416983863339
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "compare",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/B_crash/scenario.json",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/B_crash"
+      ],
+      "returncode": 0,
+      "seconds": 0.011160624999320135
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "validate",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/C_heartbeat_gap/scenario.json"
+      ],
+      "returncode": 0,
+      "seconds": 0.003122957976302132
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "compare",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/C_heartbeat_gap/scenario.json",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/C_heartbeat_gap"
+      ],
+      "returncode": 0,
+      "seconds": 0.01023120799800381
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "validate",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/D_heterogeneous/scenario.json"
+      ],
+      "returncode": 0,
+      "seconds": 0.002675750001799315
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "compare",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/D_heterogeneous/scenario.json",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/D_heterogeneous"
+      ],
+      "returncode": 0,
+      "seconds": 0.009759541018866003
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/A_reference/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/A_reference/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004938917001709342
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/A_reference/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004671667004004121
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/A_reference/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004628124996088445
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/A_reference/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/A_reference/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.0044567919976543635
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/A_reference/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004689957975642756
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/A_reference/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004962125007295981
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/A_reference/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/A_reference/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004331667005317286
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/A_reference/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.0056273329828400165
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/A_reference/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.0057927920133806765
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/A_reference/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/A_reference/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004803124989848584
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/A_reference/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004433041991433129
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/A_reference/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.005455666978377849
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/B_crash/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/B_crash/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004317124985391274
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/B_crash/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004496791982091963
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/B_crash/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.0045375000045169145
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/B_crash/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/B_crash/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004316500009736046
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/B_crash/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004343792010331526
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/B_crash/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004386084008729085
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/B_crash/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/B_crash/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004136708012083545
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/B_crash/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004045375011628494
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/B_crash/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004221791983582079
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/B_crash/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/B_crash/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.003989291988546029
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/B_crash/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004152917012106627
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/B_crash/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004466207989025861
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/C_heartbeat_gap/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/C_heartbeat_gap/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004620499996235594
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/C_heartbeat_gap/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004380166996270418
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/C_heartbeat_gap/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004622415988706052
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/C_heartbeat_gap/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/C_heartbeat_gap/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.0043268750014249235
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/C_heartbeat_gap/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004469749983400106
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/C_heartbeat_gap/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004421167017426342
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/C_heartbeat_gap/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/C_heartbeat_gap/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.0051343750092200935
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/C_heartbeat_gap/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004985999985365197
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/C_heartbeat_gap/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.0046509160019923
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/C_heartbeat_gap/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/C_heartbeat_gap/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004471207997994497
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/C_heartbeat_gap/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004274458013242111
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/C_heartbeat_gap/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004145582992350683
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/D_heterogeneous/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/D_heterogeneous/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004103708983166143
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/D_heterogeneous/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004137750016525388
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/D_heterogeneous/adaptive_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.003999458014732227
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/D_heterogeneous/scenario.json",
+        "--detector",
+        "adaptive",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/D_heterogeneous/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004088957997737452
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/D_heterogeneous/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004043875000206754
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/D_heterogeneous/adaptive_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004164874990237877
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/D_heterogeneous/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "ll",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/D_heterogeneous/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.003991874982602894
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/D_heterogeneous/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.004134707996854559
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/D_heterogeneous/fixed_ll"
+      ],
+      "returncode": 0,
+      "seconds": 0.003953292005462572
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "run",
+        "--scenario",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/materials/inputs/D_heterogeneous/scenario.json",
+        "--detector",
+        "fixed",
+        "--scheduler",
+        "rr",
+        "--out",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reverse_repeat/D_heterogeneous/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.004277000000001863
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/reproduced/D_heterogeneous/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.00408458398305811
+    },
+    {
+      "command": [
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/bin/telemetry_sim",
+        "metrics",
+        "--run-dir",
+        "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/chapter4-verification-2026-11-02/runs/archive_replay/D_heterogeneous/fixed_rr"
+      ],
+      "returncode": 0,
+      "seconds": 0.0039879169780761
+    }
+  ],
+  "materials_sha256": {
+    "execution_log.json": "b663f2628049b6a2ec3b11db82e95b24489b06ba000a067ee1f9596fced87a02",
+    "provenance.json": "58dc6ffc478104dc2f33a309680e443bb5279f851f6b4d00e5f5862c9cf66e7b",
+    "README.md": "5f49179eb7ce1d17b6b61cbf377622648593123641629eca3a2c4737be0dc293",
+    "reproduce.sh": "2d55bc3150654587749c82be4a4a8d4ed6f6313e5de927cc505b54edbeaf185c",
+    "verification.json": "ad3e0dcca75275959910cdd3a78cc65ca5f9d92dd3d28690a848f1b7556083ed",
+    "inputs/C_heartbeat_gap/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "inputs/C_heartbeat_gap/scenario.json": "2e69263e8d0eb5c776d8af7478389b1c84e063a46b50201a81b97667657eab55",
+    "inputs/D_heterogeneous/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "inputs/D_heterogeneous/scenario.json": "a86b6a8099d30b947a264ffe8ffb1e21e5f9936c4dd6bfdca93da96388fc65b4",
+    "inputs/B_crash/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "inputs/B_crash/scenario.json": "d23aaaad03e1faca2867123909e71114260916b743ba3f15c1afc00c9ea80328",
+    "inputs/A_reference/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "inputs/A_reference/scenario.json": "0f7411ed5b61f14db332bec261f7bebc0e914a817f352db61f44a5e14c33b4ab",
+    "results/C_heartbeat_gap/comparison_manifest.json": "76e408d02147c3a5cc769d2957af2de23030f6d14eb2c0ba839d86e95bab1c44",
+    "results/C_heartbeat_gap/comparison.csv": "b078fd8a7a5d38637e2c2140079217ee2b08f082a94a3e9dcc97a9cbbb662439",
+    "results/D_heterogeneous/comparison_manifest.json": "aa32b6776d586e3aa5d9766718faae3c7c05844110472a7bde00a12adb8dc5b9",
+    "results/D_heterogeneous/comparison.csv": "9fcffd89d4ce679e6a325ccefe5ebc32983bd8c02e546f1830e036f11afbcd28",
+    "results/B_crash/comparison_manifest.json": "b1b0d14ba3a97d52255ff3a2a05fa5cd1f1a3c6f7cd8de7ae7931c81a4b6b238",
+    "results/B_crash/comparison.csv": "233cd7b193eb1b10ff1074d7d709255e6200402324bd1bb515e22a3684f014f1",
+    "results/A_reference/comparison_manifest.json": "568a5d7a7f289a3fed297541fcf788b0b3d5e14a6109b12bb002e0aed75c94fa",
+    "results/A_reference/comparison.csv": "dedc0140c20cd8ef2b8bf51b96f7115007399a412bb3f78c3a44d9c99b29291c",
+    "results/A_reference/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/A_reference/input/scenario.json": "0f7411ed5b61f14db332bec261f7bebc0e914a817f352db61f44a5e14c33b4ab",
+    "results/A_reference/adaptive_rr/metrics.json": "8bac55e22284daf3e30e967521c93406f364c0f20201aa68c3fa1c7cbaa4f6d1",
+    "results/A_reference/adaptive_rr/nodes.csv": "ef816d62446d23de6ba3bfa20766d365ccf7f7c2eaaa3a442fab79824e491806",
+    "results/A_reference/adaptive_rr/attempts.csv": "574dcd08b40a9fb6de0edc65c2c09d34ae2520c6bce1430b8458c64c8bae0999",
+    "results/A_reference/adaptive_rr/tasks.csv": "404b7e05c44fdaad1c0462133346de0a685496cc5a29fc5200dbc7694c14ddc9",
+    "results/A_reference/adaptive_rr/events.jsonl": "2dc364c002d56dd7cd201ade894bbb13a4f0f504f1fce5b12426f62c9d741c69",
+    "results/A_reference/adaptive_rr/manifest.json": "f4d7fd964693300be9b09344051095d7f4c333963c117a9b5ae0816301792d57",
+    "results/A_reference/adaptive_ll/metrics.json": "294923d54e5dad9f51104e6170d08d431493323a6fca735cc3efc4b0c4642987",
+    "results/A_reference/adaptive_ll/nodes.csv": "ef816d62446d23de6ba3bfa20766d365ccf7f7c2eaaa3a442fab79824e491806",
+    "results/A_reference/adaptive_ll/attempts.csv": "9d2c60a6188da0f074e72fc222a6f89d558a042894c677534f0a50a025b9e349",
+    "results/A_reference/adaptive_ll/tasks.csv": "9c83ff7893f2d868a45a2ed962c14567e0c0937d052ae14f427349a352c13797",
+    "results/A_reference/adaptive_ll/events.jsonl": "c9b2ea2118e35aef20c3bda43781c217756470bec9e7b941bac5391eb6cd39f3",
+    "results/A_reference/adaptive_ll/manifest.json": "a4268dc2c26348775df831888df667153e210b2e8aebb57ef140203ffba949fc",
+    "results/A_reference/fixed_rr/metrics.json": "8bac55e22284daf3e30e967521c93406f364c0f20201aa68c3fa1c7cbaa4f6d1",
+    "results/A_reference/fixed_rr/nodes.csv": "ef816d62446d23de6ba3bfa20766d365ccf7f7c2eaaa3a442fab79824e491806",
+    "results/A_reference/fixed_rr/attempts.csv": "574dcd08b40a9fb6de0edc65c2c09d34ae2520c6bce1430b8458c64c8bae0999",
+    "results/A_reference/fixed_rr/tasks.csv": "404b7e05c44fdaad1c0462133346de0a685496cc5a29fc5200dbc7694c14ddc9",
+    "results/A_reference/fixed_rr/events.jsonl": "9a29b01e55763a8fd95177811ca8cf1ba40244e1d6ff7085f423f08a7f9a72a7",
+    "results/A_reference/fixed_rr/manifest.json": "8b52caa82da58df1e7f997d32b4512bccc1226dc2e19365a3b2197688b5991ea",
+    "results/A_reference/fixed_ll/metrics.json": "294923d54e5dad9f51104e6170d08d431493323a6fca735cc3efc4b0c4642987",
+    "results/A_reference/fixed_ll/nodes.csv": "ef816d62446d23de6ba3bfa20766d365ccf7f7c2eaaa3a442fab79824e491806",
+    "results/A_reference/fixed_ll/attempts.csv": "9d2c60a6188da0f074e72fc222a6f89d558a042894c677534f0a50a025b9e349",
+    "results/A_reference/fixed_ll/tasks.csv": "9c83ff7893f2d868a45a2ed962c14567e0c0937d052ae14f427349a352c13797",
+    "results/A_reference/fixed_ll/events.jsonl": "9707dcc4c542436f65e207421f657558fcf1653a75507fb21c20c7895b4aabf1",
+    "results/A_reference/fixed_ll/manifest.json": "3b3e22f0d20fb112568d105c8177accf8efd869c3297e8c1815937217276df4f",
+    "results/A_reference/fixed_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/A_reference/fixed_ll/input/scenario.json": "0f7411ed5b61f14db332bec261f7bebc0e914a817f352db61f44a5e14c33b4ab",
+    "results/A_reference/fixed_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/A_reference/fixed_rr/input/scenario.json": "0f7411ed5b61f14db332bec261f7bebc0e914a817f352db61f44a5e14c33b4ab",
+    "results/A_reference/adaptive_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/A_reference/adaptive_ll/input/scenario.json": "0f7411ed5b61f14db332bec261f7bebc0e914a817f352db61f44a5e14c33b4ab",
+    "results/A_reference/adaptive_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/A_reference/adaptive_rr/input/scenario.json": "0f7411ed5b61f14db332bec261f7bebc0e914a817f352db61f44a5e14c33b4ab",
+    "results/B_crash/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/B_crash/input/scenario.json": "d23aaaad03e1faca2867123909e71114260916b743ba3f15c1afc00c9ea80328",
+    "results/B_crash/adaptive_rr/metrics.json": "580f05e11ed3cb493976d9a7c0544a82ea9ffba1683024be2f4de3446c8adc89",
+    "results/B_crash/adaptive_rr/nodes.csv": "c23d672eab0042254170d4c4c3333d0b3f764a744bad94c6d63e9c9d474b7781",
+    "results/B_crash/adaptive_rr/attempts.csv": "01e7ed43ed8eef02df90aafbf1cf1f087289d1468ac26d76e5e535d517cc1279",
+    "results/B_crash/adaptive_rr/tasks.csv": "55a2a191bc96b3b136328fc372189dedb52b35590bf17bdefbf64097b755b93a",
+    "results/B_crash/adaptive_rr/events.jsonl": "c98eb4d4a7d955c84018fcc7537884b39775fa180731fc4bfc41abea436284bc",
+    "results/B_crash/adaptive_rr/manifest.json": "85cc8ef64bb803832b78965705db2de21d0944bf984b052aa84d8990b9b531ec",
+    "results/B_crash/adaptive_ll/metrics.json": "dfa5c7ef28c68d8d1e1b512631475ce5b33bda95a954f38063acc4e50a43fdbd",
+    "results/B_crash/adaptive_ll/nodes.csv": "5823133f385284a075538e4c08cd749a4378b87f6c88ba899e0863a10c24ae37",
+    "results/B_crash/adaptive_ll/attempts.csv": "f10b1a7caa5d7710ec645ade3761da2f9159e93bc781dabfe28ee93a56cc94e6",
+    "results/B_crash/adaptive_ll/tasks.csv": "5a7a398d330d31f4c9605a9752721890d2d66804a6ee128d3cf79b03c4b79c20",
+    "results/B_crash/adaptive_ll/events.jsonl": "178bcdab055c5d2b6c3c41cc7208371d0aaf8245543f0a721d18064249815742",
+    "results/B_crash/adaptive_ll/manifest.json": "cd4ccd36e07280719b9f5624efd0ac0dc67a55a6e246182c9dfbc1ae30eeff4e",
+    "results/B_crash/fixed_rr/metrics.json": "1215428b902bdc389f32c8a14cf617437be1eaf701346fb936f517057c193749",
+    "results/B_crash/fixed_rr/nodes.csv": "184e666aa10c72c8d48c5902464a1d55139064f51328cfe215c1a974bec1738e",
+    "results/B_crash/fixed_rr/attempts.csv": "5a7a39cc57d8b38becba740fb7ba57b266f2a2c3c8753f265018641d755619f3",
+    "results/B_crash/fixed_rr/tasks.csv": "fbc98778b8e0c2adaef6e09684986b1d66742bd2ce45982cad683c2c2d5d25f8",
+    "results/B_crash/fixed_rr/events.jsonl": "80e7ae0da56329a3b0a7bae976e813b91c6ed42365f47c3f15f49cab764ce343",
+    "results/B_crash/fixed_rr/manifest.json": "822ef814a273c6fba91ace300cabb551a74334d81f7e97d12604613a50c81514",
+    "results/B_crash/fixed_ll/metrics.json": "f2012ffc89833d7471a5a968718d69ce0cac89aeafb71b84390dcb9c4f6d2a68",
+    "results/B_crash/fixed_ll/nodes.csv": "1c2994f3efb37434cc04b7f4c3ee94f69157c276c6963a4044812ad453957212",
+    "results/B_crash/fixed_ll/attempts.csv": "67dcc0e7814ad088d47da1fa9e6c4b5d541cc0b3b857bbc69140cf0626661316",
+    "results/B_crash/fixed_ll/tasks.csv": "0e3d5e8b4edbc510efa6a8e37356d18fa08008d42a2633b46d4d9d514f6c9351",
+    "results/B_crash/fixed_ll/events.jsonl": "028338fe19531fb0f35af22fafdfb0d1785fce2fb50a5d88634f16c35b654f2d",
+    "results/B_crash/fixed_ll/manifest.json": "e5ad46e387483b2958ce5510e0affe6399b1363a5e7e439a048b954b96eedbee",
+    "results/B_crash/fixed_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/B_crash/fixed_ll/input/scenario.json": "d23aaaad03e1faca2867123909e71114260916b743ba3f15c1afc00c9ea80328",
+    "results/B_crash/fixed_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/B_crash/fixed_rr/input/scenario.json": "d23aaaad03e1faca2867123909e71114260916b743ba3f15c1afc00c9ea80328",
+    "results/B_crash/adaptive_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/B_crash/adaptive_ll/input/scenario.json": "d23aaaad03e1faca2867123909e71114260916b743ba3f15c1afc00c9ea80328",
+    "results/B_crash/adaptive_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/B_crash/adaptive_rr/input/scenario.json": "d23aaaad03e1faca2867123909e71114260916b743ba3f15c1afc00c9ea80328",
+    "results/D_heterogeneous/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/D_heterogeneous/input/scenario.json": "a86b6a8099d30b947a264ffe8ffb1e21e5f9936c4dd6bfdca93da96388fc65b4",
+    "results/D_heterogeneous/adaptive_rr/metrics.json": "0bfe0ab90d1978284ac1763202442e10d30298da12ecc7042ab663131179fa72",
+    "results/D_heterogeneous/adaptive_rr/nodes.csv": "445269908159bd0148e6ef6833e510fe4b49614e460210233d183be9e3a110a4",
+    "results/D_heterogeneous/adaptive_rr/attempts.csv": "c01e902c15c7f7340357c3f2847e14960b50cd505300d19ce6fb25609885cc64",
+    "results/D_heterogeneous/adaptive_rr/tasks.csv": "e8cfc682f6b18afbb48b06db20e0190ab97aaf4f5d6d51f87df4479004857221",
+    "results/D_heterogeneous/adaptive_rr/events.jsonl": "b8aa379e953144e4b2c79ae7e605c87ac5ff637a9b8a09363d37cd70abd13902",
+    "results/D_heterogeneous/adaptive_rr/manifest.json": "d0cbc857b0c829af18aeb4865455aa0461813169a39ac1ee5c1f6afca124c338",
+    "results/D_heterogeneous/adaptive_ll/metrics.json": "26cb036837b759231cde4f49ddfc92c50751365e328ebadcb24d425404817b64",
+    "results/D_heterogeneous/adaptive_ll/nodes.csv": "c0b419922e5fe833781f94d2d55e62541f26e14f6f985e49b40dac1854d3589f",
+    "results/D_heterogeneous/adaptive_ll/attempts.csv": "36f5044b4e942de2aca8258fd40ddd8244401dc44c38b8849f61ef1559c8ddd2",
+    "results/D_heterogeneous/adaptive_ll/tasks.csv": "281e8415bdc5493aa772a1087f1ad0bbdc6a0de76b9f59b51fdefc920ebce095",
+    "results/D_heterogeneous/adaptive_ll/events.jsonl": "87db8e9a454c859ea70b159395d32acfa84bc305ad49ce701cf92ca4a78cab80",
+    "results/D_heterogeneous/adaptive_ll/manifest.json": "971640c8b8cc8745ff8d421d056e272f8210fad1fe4b62d477973dc5a37dc26f",
+    "results/D_heterogeneous/fixed_rr/metrics.json": "c783da7fd5d5420349af9a6190d52a03a5644a21cbe0a4c24bf75d6646a9e89a",
+    "results/D_heterogeneous/fixed_rr/nodes.csv": "72c89cecb06a05068a77bc2a1994fa1d644e2c197d2a3ceee1680feac8366aa6",
+    "results/D_heterogeneous/fixed_rr/attempts.csv": "d6da7a7648a1c1e670f65101fd16bede0405eafdf0ca96cebe49c4aa758b1171",
+    "results/D_heterogeneous/fixed_rr/tasks.csv": "fc8c2db028034561c9b7906cd579b1d0d8279bd40bc5e763287fc44ba9d0a8c9",
+    "results/D_heterogeneous/fixed_rr/events.jsonl": "301bc172de6667e92920223cf3359f6d04100811ef1906c7ef066e380806d17a",
+    "results/D_heterogeneous/fixed_rr/manifest.json": "2518f5a40d18239b986079b0432c9f8e0fd2b6d4fcb87600d865429cc7613143",
+    "results/D_heterogeneous/fixed_ll/metrics.json": "ad5e927cf817ac997f0903bc71d5595383ad17c2bb475bbf4030fa53c5517920",
+    "results/D_heterogeneous/fixed_ll/nodes.csv": "f20add77eda72ffa0c228f190f6216b136e3a6f47ba070d49dca3171b1e7cefc",
+    "results/D_heterogeneous/fixed_ll/attempts.csv": "2413bf5b1afa8c6b553cfd101ef67b76176b950ad00545cc809fec1bcf1b548c",
+    "results/D_heterogeneous/fixed_ll/tasks.csv": "ec4abd39ee8a21bd942d954f9b938b0f5d069974c503c68b32687a4cef9671a2",
+    "results/D_heterogeneous/fixed_ll/events.jsonl": "89aee00f77c3951add2a4cacedf40efb17b37a43abfa1e71586179903d5060b9",
+    "results/D_heterogeneous/fixed_ll/manifest.json": "e403f17bc93cd16dad470f34f26f2413add2a01fb3d69aa7337c71495b805a0b",
+    "results/D_heterogeneous/fixed_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/D_heterogeneous/fixed_ll/input/scenario.json": "a86b6a8099d30b947a264ffe8ffb1e21e5f9936c4dd6bfdca93da96388fc65b4",
+    "results/D_heterogeneous/fixed_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/D_heterogeneous/fixed_rr/input/scenario.json": "a86b6a8099d30b947a264ffe8ffb1e21e5f9936c4dd6bfdca93da96388fc65b4",
+    "results/D_heterogeneous/adaptive_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/D_heterogeneous/adaptive_ll/input/scenario.json": "a86b6a8099d30b947a264ffe8ffb1e21e5f9936c4dd6bfdca93da96388fc65b4",
+    "results/D_heterogeneous/adaptive_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/D_heterogeneous/adaptive_rr/input/scenario.json": "a86b6a8099d30b947a264ffe8ffb1e21e5f9936c4dd6bfdca93da96388fc65b4",
+    "results/C_heartbeat_gap/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/C_heartbeat_gap/input/scenario.json": "2e69263e8d0eb5c776d8af7478389b1c84e063a46b50201a81b97667657eab55",
+    "results/C_heartbeat_gap/adaptive_rr/metrics.json": "d6b0624e557d113b9abb3284c005288fd8e7c9f1838e918125e5f82a2575ddd3",
+    "results/C_heartbeat_gap/adaptive_rr/nodes.csv": "8f893fb369692b7ebfe54cb265c30e55b220dacba1c0cfa0053a2463568cb407",
+    "results/C_heartbeat_gap/adaptive_rr/attempts.csv": "b51fab3ceaf608fde558a4603a3f1dda6ddc13a6566c3139bc19029aa51af0dc",
+    "results/C_heartbeat_gap/adaptive_rr/tasks.csv": "d01077bfb6aa0b66bd1eb398113dfe7da4fa8f3f453b7d75ff67ddbbec2ce6e1",
+    "results/C_heartbeat_gap/adaptive_rr/events.jsonl": "ce3c92f94d3c6bc0dc0025a58ade9a04c2e34324147a8dc43b76b6031ce05e25",
+    "results/C_heartbeat_gap/adaptive_rr/manifest.json": "5981079b71716c6ae238d14cde3bed2a57fd902bdc1e1af9188a33cd1324dc7e",
+    "results/C_heartbeat_gap/adaptive_ll/metrics.json": "13b380095f4f90ea7d25d16764360b701d67732c006c28ba6724304f79b45ed6",
+    "results/C_heartbeat_gap/adaptive_ll/nodes.csv": "8f893fb369692b7ebfe54cb265c30e55b220dacba1c0cfa0053a2463568cb407",
+    "results/C_heartbeat_gap/adaptive_ll/attempts.csv": "7813a449cf385239f0bac869b2e275ac53d46b69f33a8d7dbd49acaeed430c91",
+    "results/C_heartbeat_gap/adaptive_ll/tasks.csv": "24a76a0c92da45ec9ddaa7c99094415041473f0ce08b9e27e273a943c2bdf4af",
+    "results/C_heartbeat_gap/adaptive_ll/events.jsonl": "49903afd93e326e4c94022eda80bd9100e4b2e65f3d2d31d7c355a687ec699fd",
+    "results/C_heartbeat_gap/adaptive_ll/manifest.json": "66858dd16a2cd3370e98a4d44e771a33bbe241e4da6477f9c927e276e907814a",
+    "results/C_heartbeat_gap/fixed_rr/metrics.json": "8414842660b4091787e640769b4e9fc38fdba892c4e317bf357d0bd387a1a28f",
+    "results/C_heartbeat_gap/fixed_rr/nodes.csv": "ef816d62446d23de6ba3bfa20766d365ccf7f7c2eaaa3a442fab79824e491806",
+    "results/C_heartbeat_gap/fixed_rr/attempts.csv": "feb5c78d34ce49251fac6efd4ffedf5b5f470c624ee2d466c4f59c7775482099",
+    "results/C_heartbeat_gap/fixed_rr/tasks.csv": "60262385e67062d4efafe6da766b44fb1a696f9406f344789bae1a936c6fc4be",
+    "results/C_heartbeat_gap/fixed_rr/events.jsonl": "a4b1c8e09b2d8cc453761cf4845dc69d973b234a373a406ad78a9afbd37e79eb",
+    "results/C_heartbeat_gap/fixed_rr/manifest.json": "2ccc8658537ec37eca81f0253161503ae3df6815214d48aa5d5c3be5f545caf5",
+    "results/C_heartbeat_gap/fixed_ll/metrics.json": "8ef8b23f2f47e4488394d3dc05bd24f76cd2c278c2c67868bc1e5fdc2458cef2",
+    "results/C_heartbeat_gap/fixed_ll/nodes.csv": "ef816d62446d23de6ba3bfa20766d365ccf7f7c2eaaa3a442fab79824e491806",
+    "results/C_heartbeat_gap/fixed_ll/attempts.csv": "650590bedbaf7ec7204ce762f276291bdc5808ede9ad1d747fce322dafbc7637",
+    "results/C_heartbeat_gap/fixed_ll/tasks.csv": "3925ea2e7c9d802a0201d97cf76effcab36d59a8b1fb553fc506711ff773db8a",
+    "results/C_heartbeat_gap/fixed_ll/events.jsonl": "c39dd80aa481b8ce171170323fcc3016f800046a255a68384c8e0f40e262734d",
+    "results/C_heartbeat_gap/fixed_ll/manifest.json": "8329b3afd745e80548054b90674f76e6d839e000f1a8a0f566e7dd9fc5a08135",
+    "results/C_heartbeat_gap/fixed_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/C_heartbeat_gap/fixed_ll/input/scenario.json": "2e69263e8d0eb5c776d8af7478389b1c84e063a46b50201a81b97667657eab55",
+    "results/C_heartbeat_gap/fixed_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/C_heartbeat_gap/fixed_rr/input/scenario.json": "2e69263e8d0eb5c776d8af7478389b1c84e063a46b50201a81b97667657eab55",
+    "results/C_heartbeat_gap/adaptive_ll/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/C_heartbeat_gap/adaptive_ll/input/scenario.json": "2e69263e8d0eb5c776d8af7478389b1c84e063a46b50201a81b97667657eab55",
+    "results/C_heartbeat_gap/adaptive_rr/input/delivery.csv": "15a58a09d94dd34363e81a5e612e764f1534da8c819d633971fcd04ba66dae7a",
+    "results/C_heartbeat_gap/adaptive_rr/input/scenario.json": "2e69263e8d0eb5c776d8af7478389b1c84e063a46b50201a81b97667657eab55"
+  }
+}

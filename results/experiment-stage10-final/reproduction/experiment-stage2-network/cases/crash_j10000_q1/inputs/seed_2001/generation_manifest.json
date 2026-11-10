@@ -1,0 +1,32 @@
+{
+  "build": {
+    "compiler": {
+      "id": "AppleClang",
+      "version": "17.0.0.17000603"
+    },
+    "cplusplus": 202002,
+    "implementation_stage": 15,
+    "nlohmann_json": {
+      "major": 3,
+      "minor": 12,
+      "patch": 0
+    },
+    "platform": "macOS",
+    "program": "telemetry_sim",
+    "simulation_available": true,
+    "standard_library": {
+      "name": "libc++",
+      "version": 200100
+    },
+    "version": "0.1.0"
+  },
+  "config_checksum_fnv1a64": "ca5060a3395feb72",
+  "delivery_checksum_fnv1a64": "8ab668b02cb6b604",
+  "distributions": "uniform_int<int64>;uniform_real<long double>;u<loss_probability",
+  "generator_version": 1,
+  "rng": "mt19937_64",
+  "scenario_checksum_fnv1a64": "a5b9c159500bff9e",
+  "schema_version": 1,
+  "seed": 2001,
+  "status": "complete"
+}

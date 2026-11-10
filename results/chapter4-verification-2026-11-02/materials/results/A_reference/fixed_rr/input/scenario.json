@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "tick_ns": 1000,
+  "horizon_ticks": 120000,
+  "heartbeat_period_ticks": 10000,
+  "tau0_ticks": 20000,
+  "kappa": 2,
+  "adaptive": {
+    "window": 3,
+    "min_intervals": 2,
+    "c": 2
+  },
+  "nodes": [
+    {
+      "id": 1,
+      "performance_work_per_second": 1000000
+    },
+    {
+      "id": 2,
+      "performance_work_per_second": 1000000
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "arrival_ticks": 0,
+      "work": 12000
+    },
+    {
+      "id": 2,
+      "arrival_ticks": 5000,
+      "work": 12000
+    },
+    {
+      "id": 3,
+      "arrival_ticks": 10000,
+      "work": 12000
+    },
+    {
+      "id": 4,
+      "arrival_ticks": 15000,
+      "work": 12000
+    },
+    {
+      "id": 5,
+      "arrival_ticks": 20000,
+      "work": 12000
+    },
+    {
+      "id": 6,
+      "arrival_ticks": 25000,
+      "work": 12000
+    },
+    {
+      "id": 7,
+      "arrival_ticks": 30000,
+      "work": 12000
+    },
+    {
+      "id": 8,
+      "arrival_ticks": 35000,
+      "work": 12000
+    },
+    {
+      "id": 9,
+      "arrival_ticks": 40000,
+      "work": 12000
+    },
+    {
+      "id": 10,
+      "arrival_ticks": 45000,
+      "work": 12000
+    },
+    {
+      "id": 11,
+      "arrival_ticks": 50000,
+      "work": 12000
+    },
+    {
+      "id": 12,
+      "arrival_ticks": 55000,
+      "work": 12000
+    }
+  ],
+  "crashes": [],
+  "blackouts": [],
+  "measurement_windows": [
+    {
+      "start_ticks": 0,
+      "end_ticks": 120000
+    }
+  ],
+  "delivery_trace": "delivery.csv"
+}

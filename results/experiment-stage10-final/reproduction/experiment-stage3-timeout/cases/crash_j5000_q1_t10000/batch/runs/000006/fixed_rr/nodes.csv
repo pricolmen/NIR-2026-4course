@@ -1,0 +1,3 @@
+node_id,crash_ticks,failed_ticks,final_status,classification,returned_tasks,detection_ticks,detection_reason,recovery_ticks,recovery_reason
+1,200000,20000,failed,crash_after_false_exclusion,,,crash_after_false_exclusion,,crash_after_false_exclusion
+2,,373388,failed,false_positive,37,,not_applicable,,not_applicable

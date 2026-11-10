@@ -1,0 +1,18 @@
+{
+  "runs": [
+    {
+      "output": "runs/000001",
+      "repeat_id": "seed_00000000000000000101",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage1-seeds/inputs/seed_101/scenario.json",
+      "scenario_id": "generator"
+    },
+    {
+      "output": "runs/000002",
+      "repeat_id": "seed_00000000000000000202",
+      "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage1-seeds/inputs/seed_202/scenario.json",
+      "scenario_id": "generator"
+    }
+  ],
+  "schema_version": 1,
+  "status": "complete"
+}

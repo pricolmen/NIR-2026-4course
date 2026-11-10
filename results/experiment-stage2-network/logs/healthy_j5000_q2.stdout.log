@@ -1,0 +1,4 @@
+Saved seed series: /Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage2-network/cases/healthy_j5000_q2
+Mode: generated ; seeds: 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 ; input sets: 10
+Verified: 4 variants per seed, exact saved input hashes. Mapping: series_manifest.json
+This infrastructure smoke run does not establish algorithm superiority.

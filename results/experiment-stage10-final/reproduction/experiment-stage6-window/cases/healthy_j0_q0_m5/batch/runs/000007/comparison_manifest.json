@@ -1,0 +1,40 @@
+{
+  "environment": {
+    "compiler": {
+      "id": "AppleClang",
+      "version": "17.0.0.17000603"
+    },
+    "cplusplus": 202002,
+    "implementation_stage": 15,
+    "long_double_digits": 53,
+    "nlohmann_json": {
+      "major": 3,
+      "minor": 12,
+      "patch": 0
+    },
+    "numerical_rules": "tick=1us;processing=max(1,ceil(w/p*1e6));S=ceil(rawS);F=max(S+1,ceil(rawF));p95=n-n/20",
+    "platform": "macOS",
+    "pointer_bits": 64,
+    "program": "telemetry_sim",
+    "simulation_available": true,
+    "standard_library": {
+      "name": "libc++",
+      "version": 200100
+    },
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "checksum_algorithm": "fnv1a64",
+    "delivery_checksum": "942c2b50cbd0fcf7",
+    "scenario_checksum": "37848ee89d6943e6"
+  },
+  "scenario": "/Users/mac/MGTU/NIR-KR/NIR-4course/NIR-code/results/experiment-stage10-final/reproduction/experiment-stage6-window/cases/healthy_j0_q0_m5/inputs/seed_2007/scenario.json",
+  "schema_version": 1,
+  "status": "complete",
+  "variants": [
+    "fixed_rr",
+    "fixed_ll",
+    "adaptive_rr",
+    "adaptive_ll"
+  ]
+}

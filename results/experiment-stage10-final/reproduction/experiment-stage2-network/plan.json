@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "base_generator": "base_generator.json",
+  "seeds": [
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010
+  ],
+  "delay_center_ticks": 10000,
+  "jitter_half_width_ticks": [
+    0,
+    5000,
+    10000
+  ],
+  "loss_probabilities": [
+    0,
+    0.05,
+    0.15
+  ],
+  "modes": [
+    {
+      "id": "healthy",
+      "crashes": []
+    },
+    {
+      "id": "crash",
+      "crashes": [
+        {
+          "node_id": 1,
+          "at_ticks": 200000
+        }
+      ]
+    }
+  ]
+}

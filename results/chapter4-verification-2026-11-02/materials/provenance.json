@@ -1,0 +1,21 @@
+{
+  "source_archive": "telemetry_sim_project.zip",
+  "source_sha256": "7bb70c4d01ef7fa67e0fdbc9722d39db92132a7c67bfe96ff5324f21ee1bc820",
+  "program_version": "0.1.0",
+  "date": "2026-11-02",
+  "scenario_count": 4,
+  "variants": [
+    "fixed_rr",
+    "fixed_ll",
+    "adaptive_rr",
+    "adaptive_ll"
+  ],
+  "random_generation": false,
+  "code_modified": false,
+  "units": {
+    "input_ticks": "microseconds",
+    "chapter_duration": "milliseconds"
+  },
+  "all_inputs_identical_within_scenario": true,
+  "metadata": "Actual build environment and parameters are stored in each result manifest."
+}
