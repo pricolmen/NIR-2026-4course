@@ -9,11 +9,15 @@
 #include <QMap>
 #include <QSaveFile>
 #include <QUuid>
+#include <nlohmann/json.hpp>
+#include <cstdint>
+#include <limits>
 #include <stdexcept>
 #include <cmath>
 
 namespace telemetry::gui {
 namespace {
+using Json = nlohmann::basic_json<std::map,std::vector,std::string,bool,std::int64_t,std::uint64_t,long double>;
 [[noreturn]] void fail(const QString& text) { throw std::runtime_error(text.toUtf8().constData()); }
 void require(bool condition, const QString& text) { if (!condition) { fail(text); } }
 QJsonObject object(const QByteArray& bytes, const QString& path) {
@@ -23,12 +27,23 @@ QJsonObject object(const QByteArray& bytes, const QString& path) {
         QString("%1: ошибка чтения JSON: %2").arg(path, error.errorString()));
     return doc.object();
 }
-QJsonObject readObject(const QString& path) {
+QByteArray readBytes(const QString& path) {
     QFile file(path);
     require(file.open(QIODevice::ReadOnly), QString("Не удалось открыть %1: %2").arg(path, file.errorString()));
     const auto bytes = file.readAll();
     require(file.error() == QFileDevice::NoError, QString("Ошибка чтения %1: %2").arg(path, file.errorString()));
-    return object(bytes, path);
+    return bytes;
+}
+QJsonObject readObject(const QString& path) { return object(readBytes(path),path); }
+Json readScenario(const QString& path) {
+    const auto bytes = readBytes(path);
+    try {
+        auto json = Json::parse(bytes.constData(),bytes.constData()+bytes.size());
+        require(json.is_object(),path + ": требуется JSON-объект сценария");
+        return json;
+    } catch (const nlohmann::json::exception& error) {
+        fail(QString("%1: ошибка чтения JSON: %2").arg(path,QString::fromUtf8(error.what())));
+    }
 }
 QString absolute(const QString& path) { return QDir::cleanPath(QFileInfo(path).absoluteFilePath()); }
 qint64 integer(const QJsonObject& row, const QString& key) {
@@ -48,15 +63,25 @@ QByteArray sha256(const QString& path) {
 InputInfo inspectInput(const QString& path) {
     require(!path.trimmed().isEmpty() && !path.contains(QChar::Null), "Выберите JSON сценария.");
     const auto source = absolute(path);
-    const auto json = readObject(source);
-    const auto trace = json.value("delivery_trace");
-    require(trace.isString() && !trace.toString().isEmpty() && !trace.toString().contains(QChar::Null),
+    const auto json = readScenario(source);
+    const auto trace = json.find("delivery_trace");
+    require(trace != json.end() && trace->is_string(),source + ": требуется непустой путь delivery_trace");
+    const auto tracePath = QString::fromStdString(trace->get<std::string>());
+    require(!tracePath.isEmpty() && !tracePath.contains(QChar::Null),
         source + ": требуется непустой путь delivery_trace");
-    const auto delivery = absolute(QDir(QFileInfo(source).absolutePath()).filePath(trace.toString()));
+    const auto delivery = absolute(QDir(QFileInfo(source).absolutePath()).filePath(tracePath));
     QFile csv(delivery);
     require(csv.open(QIODevice::ReadOnly), QString("Не удалось открыть связанную трассу %1: %2").arg(delivery, csv.errorString()));
-    return {source, delivery, json.value("horizon_ticks").toInteger(-1),
-        json.value("nodes").toArray().size(), json.value("tasks").toArray().size()};
+    qint64 horizon = -1;
+    const auto at = json.find("horizon_ticks");
+    if (at != json.end() && at->is_number_unsigned()) {
+        if (at->get<std::uint64_t>() <= static_cast<std::uint64_t>(std::numeric_limits<qint64>::max())) { horizon = at->get<qint64>(); }
+    } else if (at != json.end() && at->is_number_integer()) { horizon = at->get<qint64>(); }
+    const auto count = [&json](const char* name) {
+        const auto value = json.find(name);
+        return value != json.end() && value->is_array() ? static_cast<qsizetype>(value->size()) : qsizetype{0};
+    };
+    return {source,delivery,horizon,count("nodes"),count("tasks")};
 }
 PreparedRun prepareRun(RunRequest request) {
     require(request.detector == "fixed" || request.detector == "adaptive", "Неизвестный детектор");
@@ -157,10 +182,10 @@ RunResult loadResult(const PreparedRun& prepared) {
             QString("Некорректная метрика %1 или причина её отсутствия").arg(name));
     }
     auto bound = prepared;
-    const auto snapshot = readObject(directory.filePath("input/scenario.json"));
-    bound.input.nodes = snapshot.value("nodes").toArray().size();
-    bound.input.tasks = snapshot.value("tasks").toArray().size();
-    return {bound,metrics,records,loadReplay(prepared.directory)};
+    const auto playback = loadReplay(prepared.directory); // Reads the saved input with long double too.
+    bound.input.nodes = playback->nodes.size();
+    bound.input.tasks = playback->tasks.size();
+    return {bound,metrics,records,playback};
 }
 QString detectorName(const QString& value) {
     return value == "fixed" ? "Фиксированный" : "Адаптивный";

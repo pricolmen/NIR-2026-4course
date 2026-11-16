@@ -192,7 +192,7 @@ void MainWindow::updateResult(int index) {
     m_nodeMetrics->setRowCount(result.playback ? static_cast<int>(result.playback->metrics.size()) : 0);
     if (result.playback) {
         const QMap<QString,QString> classifications{{"true_positive","Обнаружен отказ"},{"true_negative","Исправен"},{"no_failure","Без физического отказа"},
-            {"false_positive","Ложное исключение"},{"false_negative","Отказ не обнаружен"},{"crash_after_false_exclusion","Отказ после ложного исключения"}};
+            {"false_positive","Ложное исключение"},{"false_negative","Отказ не обнаружен"},{"not_detected","Отказ не обнаружен"},{"crash_after_false_exclusion","Отказ после ложного исключения"}};
         for (qsizetype i = 0; i < result.playback->metrics.size(); ++i) {
             const auto& node = result.playback->metrics[i];
             const QStringList cells{node.node,classifications.value(node.classification,node.classification),node.detection,node.recovery};
