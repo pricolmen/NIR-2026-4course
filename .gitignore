@@ -78,3 +78,18 @@
 
 !experiments/final_stage10/README.md
 !docs/experiment_stage_10_audit.md
+
+!gui/README.md
+!docs/gui_stage_1_audit.md
+
+!docs/gui_stage_2_audit.md
+/results/gui-runs/
+/results/kr-gui-stage1*/
+/results/kr-gui-stage2*/
+
+!docs/gui_stage_3_audit.md
+/results/kr-gui-stage3*/
+
+!docs/gui_stage_4_audit.md
+!docs/gui_handoff.md
+/results/kr-gui-stage4*/

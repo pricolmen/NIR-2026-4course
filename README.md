@@ -2,6 +2,16 @@
 
 Однопоточный дискретно-событийный симулятор на C++20 для сравнения реконфигурации распределённой обработки задач. Читает сохранённый сценарий и трассу heartbeat, выполняет четыре сочетания `fixed_rr`, `fixed_ll`, `adaptive_rr`, `adaptive_ll`, сохраняет журнал и рассчитывает метрики. Этапы реализации 0–15 и новая очередь экспериментов 1–10 завершены; версия программы — 0.1.0, `implementation_stage` — 15.
 
+## Локальный интерфейс курсовой работы
+
+В gui/ находится отдельное приложение C++20/Qt 6 Widgets. Этапы 1–4 завершены: открытие готового JSON со связанной CSV, выбор режимов, асинхронный validate → run, воспроизведение журнала с паузой/шагом/скоростью, состояния узлов и история задачи, итоги полного прогона, форма генератора и сохранение копии со своим списком отказов. [Сборка, запуск и проверка](gui/README.md), [аудит этапа 1](docs/gui_stage_1_audit.md), [этапа 2](docs/gui_stage_2_audit.md), [этапа 3](docs/gui_stage_3_audit.md), [итоговая проверка](docs/gui_stage_4_audit.md), [сдача и данные контрольных прогонов](docs/gui_handoff.md). Обычная сборка ниже по-прежнему не требует Qt; расчётные исходники и зафиксированные эксперименты НИР сохранены.
+
+```sh
+cmake -G Ninja -S gui -B build/kr-gui-release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/qtbase
+cmake --build build/kr-gui-release --parallel 4
+./build/kr-gui-release/telemetry_gui --scenario examples/crash/scenario.json
+```
+
 ## Сборка на macOS из терминала VS Code
 
 Откройте папку проекта в VS Code и выберите **Terminal → New Terminal**. Все команды ниже выполняются из корня, где находится `CMakeLists.txt`; путь проекта в командах не зашит. Нужны Xcode Command Line Tools с C++20-компилятором, CMake ≥ 3.20, Ninja и Python ≥ 3.9 для тестов. Основные тесты используют стандартные модули Python. Для статистической обработки и её дополнительных тестов нужны зависимости tools/requirements-statistics.txt.
