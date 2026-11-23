@@ -1,9 +1,11 @@
 #include "playback_widget.hpp"
+#include "timeline_widget.hpp"
 #include <QComboBox>
 #include <QHeaderView>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QTabWidget>
 #include <QTableWidget>
 #include <QVBoxLayout>
 #include <algorithm>
@@ -29,15 +31,20 @@ PlaybackWidget::PlaybackWidget(QWidget* parent) : QWidget(parent),m_replay(this)
     speed->setCurrentIndex(2);controls->addWidget(speed);layout->addLayout(controls);
     speed->setToolTip("×1: весь горизонт за 8 секунд. Шаг применяет ровно одну запись журнала.");
     m_position = new QLabel("Загрузите результат расчёта",this);m_position->setObjectName("replayPosition");m_position->setWordWrap(true);layout->addWidget(m_position);
-    m_nodes = new QTableWidget(0,3,this);m_nodes->setObjectName("nodeStates");m_nodes->setHorizontalHeaderLabels({"Узел","Фактическое состояние","Оценка детектора"});
-    m_nodes->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);m_nodes->verticalHeader()->hide();m_nodes->setMinimumHeight(110);m_nodes->setMaximumHeight(210);layout->addWidget(m_nodes);
-    auto* taskRow = new QHBoxLayout;taskRow->addWidget(new QLabel("История задачи",this));
-    m_task = new QComboBox(this);m_task->setObjectName("selectedTask");taskRow->addWidget(m_task);taskRow->addStretch();layout->addLayout(taskRow);
-    m_taskStatus = new QLabel(this);m_taskStatus->setObjectName("taskReplayStatus");m_taskStatus->setWordWrap(true);layout->addWidget(m_taskStatus);
-    m_history = new QTableWidget(0,5,this);m_history->setObjectName("taskHistory");
+    auto* tabs = new QTabWidget(this);tabs->setObjectName("playbackTabs");layout->addWidget(tabs,1);
+    auto* journal = new QWidget(tabs);auto* journalLayout = new QVBoxLayout(journal);
+    journalLayout->setContentsMargins(4,4,4,4);journalLayout->setSpacing(4);
+    tabs->addTab(journal,"Журнал");
+    m_timeline = new TimelineWidget(tabs);tabs->addTab(m_timeline,"Временная шкала");
+    m_nodes = new QTableWidget(0,3,journal);m_nodes->setObjectName("nodeStates");m_nodes->setHorizontalHeaderLabels({"Узел","Фактическое состояние","Оценка детектора"});
+    m_nodes->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);m_nodes->verticalHeader()->hide();m_nodes->setMinimumHeight(110);m_nodes->setMaximumHeight(210);journalLayout->addWidget(m_nodes);
+    auto* taskRow = new QHBoxLayout;taskRow->addWidget(new QLabel("История задачи",journal));
+    m_task = new QComboBox(journal);m_task->setObjectName("selectedTask");taskRow->addWidget(m_task);taskRow->addStretch();journalLayout->addLayout(taskRow);
+    m_taskStatus = new QLabel(journal);m_taskStatus->setObjectName("taskReplayStatus");m_taskStatus->setWordWrap(true);journalLayout->addWidget(m_taskStatus);
+    m_history = new QTableWidget(0,5,journal);m_history->setObjectName("taskHistory");
     m_history->setHorizontalHeaderLabels({"№ записи","Время, мкс","Попытка","Узел","Событие / исход"});
     m_history->verticalHeader()->hide();m_history->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    m_history->horizontalHeader()->setStretchLastSection(true);m_history->setMinimumHeight(120);m_history->setMaximumHeight(150);m_history->setWordWrap(true);layout->addWidget(m_history,1);
+    m_history->horizontalHeader()->setStretchLastSection(true);m_history->setMinimumHeight(120);m_history->setMaximumHeight(150);m_history->setWordWrap(true);journalLayout->addWidget(m_history,1);
     m_history->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     connect(m_play,&QPushButton::clicked,&m_replay,&ReplayController::play);connect(m_pause,&QPushButton::clicked,&m_replay,&ReplayController::pause);
     connect(m_step,&QPushButton::clicked,this,[this] { m_replay.step(); });connect(reset,&QPushButton::clicked,&m_replay,&ReplayController::reset);
@@ -47,27 +54,30 @@ PlaybackWidget::PlaybackWidget(QWidget* parent) : QWidget(parent),m_replay(this)
     connect(&m_replay,&ReplayController::playingChanged,this,[this] { refresh(); });refresh();
     for (auto* item : {m_identity,m_time,m_position,m_taskStatus}) { item->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed); }
 }
-void PlaybackWidget::setData(QSharedPointer<const ReplayData> data, const QString& identity) {
+void PlaybackWidget::setData(QSharedPointer<const ReplayData> replayData, const QString& identity) {
+    m_replay.pause();
     m_identity->setText(identity.isEmpty() ? "Сохранённый журнал" : identity);
     m_visibleRows = -1;
     m_task->blockSignals(true);m_task->clear();m_nodes->setRowCount(0);
-    if (data) {
-        for (const auto& task : data->tasks) { m_task->addItem(task); }
-        m_nodes->setRowCount(static_cast<int>(data->nodes.size()));
-        m_nodes->setFixedHeight(static_cast<int>(std::clamp<qsizetype>(data->nodes.size()*31+32,80,180)));
-        for (qsizetype i = 0; i < data->nodes.size(); ++i) { cell(m_nodes,static_cast<int>(i),0,data->nodes[i]); }
+    if (replayData) {
+        for (const auto& task : replayData->tasks) { m_task->addItem(task); }
+        m_nodes->setRowCount(static_cast<int>(replayData->nodes.size()));
+        m_nodes->setFixedHeight(static_cast<int>(std::clamp<qsizetype>(replayData->nodes.size()*31+32,80,180)));
+        for (qsizetype i = 0; i < replayData->nodes.size(); ++i) { cell(m_nodes,static_cast<int>(i),0,replayData->nodes[i]); }
     }
-    m_task->blockSignals(false);m_replay.setData(std::move(data));
+    m_task->blockSignals(false);
+    m_timeline->setData(replayData);m_replay.setData(std::move(replayData));
 }
 void PlaybackWidget::refresh() {
-    const auto& state = m_replay.state();const auto data = m_replay.data();
+    const auto& state = m_replay.state();const auto& replayData = m_replay.data();
+    m_timeline->setPosition(state.time,state.record);
     m_time->setText(QString("Модельное время: %1 мкс").arg(state.time));
-    m_position->setText(!data ? "Сначала выполните расчёт" : QString("Запись %1 из %2 · В общей очереди: %3 · ×1: горизонт за 8 с%4")
-        .arg(state.record).arg(data->events.size()).arg(state.queued.size()).arg(m_replay.finished() ? " · Просмотр завершён" : ""));
-    m_play->setEnabled(data && !m_replay.playing() && !m_replay.finished());m_pause->setEnabled(m_replay.playing());m_step->setEnabled(data && !m_replay.finished());
-    if (!data) { return; }
-    for (qsizetype i = 0; i < data->nodes.size(); ++i) {
-        const auto view = state.nodes.value(data->nodes[i]);cell(m_nodes,static_cast<int>(i),1,view.crashed ? "Отказал" : "Работоспособен");
+    m_position->setText(!replayData ? "Сначала выполните расчёт" : QString("Запись %1 из %2 · В общей очереди: %3 · ×1: горизонт за 8 с%4")
+        .arg(state.record).arg(replayData->events.size()).arg(state.queued.size()).arg(m_replay.finished() ? " · Просмотр завершён" : ""));
+    m_play->setEnabled(replayData && !m_replay.playing() && !m_replay.finished());m_pause->setEnabled(m_replay.playing());m_step->setEnabled(replayData && !m_replay.finished());
+    if (!replayData) { return; }
+    for (qsizetype i = 0; i < replayData->nodes.size(); ++i) {
+        const auto view = state.nodes.value(replayData->nodes[i]);cell(m_nodes,static_cast<int>(i),1,view.crashed ? "Отказал" : "Работоспособен");
         cell(m_nodes,static_cast<int>(i),2,view.detector);
     }
     const auto task = state.tasks.value(m_task->currentText());

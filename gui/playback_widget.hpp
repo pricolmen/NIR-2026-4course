@@ -7,14 +7,16 @@ class QPushButton;
 class QTableWidget;
 
 namespace telemetry::gui {
+class TimelineWidget;
 class PlaybackWidget : public QWidget {
     Q_OBJECT
 public:
     explicit PlaybackWidget(QWidget* parent = nullptr);
-    void setData(QSharedPointer<const ReplayData> data, const QString& identity = {});
+    void setData(QSharedPointer<const ReplayData> replayData, const QString& identity = {});
     ReplayController* controller() { return &m_replay; }
 private:
     ReplayController m_replay;
+    TimelineWidget* m_timeline;
     QLabel* m_time;
     QLabel* m_identity;
     QLabel* m_position;

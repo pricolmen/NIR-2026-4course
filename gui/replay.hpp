@@ -1,4 +1,5 @@
 #pragma once
+#include "timeline_data.hpp"
 #include <QElapsedTimer>
 #include <QMap>
 #include <QObject>
@@ -21,6 +22,7 @@ struct ReplayData {
     QStringList nodes,tasks;
     QVector<ReplayEvent> events;
     QVector<NodeMetric> metrics;
+    TimelineData timeline;
 };
 struct NodeView {
     bool crashed = false;

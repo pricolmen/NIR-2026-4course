@@ -8,11 +8,14 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QLabel>
+#include <QListWidget>
 #include <QPlainTextEdit>
 #include <QProcess>
 #include <QPushButton>
 #include <QSignalSpy>
 #include <QScrollArea>
+#include <QTabBar>
+#include <QTabWidget>
 #include <QTableWidget>
 #include <QTest>
 #include <QUuid>
@@ -58,6 +61,134 @@ private slots:
         QVERIFY(replay.finished());QVERIFY(!replay.step());QCOMPARE(replay.state().time,40);
         for (const auto& task : replay.state().tasks) { QCOMPARE(task.status,QString("Завершена")); }
         const auto node = data->metrics.first();QCOMPARE(node.detection,QString("17 мкс"));QCOMPARE(node.recovery,QString("25 мкс"));
+    }
+    void timelineFollowsCrashRecordOrder() {
+        MainWindow window(program,QDir(artifacts).filePath("timeline-runs"));
+        window.show();
+        QVERIFY(window.openScenario(QDir(source).filePath("examples/crash/scenario.json")));
+        QSignalSpy success(window.controller(), &RunController::succeeded);
+        QTest::mouseClick(window.findChild<QPushButton*>("startRun"), Qt::LeftButton);
+        QVERIFY(success.size() == 1 || success.wait(20000));
+        QCOMPARE(success.size(), 1);
+
+        auto* playback = window.playback();
+        auto* tabs = playback->findChild<QTabWidget*>("playbackTabs");
+        QVERIFY(tabs);
+        QCOMPARE(tabs->tabText(1), QString("Временная шкала"));
+        QTest::mouseClick(tabs->tabBar(), Qt::LeftButton, Qt::NoModifier, tabs->tabBar()->tabRect(1).center());
+        QCOMPARE(tabs->currentIndex(), 1);
+        auto* events = playback->findChild<QListWidget*>("timelineEvents");
+        QVERIFY(events && events->isVisible());
+        auto* timeLabel = playback->findChild<QLabel*>("modelTime");
+        auto* step = playback->findChild<QPushButton*>("step");
+        auto* replay = playback->controller();
+        QCOMPARE(events->count(), 0);
+
+        const auto node1 = replay->data()->timeline.nodes.value("1");
+        const auto node2 = replay->data()->timeline.nodes.value("2");
+        QCOMPARE(node1.states.size(), 3);
+        QCOMPARE(node1.states[0].state, QString("ALIVE"));
+        QCOMPARE(node1.states[1].state, QString("SUSPECT"));
+        QCOMPARE(node1.states[1].at.time, 10);
+        QCOMPARE(node1.states[2].state, QString("FAILED"));
+        QCOMPARE(node1.states[2].at.time, 20);
+        QCOMPARE(node1.attempts.size(), 1);
+        const auto& interrupted = node1.attempts.first();
+        QCOMPARE(interrupted.task, QString("1"));
+        QCOMPARE(interrupted.start.time, 0);
+        QVERIFY(interrupted.end);
+        QCOMPARE(interrupted.end->time, 3);
+        QCOMPARE(interrupted.end->record, 21);
+        QCOMPARE(node2.attempts.size(), 4);
+        const auto& retry = node2.attempts[2];
+        QCOMPARE(retry.task, QString("1"));
+        QCOMPARE(retry.number, QString("2"));
+        QCOMPARE(retry.start.time, 20);
+        QCOMPARE(retry.start.record, 51);
+        QVERIFY(retry.end);
+        QCOMPARE(retry.end->time, 24);
+
+        const auto advanceTo = [&](qint64 record) {
+            while (replay->state().record < record) {
+                const auto previous = replay->state().record;
+                QTest::mouseClick(step, Qt::LeftButton);
+                QCOMPARE(replay->state().record, previous + 1);
+            }
+        };
+        advanceTo(21);
+        QCOMPARE(timeLabel->text(), QString("Модельное время: 3 мкс"));
+        QCOMPARE(replay->state().nodes["1"].detector, QString("ALIVE"));
+        QCOMPARE(events->count(), 1);
+        QVERIFY(events->item(0)->text().contains("Физический отказ"));
+
+        advanceTo(44);
+        QCOMPARE(timeLabel->text(), QString("Модельное время: 20 мкс"));
+        QCOMPARE(events->count(), 1);
+        QVERIFY(events->item(0)->text().contains("FAILED"));
+        advanceTo(47);
+        QCOMPARE(events->count(), 3);
+        QVERIFY(events->item(1)->text().contains("возвращена в общую очередь"));
+        QTest::mouseClick(step, Qt::LeftButton);
+        QCOMPARE(events->count(), 4);
+        QVERIFY(events->item(3)->text().endsWith("Повторное назначение · задача 1, попытка 2"));
+
+        advanceTo(51);
+        const QVector<int> records{44, 47, 47, 48, 49, 51};
+        QCOMPARE(events->count(), records.size());
+        for (qsizetype i = 0; i < records.size(); ++i) {
+            QVERIFY(events->item(static_cast<int>(i))->text().startsWith(QString("№ %1 ·").arg(records[i])));
+        }
+        QCOMPARE(replay->state().time, 20);
+        QTest::qWait(50);
+        QVERIFY(window.grab().save(QDir(artifacts).filePath("timeline-crash-20.png")));
+
+        advanceTo(replay->data()->events.size());
+        QCOMPARE(timeLabel->text(), QString("Модельное время: 40 мкс"));
+        QVERIFY(window.grab().save(QDir(artifacts).filePath("timeline-crash-40.png")));
+        QTest::mouseClick(playback->findChild<QPushButton*>("resetReplay"), Qt::LeftButton);
+        QCOMPARE(timeLabel->text(), QString("Модельное время: 0 мкс"));
+        QCOMPARE(events->count(), 0);
+    }
+    void timelineKeepsRevokedWorkAndResultsSeparate() {
+        const auto& timeline = m_data["long_blackout"]->timeline;
+        const auto attempt = timeline.nodes.value("1").attempts.first();
+        QCOMPARE(attempt.task, QString("1"));
+        QCOMPARE(attempt.start.time, 0);
+        QVERIFY(attempt.end);
+        QCOMPARE(attempt.end->time, 10);
+        QCOMPARE(attempt.end->record, 48);
+
+        QVector<qint64> records;
+        QVector<qint64> times;
+        for (const auto& marker : timeline.markers) {
+            QVERIFY(marker.kind != TimelineEvent::Crash);
+            if (marker.task == "1" && marker.attempt == "1"
+                    && (marker.kind == TimelineEvent::Returned || marker.kind == TimelineEvent::Finished
+                        || marker.kind == TimelineEvent::Rejected)) {
+                records.append(marker.at.record);
+                times.append(marker.at.time);
+            }
+        }
+        const QVector<qint64> expectedRecords{41, 48, 49};
+        const QVector<qint64> expectedTimes{8, 10, 10};
+        QCOMPARE(records, expectedRecords);
+        QCOMPARE(times, expectedTimes);
+
+        PlaybackWidget widget;
+        widget.resize(840, 510);
+        widget.setData(m_data["long_blackout"]);
+        widget.findChild<QTabWidget*>("playbackTabs")->setCurrentIndex(1);
+        widget.show();
+        auto* replay = widget.controller();
+        while (replay->state().record < 49) { QVERIFY(replay->step()); }
+        const auto* events = widget.findChild<QListWidget*>("timelineEvents");
+        QCOMPARE(events->count(), 2);
+        QVERIFY(events->item(0)->text().startsWith("№ 48 · Узел 1 · Физическое исполнение завершено"));
+        QVERIFY(events->item(1)->text().startsWith("№ 49 · Узел 1 · Результат отклонён"));
+        QCOMPARE(replay->state().nodes["1"].detector, QString("FAILED"));
+        QVERIFY(!replay->state().nodes["1"].crashed);
+        QTest::qWait(50);
+        QVERIFY(widget.grab().save(QDir(artifacts).filePath("timeline-long-blackout-10.png")));
     }
     void continuousMatchesStepsAndTakesEightSeconds() {
         const auto data = m_data["crash"];ReplayController steps,continuous;

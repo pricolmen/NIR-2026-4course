@@ -12,7 +12,8 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/.." "${CMAKE_CURRENT_BINARY_DIR}/s
 set_target_properties(telemetry_sim PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/ProjectOptions.cmake")
 
-add_library(telemetry_gui_lib STATIC run_data.cpp run_controller.cpp main_window.cpp replay.cpp replay_data.cpp playback_widget.cpp scenario_files.cpp scenario_dialogs.cpp)
+add_library(telemetry_gui_lib STATIC run_data.cpp run_controller.cpp main_window.cpp replay.cpp replay_data.cpp playback_widget.cpp scenario_files.cpp scenario_dialogs.cpp
+    timeline_data.cpp timeline_widget.cpp)
 set_target_properties(telemetry_gui_lib PROPERTIES AUTOMOC ON)
 target_include_directories(telemetry_gui_lib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(telemetry_gui_lib PUBLIC Qt6::Widgets Qt6::Concurrent)

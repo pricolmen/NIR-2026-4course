@@ -81,6 +81,7 @@ QSharedPointer<const ReplayData> loadReplay(const QString& directory) {
     for (const auto& node : metrics.at("nodes")) {
         data->metrics.append({id(node.at("node_id")),text(node.at("classification")),metric(node.at("detection")),metric(node.at("recovery"))});
     }
+    data->timeline = buildTimeline(*data);
     return data;
 }
 } // namespace telemetry::gui
